@@ -1316,6 +1316,54 @@
             input.type = input.type === 'password' ? 'text' : 'password';
         }
 
+        function hexToBuf(hex) {
+            const bytes = new Uint8Array(hex.length / 2);
+            for (let i = 0; i < hex.length; i += 2) {
+                bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
+            }
+            return bytes.buffer;
+        }
+
+        async function decryptVault(encryptedData, password) {
+            const salt = hexToBuf(encryptedData.salt);
+            const iv = hexToBuf(encryptedData.iv);
+            const tag = hexToBuf(encryptedData.tag);
+            const cipher = hexToBuf(encryptedData.cipher);
+
+            const ciphertextWithTag = new Uint8Array(cipher.byteLength + tag.byteLength);
+            ciphertextWithTag.set(new Uint8Array(cipher), 0);
+            ciphertextWithTag.set(new Uint8Array(tag), cipher.byteLength);
+
+            const keyMaterial = await crypto.subtle.importKey(
+                'raw',
+                new TextEncoder().encode(password),
+                'PBKDF2',
+                false,
+                ['deriveKey']
+            );
+
+            const aesKey = await crypto.subtle.deriveKey(
+                {
+                    name: 'PBKDF2',
+                    salt: salt,
+                    iterations: 100000,
+                    hash: 'SHA-256'
+                },
+                keyMaterial,
+                { name: 'AES-GCM', length: 256 },
+                false,
+                ['decrypt']
+            );
+
+            const decrypted = await crypto.subtle.decrypt(
+                { name: 'AES-GCM', iv: iv },
+                aesKey,
+                ciphertextWithTag
+            );
+
+            return new TextDecoder().decode(decrypted);
+        }
+
         // Cryptographic SHA-256 Hash
         async function sha256(str) {
             const buffer = new TextEncoder().encode(str);
@@ -1332,7 +1380,7 @@
                 if (!db.auth || !db.auth.isSetup || !db.auth.passwordHash) {
                     switchAuthView('setup');
                     document.getElementById('auth-overlay').style.display = 'flex';
-                } else if (!isAuthenticated) {
+                } else if (!isAuthenticated || (!sessionStorage.getItem('cms_cloud_token') && !localStorage.getItem('gh_portfolio_token'))) {
                     switchAuthView('login');
                     document.getElementById('auth-overlay').style.display = 'flex';
                 } else {
@@ -1404,6 +1452,20 @@
                 localStorage.removeItem('cms_failed_attempts');
                 localStorage.removeItem('cms_lockout_until');
                 failedAttempts = 0;
+
+                // Unlock Cloud Publishing Key from Encrypted Vault
+                if (db.auth.vault) {
+                    try {
+                        const token = await decryptVault(db.auth.vault, password);
+                        if (token) {
+                            sessionStorage.setItem('cms_cloud_token', token);
+                            localStorage.setItem('gh_portfolio_token', token);
+                        }
+                    } catch (vErr) {
+                        console.warn('Vault unlock notice:', vErr);
+                    }
+                }
+                sessionStorage.setItem('cms_session_pwd', password);
 
                 sessionStorage.setItem('cms_authenticated', 'true');
                 isAuthenticated = true;
@@ -1749,14 +1811,23 @@
 
         // Save & Publish Changes Worldwide
         async function savePortfolioChanges() {
-            let token = localStorage.getItem('gh_portfolio_token');
-            if (!token) {
-                token = prompt('Enter your GitHub Personal Access Token once to enable cloud publishing on this device:');
-                if (!token) {
-                    alert('GitHub token required to publish changes live to GitHub Pages.');
-                    return;
+            let token = sessionStorage.getItem('cms_cloud_token') || localStorage.getItem('gh_portfolio_token');
+            if (!token && db.auth && db.auth.vault) {
+                const pwd = sessionStorage.getItem('cms_session_pwd');
+                if (pwd) {
+                    try {
+                        token = await decryptVault(db.auth.vault, pwd);
+                        sessionStorage.setItem('cms_cloud_token', token);
+                        localStorage.setItem('gh_portfolio_token', token);
+                    } catch (e) {}
                 }
-                localStorage.setItem('gh_portfolio_token', token.trim());
+            }
+
+            if (!token) {
+                notify('Please sign in with your master password to publish updates.', true);
+                switchAuthView('login');
+                document.getElementById('auth-overlay').style.display = 'flex';
+                return;
             }
 
             const btnTop = document.getElementById('btn-top-save');
