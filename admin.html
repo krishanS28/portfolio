@@ -1235,6 +1235,46 @@
             gap: 10px;
         }
 
+    
+        /* Work Experience Editor Cards */
+        .experience-editor-card {
+            background: rgba(13, 20, 36, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 22px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .experience-editor-card:hover {
+            border-color: rgba(0, 240, 255, 0.35);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-dim);
+        }
+
+        .experience-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .company-badge {
+            font-size: 0.75em;
+            font-weight: 800;
+            color: var(--primary);
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
     </style>
 </head>
 <body>
@@ -1664,6 +1704,11 @@
                     </div>
 
                     <div id="experience-container"></div>
+
+                    <button type="button" class="btn-add-item" onclick="addNewExperience()" style="margin-top: 20px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>+ Add New Company / Role</span>
+                    </button>
                 </div>
             </div>
 
@@ -2436,41 +2481,79 @@
 
         function renderExperienceList(expList) {
             const container = document.getElementById('experience-container');
+            if (!container) return;
             container.innerHTML = '';
 
-            expList.forEach((exp, idx) => {
+            (expList || []).forEach((exp, idx) => {
                 const card = document.createElement('div');
-                card.className = 'project-editor-card';
+                card.className = 'experience-editor-card';
                 card.innerHTML = `
+                    <div class="experience-card-header">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span class="company-badge">🏢 COMPANY #${idx + 1}</span>
+                            <strong style="color: #ffffff; font-size: 1.05em;">${escapeHtml(exp.company || 'New Company')}</strong>
+                            <span style="color: var(--text-muted); font-size: 0.85em;">• ${escapeHtml(exp.period || '')}</span>
+                        </div>
+                        <button type="button" class="btn-delete" onclick="removeExperience(${idx})" title="Remove this company from timeline">
+                            ✕ Remove Company
+                        </button>
+                    </div>
+
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Company Name</label>
-                            <input type="text" value="${escapeHtml(exp.company || '')}" oninput="db.experience[${idx}].company = this.value">
+                            <label>Company Name <span class="tag">e.g. ToXSL Technologies</span></label>
+                            <input type="text" value="${escapeHtml(exp.company || '')}" placeholder="Company Name" oninput="db.experience[${idx}].company = this.value; this.closest('.experience-editor-card').querySelector('strong').textContent = this.value || 'New Company'">
                         </div>
 
                         <div class="form-group">
-                            <label>Role / Position</label>
-                            <input type="text" value="${escapeHtml(exp.role || '')}" oninput="db.experience[${idx}].role = this.value">
+                            <label>Role / Position Title <span class="tag">e.g. Senior React Native Developer</span></label>
+                            <input type="text" value="${escapeHtml(exp.role || '')}" placeholder="Role / Position Title" oninput="db.experience[${idx}].role = this.value">
                         </div>
 
                         <div class="form-group">
-                            <label>Time Period</label>
-                            <input type="text" value="${escapeHtml(exp.period || '')}" oninput="db.experience[${idx}].period = this.value">
+                            <label>Employment Period <span class="tag">e.g. Jan 2022 – Present</span></label>
+                            <input type="text" value="${escapeHtml(exp.period || '')}" placeholder="e.g. Jan 2022 – Present" oninput="db.experience[${idx}].period = this.value; this.closest('.experience-editor-card').querySelector('.experience-card-header span:last-of-type').textContent = '• ' + this.value">
                         </div>
 
                         <div class="form-group">
-                            <label>Location</label>
-                            <input type="text" value="${escapeHtml(exp.location || '')}" oninput="db.experience[${idx}].location = this.value">
+                            <label>Location & Work Mode <span class="tag">e.g. Mohali / Chandigarh, India</span></label>
+                            <input type="text" value="${escapeHtml(exp.location || '')}" placeholder="City, Country · Full-time / Remote" oninput="db.experience[${idx}].location = this.value">
                         </div>
 
                         <div class="form-group full-width">
-                            <label>Key Accomplishments (One per line)</label>
-                            <textarea rows="6" oninput="db.experience[${idx}].points = this.value.split('\\n').filter(l => l.trim())">${escapeHtml((exp.points || []).join('\n'))}</textarea>
+                            <label>Key Accomplishments & Deliverables <span class="tag">One bullet point per line</span></label>
+                            <textarea rows="6" placeholder="Built and shipped production apps...&#10;Wired WebRTC, LiveKit, and Telnyx...&#10;Engineered WhatsApp-style chat..." oninput="db.experience[${idx}].points = this.value.split('\\n').filter(l => l.trim())">${escapeHtml((exp.points || []).join('\n'))}</textarea>
                         </div>
                     </div>
                 `;
                 container.appendChild(card);
             });
+        }
+
+        function addNewExperience() {
+            if (!db.experience) db.experience = [];
+            db.experience.push({
+                company: 'New Tech Company',
+                role: 'Senior React Native Developer',
+                period: '2020 – 2022',
+                location: 'Mohali, India · Full-time',
+                points: [
+                    'Architected and shipped production mobile applications on React Native.',
+                    'Engineered reusable modular components and integrated third-party SDKs.',
+                    'Collaborated closely with cross-functional product, QA, and backend engineering teams.'
+                ]
+            });
+            renderExperienceList(db.experience);
+            notify('Added new company slot to Career Experience. Click Publish Worldwide to make it live!');
+        }
+
+        function removeExperience(idx) {
+            const companyName = db.experience[idx].company || 'this company';
+            if (confirm(`Are you sure you want to remove "${companyName}" from your career timeline?`)) {
+                db.experience.splice(idx, 1);
+                renderExperienceList(db.experience);
+                notify(`Removed ${companyName}`);
+            }
         }
 
         // Category Icon Helper

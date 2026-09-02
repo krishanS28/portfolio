@@ -146,7 +146,38 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (bioEl) bioEl.textContent = p.bio;
                 }
             }
-            // C. Sync Testimonials / Recommendations
+
+            // C. Sync Work Experience Timeline (Multiple Companies)
+            if (data.experience && Array.isArray(data.experience) && data.experience.length > 0) {
+                const expContainer = document.getElementById('experience-timeline-container');
+                if (expContainer) {
+                    expContainer.innerHTML = data.experience.map(exp => {
+                        const words = (exp.company || '').trim().split(/\s+/);
+                        const logoText = words.length > 1 
+                            ? `${escapeHtml(words[0].slice(0, 2))}<br>${escapeHtml(words[1].slice(0, 3))}` 
+                            : escapeHtml((exp.company || 'CO').slice(0, 4));
+                        return `
+                        <div class="timeline-item">
+                            <div class="company-logo">${logoText}</div>
+                            <div class="exp-details">
+                                <h3>${escapeHtml(exp.company || '')}</h3>
+                                <h4>${escapeHtml(exp.role || '')}</h4>
+                                <span class="meta">${escapeHtml(exp.period || '')} · ${escapeHtml(exp.location || '')}</span>
+                                
+                                <div class="inner-role">
+                                    <h5>Key Engineering Contributions & Production Impact</h5>
+                                    <ul style="margin: 10px 0 0 18px; padding: 0; color: #cbd5e1; font-size: 0.94em; line-height: 1.75;">
+                                        ${(exp.points || []).map(pt => `<li style="margin-bottom: 6px;">${escapeHtml(pt)}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    }).join('');
+                }
+            }
+
+            // D. Sync Testimonials / Recommendations
             if (data.testimonials && Array.isArray(data.testimonials)) {
                 const testContainer = document.getElementById('testimonials-grid-container');
                 if (testContainer) {
