@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishan Lal | Cloud Portfolio CMS Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #06090f;
+            --bg-surface: #0b111e;
+            --bg-card: rgba(15, 23, 42, 0.85);
+            --bg-input: rgba(22, 33, 58, 0.7);
+            --primary: #00f0ff;
+            --primary-hover: #38bdf8;
+            --primary-glow: rgba(0, 240, 255, 0.35);
+            --accent: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(0, 240, 255, 0.3);
+            --sidebar-w: 270px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(0, 240, 255, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(139, 92, 246, 0.06) 0%, transparent 40%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* Login Screen Overlay */
+        #auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(6, 9, 15, 0.96);
+            backdrop-filter: blur(25px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-highlight);
+            border-radius: 24px;
+            max-width: 520px;
+            width: 100%;
+            padding: 40px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px var(--primary-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .auth-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82em;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .auth-card h2 {
+            font-size: 1.8em;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffffff 40%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .auth-card p {
+            color: var(--text-muted);
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .auth-form input[type="password"],
+        .auth-form input[type="text"] {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: #ffffff;
+            font-size: 0.95em;
+            margin-bottom: 16px;
+            outline: none;
+            transition: all 0.25s;
+        }
+
+        .auth-form input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .btn-unlock {
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: #06090f;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 4px 20px var(--primary-glow);
+            margin-bottom: 20px;
+        }
+
+        .btn-unlock:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.5);
+        }
+
+        .auth-help {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 0.82em;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .auth-help ol {
+            padding-left: 18px;
+            margin-top: 6px;
+        }
+
+        .auth-help a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Sidebar Styling */
+        aside.sidebar {
+            width: var(--sidebar-w);
+            background: var(--bg-surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 50;
+        }
+
+        .sidebar-brand {
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar-thumb {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .brand-text h2 {
+            font-size: 1.05em;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.3px;
+        }
+
+        .brand-text span {
+            font-size: 0.75em;
+            color: var(--success);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        .nav-menu {
+            padding: 20px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-section-title {
+            font-size: 0.72em;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 10px 12px 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.92em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+            transition: color 0.2s ease;
+        }
+
+        .nav-item:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-item.active {
+            color: #ffffff;
+            background: linear-gradient(90deg, rgba(0, 240, 255, 0.15), rgba(139, 92, 246, 0.1));
+            border-color: rgba(0, 240, 255, 0.35);
+        }
+
+        .nav-item.active svg {
+            color: var(--primary);
+        }
+
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            font-size: 0.8em;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Main Content Workspace */
+        main.workspace {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Top Header Bar */
+        header.topbar {
+            height: 72px;
+            background: rgba(11, 17, 30, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+
+        .topbar-left h1 {
+            font-size: 1.3em;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .cloud-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82em;
+            font-weight: 700;
+        }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.88em;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(0, 240, 255, 0.08);
+        }
+
+        .btn-gradient {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: #06090f;
+            border: none;
+            padding: 9px 22px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 18px var(--primary-glow);
+            transition: all 0.25s ease;
+        }
+
+        .btn-gradient:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 240, 255, 0.5);
+        }
+
+        .btn-gradient:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Container Content Area */
+        .content-area {
+            padding: 35px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .section-view {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .section-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Stat KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+        }
+
+        .kpi-card:hover {
+            border-color: var(--border-highlight);
+            transform: translateY(-3px);
+        }
+
+        .kpi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .kpi-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .kpi-value {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.1;
+        }
+
+        .kpi-subtext {
+            font-size: 0.8em;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* Glass Form Cards */
+        .glass-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 25px;
+        }
+
+        .panel-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-heading h2 {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .panel-heading p {
+            color: var(--text-muted);
+            font-size: 0.88em;
+            margin-top: 4px;
+        }
+
+        /* Form Inputs */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        label span.tag {
+            font-size: 0.8em;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea,
+        select {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #ffffff;
+            font-size: 0.92em;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+            background: rgba(30, 45, 75, 0.8);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 85px;
+            line-height: 1.5;
+        }
+
+        /* App Project Cards in Admin */
+        .project-editor-card {
+            background: rgba(22, 33, 58, 0.45);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: all 0.25s ease;
+        }
+
+        .project-editor-card:hover {
+            border-color: var(--border-highlight);
+        }
+
+        .project-editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .project-tag-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82em;
+            font-weight: 700;
+            color: var(--primary);
+            background: rgba(0, 240, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .btn-delete {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #f87171;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.82em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-delete:hover {
+            background: var(--danger);
+            color: #ffffff;
+        }
+
+        .btn-add-item {
+            width: 100%;
+            background: rgba(0, 240, 255, 0.05);
+            border: 2px dashed rgba(0, 240, 255, 0.3);
+            color: var(--primary);
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 0.95em;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+        }
+
+        .btn-add-item:hover {
+            background: rgba(0, 240, 255, 0.12);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Upload Area */
+        .upload-card-box {
+            border: 2px dashed rgba(0, 240, 255, 0.3);
+            border-radius: 18px;
+            padding: 35px 25px;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(0, 240, 255, 0.02);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .upload-card-box:hover {
+            border-color: var(--primary);
+            background: rgba(0, 240, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .upload-card-box svg {
+            width: 44px;
+            height: 44px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        /* Sticky Footer Bar */
+        .save-banner {
+            position: sticky;
+            bottom: 24px;
+            background: rgba(11, 17, 30, 0.95);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border-highlight);
+            border-radius: 18px;
+            padding: 16px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 25px var(--primary-glow);
+            z-index: 45;
+            margin-top: 30px;
+        }
+
+        /* Toast notifications */
+        .toast-notify {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid var(--success);
+            color: #34d399;
+            padding: 16px 24px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            display: none;
+            z-index: 9999;
+            font-weight: 700;
+            font-size: 0.95em;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast-notify.error {
+            border-color: var(--danger);
+            color: #f87171;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 900px) {
+            aside.sidebar { width: 80px; }
+            aside.sidebar .brand-text, 
+            aside.sidebar .nav-section-title, 
+            aside.sidebar .nav-item span,
+            aside.sidebar .sidebar-footer { display: none; }
+            aside.sidebar .nav-item { justify-content: center; padding: 14px; }
+            main.workspace { margin-left: 80px; }
+            .kpi-grid { grid-template-columns: 1fr 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: span 1; }
+        }
+
+        @media (max-width: 600px) {
+            .kpi-grid { grid-template-columns: 1fr; }
+            .save-banner { flex-direction: column; gap: 14px; align-items: stretch; }
+            .topbar-right .cloud-pill { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toast-notify" id="toast"></div>
+
+    <!-- Owner Authentication Overlay -->
+    <div id="auth-overlay">
+        <div class="auth-card">
+            <div class="auth-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                OWNER AUTHENTICATION REQUIRED
+            </div>
+            <h2>Unlock Cloud CMS</h2>
+            <p>Access your portfolio CMS from any computer or mobile device in the world by entering your GitHub Personal Access Token.</p>
+
+            <form class="auth-form" onsubmit="handleLogin(event)">
+                <input type="password" id="auth-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" required>
+                <button type="submit" class="btn-unlock" id="btn-unlock">🔓 Unlock Admin Dashboard</button>
+            </form>
+
+            <div class="auth-help">
+                <strong>How to get your token in 30 seconds:</strong>
+                <ol>
+                    <li>Go to <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a></li>
+                    <li>Click <strong>Generate new token (classic)</strong></li>
+                    <li>Check the <strong>repo</strong> box and click Generate!</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <img src="profile.jpg?v=5" alt="Avatar" class="avatar-thumb" id="side-avatar">
+            <div class="brand-text">
+                <h2 id="side-name">Krishan Lal</h2>
+                <span><i class="pulse-dot"></i> CLOUD ACTIVE</span>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section-title">Overview</div>
+            <a class="nav-item active" onclick="showSection('view-dashboard')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                <span>Dashboard KPI</span>
+            </a>
+
+            <div class="nav-section-title">Portfolio Content</div>
+            <a class="nav-item" onclick="showSection('view-profile')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span>Profile & Contact</span>
+            </a>
+
+            <a class="nav-item" onclick="showSection('view-apps')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                <span>Live Store Apps</span>
+            </a>
+
+            <a class="nav-item" onclick="showSection('view-experience')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                <span>Work Experience</span>
+            </a>
+
+            <div class="nav-section-title">Media & Vault</div>
+            <a class="nav-item" onclick="showSection('view-resume')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                <span>Resume Manager</span>
+            </a>
+
+            <a class="nav-item" onclick="showSection('view-photo')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                <span>Profile Photo</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button type="button" onclick="logout()" class="btn-ghost" style="padding: 5px 10px; font-size: 0.78em;">Log Out</button>
+            <span style="color: var(--primary);">krishanS28</span>
+        </div>
+    </aside>
+
+    <!-- Main Content Workspace -->
+    <main class="workspace">
+        <!-- Topbar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <h1 id="page-heading">Dashboard Overview</h1>
+            </div>
+            <div class="topbar-right">
+                <div class="cloud-pill">
+                    <i class="pulse-dot"></i>
+                    <span>Cloud Sync Active (Any Device)</span>
+                </div>
+
+                <a href="index.html" target="_blank" class="btn-ghost">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    <span>View Website</span>
+                </a>
+
+                <button type="button" class="btn-gradient" id="btn-top-save" onclick="savePortfolioChanges()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    <span>Publish Worldwide</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="content-area">
+
+            <!-- SECTION 1: DASHBOARD OVERVIEW -->
+            <div class="section-view active" id="view-dashboard">
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span>LIVE PRODUCTION APPS</span>
+                            <div class="kpi-icon">📱</div>
+                        </div>
+                        <div class="kpi-value" id="kpi-apps-count">7</div>
+                        <div class="kpi-subtext">Verified on iOS & Android stores</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span>TOTAL EXPERIENCE</span>
+                            <div class="kpi-icon">⚡</div>
+                        </div>
+                        <div class="kpi-value" id="kpi-exp-value">4.8+ Yrs</div>
+                        <div class="kpi-subtext">Senior React Native Dev</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span>ACTIVE RESUME</span>
+                            <div class="kpi-icon">📄</div>
+                        </div>
+                        <div class="kpi-value" id="kpi-resume-size">54 KB</div>
+                        <div class="kpi-subtext">1-Click PDF Download ready</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span>GLOBAL CLOUD HOSTING</span>
+                            <div class="kpi-icon">🌐</div>
+                        </div>
+                        <div class="kpi-value" style="color: var(--success); font-size: 1.4em;">ONLINE</div>
+                        <div class="kpi-subtext">Accessible anywhere in world</div>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>🚀 Quick Action Center</h2>
+                            <p>You can edit and publish updates from this device or any computer anywhere.</p>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                        <button class="btn-add-item" onclick="showSection('view-apps')">
+                            <span>📱 Manage Live App Links</span>
+                        </button>
+                        <button class="btn-add-item" onclick="showSection('view-resume')">
+                            <span>📄 Replace Resume PDF</span>
+                        </button>
+                        <button class="btn-add-item" onclick="showSection('view-photo')">
+                            <span>🖼️ Change Portrait Photo</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: PROFILE & CONTACT -->
+            <div class="section-view" id="view-profile">
+                <div class="glass-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>👤 Personal Profile & Header Bio</h2>
+                            <p>Update your headline, role, experience number, and contact channels.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="p-name" placeholder="Krishan Lal">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Designation / Role Title</label>
+                            <input type="text" id="p-role" placeholder="Senior React Native Developer">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Experience Tag <span class="tag">e.g. 4.8+</span></label>
+                            <input type="text" id="p-exp" placeholder="4.8+">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Location / City</label>
+                            <input type="text" id="p-location" placeholder="Panchkula / Chandigarh, India">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="p-email" placeholder="kl268369@gmail.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="text" id="p-phone" placeholder="+91 9992724729">
+                        </div>
+
+                        <div class="form-group">
+                            <label>WhatsApp Number <span class="tag">Without +, e.g. 919992724729</span></label>
+                            <input type="text" id="p-whatsapp" placeholder="919992724729">
+                        </div>
+
+                        <div class="form-group">
+                            <label>LinkedIn Profile URL</label>
+                            <input type="text" id="p-linkedin" placeholder="https://www.linkedin.com/in/krishan-lal-a599901aa">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>GitHub Profile URL</label>
+                            <input type="text" id="p-github" placeholder="https://github.com/krishanS28">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Hero Summary Bio</label>
+                            <textarea id="p-bio" rows="3" placeholder="4.8+ Years Experience architecting & shipping 20+ production-grade Android and iOS applications end-to-end."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: LIVE APPS -->
+            <div class="section-view" id="view-apps">
+                <div class="glass-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>🚀 Production Store Applications</h2>
+                            <p>Update names, descriptions, tech stacks, and Apple App Store / Google Play links.</p>
+                        </div>
+                    </div>
+
+                    <div id="apps-container">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                    <button type="button" class="btn-add-item" onclick="addNewApp()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>+ Add New Production App</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECTION 4: WORK EXPERIENCE -->
+            <div class="section-view" id="view-experience">
+                <div class="glass-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>💼 Career & Work Experience</h2>
+                            <p>Edit company details, role title, duration, and key accomplishment bullet points.</p>
+                        </div>
+                    </div>
+
+                    <div id="experience-container">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 5: RESUME VAULT -->
+            <div class="section-view" id="view-resume">
+                <div class="glass-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>📄 Resume PDF Manager & Live Preview</h2>
+                            <p>Drag-and-drop your latest PDF to replace your download resume file immediately.</p>
+                        </div>
+                    </div>
+
+                    <div class="upload-card-box" onclick="document.getElementById('input-resume').click()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="12" y2="12"></line><line x1="15" y1="15" x2="12" y2="12"></line></svg>
+                        <h3 style="font-size: 1.15em; margin-bottom: 6px;">Click or Drag & Drop New Resume PDF</h3>
+                        <p style="color: var(--text-muted); font-size: 0.88em;" id="resume-status-text">Active: resume.pdf (54 KB)</p>
+                        <input type="file" id="input-resume" accept=".pdf" style="display: none;" onchange="handleResumeFile(this)">
+                    </div>
+
+                    <h4 style="margin: 20px 0 10px; font-size: 0.95em; color: var(--text-muted);">Current Active Resume Live Document:</h4>
+                    <iframe src="resume.pdf" style="width: 100%; height: 500px; border-radius: 12px; border: 1px solid var(--border); background: #1e293b;"></iframe>
+                </div>
+            </div>
+
+            <!-- SECTION 6: PROFILE PHOTO -->
+            <div class="section-view" id="view-photo">
+                <div class="glass-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>🖼️ Profile Avatar Manager</h2>
+                            <p>Update your personal portrait photo shown on the hero section.</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 30px; align-items: center; margin-bottom: 25px;">
+                        <img src="profile.jpg?v=5" alt="Current Photo" id="photo-preview" style="width: 130px; height: 130px; border-radius: 20px; object-fit: cover; border: 2px solid var(--primary); box-shadow: 0 0 20px var(--primary-glow);">
+                        <div>
+                            <h4 style="font-size: 1.1em; margin-bottom: 6px;">Current Avatar: profile.jpg</h4>
+                            <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 12px;">High-resolution portrait with optimal face framing.</p>
+                            <button type="button" class="btn-ghost" onclick="document.getElementById('input-photo').click()">
+                                <span>Choose New Photo</span>
+                            </button>
+                            <input type="file" id="input-photo" accept="image/*" style="display: none;" onchange="handlePhotoFile(this)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sticky Bottom Deploy Bar -->
+            <div class="save-banner">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="pulse-dot"></i>
+                    <span style="font-size: 0.92em; color: #e2e8f0;">Ready to publish updates live to <strong>krishanS28.github.io</strong></span>
+                </div>
+
+                <button type="button" class="btn-gradient" id="btn-save-bottom" onclick="savePortfolioChanges()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    <span>Publish Worldwide</span>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const REPO_OWNER = 'krishanS28';
+        const REPO_NAME = 'portfolio';
+
+        let db = {};
+        let newResumeBase64 = null;
+        let newPhotoBase64 = null;
+        let authToken = localStorage.getItem('gh_portfolio_token') || '';
+
+        const sectionTitles = {
+            'view-dashboard': 'Dashboard Overview',
+            'view-profile': 'Profile & Contact Details',
+            'view-apps': 'Live Production Store Apps',
+            'view-experience': 'Work Experience Timeline',
+            'view-resume': 'Resume PDF Manager',
+            'view-photo': 'Profile Photo Manager'
+        };
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.section-view').forEach(view => view.classList.remove('active'));
+
+            const activeNav = Array.from(document.querySelectorAll('.nav-item')).find(el => el.getAttribute('onclick').includes(sectionId));
+            if (activeNav) activeNav.classList.add('active');
+
+            const targetView = document.getElementById(sectionId);
+            if (targetView) targetView.classList.add('active');
+
+            document.getElementById('page-heading').textContent = sectionTitles[sectionId] || 'Admin Dashboard';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Authentication Handling
+        function checkAuth() {
+            if (authToken) {
+                document.getElementById('auth-overlay').style.display = 'none';
+                loadData();
+            } else {
+                document.getElementById('auth-overlay').style.display = 'flex';
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const token = document.getElementById('auth-token-input').value.trim();
+            if (!token) return;
+
+            const btn = document.getElementById('btn-unlock');
+            btn.disabled = true;
+            btn.textContent = 'Verifying with GitHub...';
+
+            try {
+                const res = await fetch('https://api.github.com/user', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) throw new Error('Invalid Token or insufficient permissions');
+
+                const user = await res.json();
+                authToken = token;
+                localStorage.setItem('gh_portfolio_token', token);
+                document.getElementById('auth-overlay').style.display = 'none';
+                notify(`Welcome back, ${user.name || user.login}!`);
+                loadData();
+            } catch (err) {
+                alert('Authentication Failed: ' + err.message);
+                btn.disabled = false;
+                btn.textContent = '🔓 Unlock Admin Dashboard';
+            }
+        }
+
+        function logout() {
+            if (confirm('Log out of Cloud CMS on this device?')) {
+                localStorage.removeItem('gh_portfolio_token');
+                authToken = '';
+                location.reload();
+            }
+        }
+
+        // GitHub API Helpers
+        async function fetchGithubFile(path) {
+            const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+            if (!res.ok) throw new Error(`Could not read ${path} (${res.status})`);
+            return await res.json();
+        }
+
+        async function putGithubFile(path, base64Content, commitMsg, sha) {
+            const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: commitMsg,
+                    content: base64Content,
+                    sha: sha
+                })
+            });
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.message || `Failed to update ${path}`);
+            }
+            return await res.json();
+        }
+
+        // Load Portfolio Data
+        async function loadData() {
+            try {
+                // Try fetching directly via GitHub API
+                const fileObj = await fetchGithubFile('portfolio-data.json');
+                const decoded = decodeURIComponent(escape(atob(fileObj.content.replace(/\s/g, ''))));
+                db = JSON.parse(decoded);
+                renderAllData();
+            } catch (err) {
+                // Fallback to local fetch if API fetch fails or on localhost
+                try {
+                    const localRes = await fetch('portfolio-data.json');
+                    db = await localRes.json();
+                    renderAllData();
+                } catch (localErr) {
+                    notify('Error loading data: ' + err.message, true);
+                }
+            }
+        }
+
+        function renderAllData() {
+            if (db.personal) {
+                const p = db.personal;
+                document.getElementById('p-name').value = p.name || '';
+                document.getElementById('p-role').value = p.role || '';
+                document.getElementById('p-exp').value = p.experienceYears || '';
+                document.getElementById('p-location').value = p.location || '';
+                document.getElementById('p-email').value = p.email || '';
+                document.getElementById('p-phone').value = p.phone || '';
+                document.getElementById('p-whatsapp').value = p.whatsapp || '';
+                document.getElementById('p-linkedin').value = p.linkedin || '';
+                document.getElementById('p-github').value = p.github || '';
+                document.getElementById('p-bio').value = p.bio || '';
+
+                document.getElementById('side-name').textContent = p.name || 'Krishan Lal';
+                document.getElementById('kpi-exp-value').textContent = (p.experienceYears || '4.8+') + ' Yrs';
+            }
+
+            if (db.liveApps) {
+                document.getElementById('kpi-apps-count').textContent = db.liveApps.length;
+                renderAppsList(db.liveApps);
+            }
+
+            if (db.experience) {
+                renderExperienceList(db.experience);
+            }
+        }
+
+        function renderAppsList(apps) {
+            const container = document.getElementById('apps-container');
+            container.innerHTML = '';
+
+            apps.forEach((app, idx) => {
+                const card = document.createElement('div');
+                card.className = 'project-editor-card';
+                card.innerHTML = `
+                    <div class="project-editor-header">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="project-tag-id">#${idx + 1}</span>
+                            <strong style="font-size: 1.05em; color: #fff;">${escapeHtml(app.name || 'App Title')}</strong>
+                        </div>
+                        <button type="button" class="btn-delete" onclick="removeApp(${idx})">✕ Delete</button>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>App Name</label>
+                            <input type="text" value="${escapeHtml(app.name || '')}" oninput="db.liveApps[${idx}].name = this.value">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Category / Subtitle</label>
+                            <input type="text" value="${escapeHtml(app.category || '')}" oninput="db.liveApps[${idx}].category = this.value">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Store Badge <span class="tag">DUAL STORES / APP STORE / GOOGLE PLAY</span></label>
+                            <input type="text" value="${escapeHtml(app.badge || '')}" oninput="db.liveApps[${idx}].badge = this.value">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tech Stack</label>
+                            <input type="text" value="${escapeHtml(app.tech || '')}" oninput="db.liveApps[${idx}].tech = this.value">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Description</label>
+                            <textarea rows="2" oninput="db.liveApps[${idx}].desc = this.value">${escapeHtml(app.desc || '')}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>🍏 Apple App Store URL</label>
+                            <input type="text" placeholder="https://apps.apple.com/..." value="${escapeHtml(app.appStoreUrl || '')}" oninput="db.liveApps[${idx}].appStoreUrl = this.value">
+                        </div>
+
+                        <div class="form-group">
+                            <label>🤖 Google Play Store URL</label>
+                            <input type="text" placeholder="https://play.google.com/..." value="${escapeHtml(app.playStoreUrl || '')}" oninput="db.liveApps[${idx}].playStoreUrl = this.value">
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function addNewApp() {
+            if (!db.liveApps) db.liveApps = [];
+            db.liveApps.push({
+                id: 'app_' + Date.now(),
+                name: 'New Mobile App',
+                category: 'Mobile Platform',
+                badge: 'DUAL STORES',
+                tech: 'React Native • TypeScript • REST APIs',
+                desc: 'Features and architecture of the newly developed mobile application.',
+                appStoreUrl: '',
+                playStoreUrl: ''
+            });
+            renderAppsList(db.liveApps);
+            document.getElementById('kpi-apps-count').textContent = db.liveApps.length;
+            notify('New app added!');
+        }
+
+        function removeApp(idx) {
+            if (confirm('Are you sure you want to remove this project?')) {
+                db.liveApps.splice(idx, 1);
+                renderAppsList(db.liveApps);
+                document.getElementById('kpi-apps-count').textContent = db.liveApps.length;
+            }
+        }
+
+        function renderExperienceList(expList) {
+            const container = document.getElementById('experience-container');
+            container.innerHTML = '';
+
+            expList.forEach((exp, idx) => {
+                const card = document.createElement('div');
+                card.className = 'project-editor-card';
+                card.innerHTML = `
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" value="${escapeHtml(exp.company || '')}" oninput="db.experience[${idx}].company = this.value">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Role / Position</label>
+                            <input type="text" value="${escapeHtml(exp.role || '')}" oninput="db.experience[${idx}].role = this.value">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Time Period</label>
+                            <input type="text" value="${escapeHtml(exp.period || '')}" oninput="db.experience[${idx}].period = this.value">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" value="${escapeHtml(exp.location || '')}" oninput="db.experience[${idx}].location = this.value">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Key Accomplishments (One per line)</label>
+                            <textarea rows="6" oninput="db.experience[${idx}].points = this.value.split('\\n').filter(l => l.trim())">${escapeHtml((exp.points || []).join('\n'))}</textarea>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Resume & Photo
+        function handleResumeFile(input) {
+            if (!input.files.length) return;
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                newResumeBase64 = e.target.result.split(',')[1];
+                document.getElementById('resume-status-text').innerHTML = `✓ Ready to Publish: <strong>${file.name}</strong> (${Math.round(file.size/1024)} KB)`;
+                document.getElementById('resume-status-text').style.color = 'var(--success)';
+                notify('Resume PDF selected and ready to publish!');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handlePhotoFile(input) {
+            if (!input.files.length) return;
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                newPhotoBase64 = e.target.result.split(',')[1];
+                document.getElementById('photo-preview').src = e.target.result;
+                document.getElementById('side-avatar').src = e.target.result;
+                notify('Photo selected and ready to publish!');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Save & Publish Worldwide to GitHub
+        async function savePortfolioChanges() {
+            if (!authToken) {
+                checkAuth();
+                return;
+            }
+
+            const btnTop = document.getElementById('btn-top-save');
+            const btnBottom = document.getElementById('btn-save-bottom');
+            btnTop.disabled = true;
+            btnBottom.disabled = true;
+            btnTop.textContent = 'Publishing...';
+            btnBottom.textContent = 'Publishing Live to GitHub... Please wait...';
+
+            // Collect personal info
+            db.personal = {
+                name: document.getElementById('p-name').value,
+                role: document.getElementById('p-role').value,
+                experienceYears: document.getElementById('p-exp').value,
+                location: document.getElementById('p-location').value,
+                email: document.getElementById('p-email').value,
+                phone: document.getElementById('p-phone').value,
+                whatsapp: document.getElementById('p-whatsapp').value,
+                linkedin: document.getElementById('p-linkedin').value,
+                github: document.getElementById('p-github').value,
+                bio: document.getElementById('p-bio').value
+            };
+
+            try {
+                // 1. Commit portfolio-data.json
+                notify('Step 1/3: Updating portfolio data in cloud...');
+                const dataFile = await fetchGithubFile('portfolio-data.json');
+                const jsonStr = JSON.stringify(db, null, 2);
+                const jsonBase64 = btoa(unescape(encodeURIComponent(jsonStr)));
+                await putGithubFile('portfolio-data.json', jsonBase64, 'Update portfolio data via Cloud CMS', dataFile.sha);
+
+                // 2. Commit Resume PDF if updated
+                if (newResumeBase64) {
+                    notify('Updating resume PDF...');
+                    const resumeFile = await fetchGithubFile('resume.pdf');
+                    await putGithubFile('resume.pdf', newResumeBase64, 'Update resume PDF via Cloud CMS', resumeFile.sha);
+                }
+
+                // 3. Commit Profile Photo if updated
+                if (newPhotoBase64) {
+                    notify('Updating profile photo...');
+                    const photoFile = await fetchGithubFile('profile.jpg');
+                    await putGithubFile('profile.jpg', newPhotoBase64, 'Update profile photo via Cloud CMS', photoFile.sha);
+                }
+
+                // 4. Sync & Commit index.html
+                notify('Step 2/3: Synchronizing index.html...');
+                const indexFile = await fetchGithubFile('index.html');
+                let html = decodeURIComponent(escape(atob(indexFile.content.replace(/\s/g, ''))));
+
+                const p = db.personal;
+                if (p.experienceYears) {
+                    html = html.replace(/<title>.*?<\/title>/, `<title>${p.name} | ${p.role} | ${p.experienceYears} Years Experience</title>`);
+                    html = html.replace(/Production Proven • [0-9.]+\+? Years/, `Production Proven • ${p.experienceYears} Years`);
+                }
+                if (p.name) html = html.replace(/<h1>.*?<\/h1>/, `<h1>${p.name}</h1>`);
+                if (p.bio) html = html.replace(/<p class="hero-bio">.*?<\/p>/, `<p class="hero-bio">${p.bio}</p>`);
+                if (p.email) {
+                    html = html.replace(/href="mailto:[^"]+"/g, `href="mailto:${p.email}"`);
+                    html = html.replace(/<span>[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}<\/span>/g, `<span>${p.email}</span>`);
+                }
+                if (p.phone) html = html.replace(/<span>\+91 [0-9]+<\/span>/g, `<span>${p.phone}</span>`);
+                if (p.whatsapp) html = html.replace(/href="https:\/\/wa\.me\/[0-9]+"/g, `href="https://wa.me/${p.whatsapp}"`);
+                if (p.linkedin) html = html.replace(/href="https:\/\/www\.linkedin\.com\/in\/[^"]+"/g, `href="${p.linkedin}"`);
+                if (p.github) html = html.replace(/href="https:\/\/github\.com\/[^"]+"/g, `href="${p.github}"`);
+
+                const htmlBase64 = btoa(unescape(encodeURIComponent(html)));
+                await putGithubFile('index.html', htmlBase64, 'Synchronize index.html via Cloud CMS', indexFile.sha);
+
+                // Success!
+                notify('🎉 Published Worldwide! GitHub Pages is deploying changes live.');
+                btnTop.textContent = '✓ Published!';
+                btnBottom.textContent = '✓ Published Live Everywhere!';
+                newResumeBase64 = null;
+                newPhotoBase64 = null;
+
+                setTimeout(() => {
+                    btnTop.disabled = false;
+                    btnBottom.disabled = false;
+                    btnTop.innerHTML = '<span>Publish Worldwide</span>';
+                    btnBottom.innerHTML = '<span>Publish Worldwide</span>';
+                }, 3500);
+
+            } catch (err) {
+                notify('Publishing error: ' + err.message, true);
+                btnTop.disabled = false;
+                btnBottom.disabled = false;
+                btnTop.innerHTML = '<span>Publish Worldwide</span>';
+                btnBottom.innerHTML = '<span>Publish Worldwide</span>';
+            }
+        }
+
+        function notify(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast-notify' + (isError ? ' error' : '');
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 4500);
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        checkAuth();
+    </script>
+</body>
+</html>

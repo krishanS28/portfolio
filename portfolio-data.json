@@ -1,0 +1,121 @@
+{
+  "personal": {
+    "name": "Krishan Lal",
+    "role": "Senior React Native Developer",
+    "experienceYears": "4.8+",
+    "bio": "4.8+ Years Experience architecting & shipping 20+ production-grade Android and iOS applications end-to-end.",
+    "email": "kl268369@gmail.com",
+    "phone": "+91 9992724729",
+    "whatsapp": "919992724729",
+    "location": "Panchkula / Chandigarh, India",
+    "linkedin": "https://www.linkedin.com/in/krishan-lal-a599901aa",
+    "github": "https://github.com/krishanS28"
+  },
+  "liveApps": [
+    {
+      "id": "orb",
+      "name": "ORB",
+      "category": "Real-Time Social + AI",
+      "badge": "FLAGSHIP / CURRENT",
+      "tech": "React Native • TypeScript • WebRTC • LiveKit • Telnyx • SLM AI • AR/3D",
+      "desc": "Next-generation real-time mobile platform with low-latency WebRTC/LiveKit live streaming, audio/video conferencing, WebSocket messaging, offline on-device SLM AI chat, and native AR Try-On / 3D model visualization.",
+      "appStoreUrl": "",
+      "playStoreUrl": ""
+    },
+    {
+      "id": "alphapadel",
+      "name": "Alpha Padel",
+      "category": "Tournament & Stream",
+      "badge": "DUAL STORES",
+      "tech": "React Native • REST APIs • LiveKit • Redux Toolkit • Stripe",
+      "desc": "Comprehensive padel tournament ecosystem featuring live match video streaming, interactive bracket trees, referee scoring consoles, club court booking, and instant push notification alerts.",
+      "appStoreUrl": "https://apps.apple.com/us/app/alpha-padel-compet/id6763044653",
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=it.anytimes.alphapadel.app"
+    },
+    {
+      "id": "dubisale",
+      "name": "DubiSale",
+      "category": "Classified Marketplace",
+      "badge": "APP STORE",
+      "tech": "React Native • Socket.IO • Maps • Push Notifications • Image Pipeline",
+      "desc": "High-volume UAE marketplace application featuring real-time buyer-seller chat, location-filtered classified listings, instant auction bidding, automated multi-currency conversion, and verified seller badges.",
+      "appStoreUrl": "https://apps.apple.com/us/app/dubisale/id6760179553",
+      "playStoreUrl": ""
+    },
+    {
+      "id": "nextlevel",
+      "name": "ABG NextLevel",
+      "category": "Workforce Suite",
+      "badge": "DUAL STORES",
+      "tech": "React Native • REST APIs • GPS Tracking • Google Calendar • Payments",
+      "desc": "Mobile platform for employees to manage jobs, schedules and communication in one place. Features real-time job assignment, status updates, time tracking, document handling, high-accuracy GPS tracking, Google Calendar sync, and digital signature capture.",
+      "appStoreUrl": "https://apps.apple.com/us/app/abg-nextlevel/id6739277161",
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.NextlevelApp"
+    },
+    {
+      "id": "shipswift",
+      "name": "Ship Swift",
+      "category": "Driver & Customer",
+      "badge": "APP STORE (DUAL APPS)",
+      "tech": "React Native • REST APIs • Maps • Socket.IO • Push Notifications",
+      "desc": "End-to-end logistics platform consisting of two dedicated mobile apps: a high-efficiency Driver app with turn-by-turn routing and order lifecycle management, and a real-time Customer app with live vehicle telemetry and digital dispatch.",
+      "appStoreUrl": "https://apps.apple.com/app/ship-swift-driver-llc/id6737396476",
+      "customerAppStoreUrl": "https://apps.apple.com/app/ship-swift-customer-llc/id6670492041",
+      "playStoreUrl": ""
+    },
+    {
+      "id": "baligan",
+      "name": "Baligan",
+      "category": "Education & Kindergarten",
+      "badge": "DUAL STORES",
+      "tech": "React Native • Firebase • Media Pipeline • Push Notifications • RTL",
+      "desc": "Multi-role education platform connecting teachers, students and parents. Built communication and media-sharing flows, daily teacher photo/update posts, image/video gallery with native download support, and complete RTL localization.",
+      "appStoreUrl": "https://apps.apple.com/us/app/baligan/id6739424823",
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.Baligan"
+    },
+    {
+      "id": "mazady",
+      "name": "مزادي | Mazady",
+      "category": "Auction & Marketplace",
+      "badge": "APP STORE",
+      "tech": "React Native • Apple Pay • REST APIs • Push Notifications • Arabic RTL",
+      "desc": "Lebanese auction and marketplace platform featuring live item bidding, Apple Pay express checkout, location-based address selection, seller verification flows, and full Arabic RTL layout support.",
+      "appStoreUrl": "https://apps.apple.com/lb/app/mazady-lb/id6765611356",
+      "playStoreUrl": ""
+    }
+  ],
+  "experience": [
+    {
+      "company": "ToXSL Technologies",
+      "role": "Software Engineer (Mobile Lead)",
+      "period": "Jan 2022 – Present",
+      "location": "Panchkula, India",
+      "points": [
+        "Architected and shipped 20+ production-grade Android and iOS applications end-to-end using React Native, TypeScript, and native bridge modules.",
+        "Wired up real-time audio/video calling and live streaming pipelines using WebRTC, LiveKit, and Telnyx.",
+        "Engineered WhatsApp-style real-time messaging with WebSocket/Socket.IO, delivery states (sent, delivered, read), and typing indicators.",
+        "Developed native iOS (Swift) and Android (Kotlin) bridge modules for real-time 3D rendering and camera-based AR Try-On experiences.",
+        "Integrated on-device Small Language Model (SLM) offline AI chat engine that functions 100% without internet connectivity.",
+        "Implemented multi-gateway secure payment systems including Stripe, PayPal, Apple Pay, Paydunya, and Pay Stack."
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "category": "Mobile Core",
+      "items": ["React Native", "TypeScript", "JavaScript (ES6+)", "Redux Toolkit", "Context API", "Native Bridges (Swift/Kotlin)", "Jest", "Detox"]
+    },
+    {
+      "category": "Real-Time & Media",
+      "items": ["WebRTC", "LiveKit", "Telnyx", "Socket.IO", "WebSocket", "Push Notifications (FCM/APNs)", "Agora", "AV Foundation"]
+    },
+    {
+      "category": "AI & Future Tech",
+      "items": ["Small Language Models (SLM)", "Offline AI Chat Engine", "AR Try-On", "3D Model Rendering", "MediaPipe", "BLE Bluetooth"]
+    },
+    {
+      "category": "Architecture & Cloud",
+      "items": ["Clean Architecture", "Offline-First", "REST APIs", "GraphQL", "SQLite / MMKV", "Stripe / Apple Pay", "Fastlane", "CI/CD"]
+    }
+  ]
+}

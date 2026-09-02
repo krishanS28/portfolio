@@ -1,6 +1,6 @@
 # 🚀 Krishan Lal — Senior React Native Developer Portfolio
 
-A high-performance, ultra-responsive developer portfolio showcasing 4.7+ years of experience architecting and shipping 20+ production-grade Android and iOS applications end-to-end. Built with a modern cyber-neon dark aesthetic, ambient glowing orbs, frosted glassmorphism, animated hexagonal avatar, and 360° rotating conic gradient project cards.
+A high-performance, ultra-responsive developer portfolio showcasing 4.8+ years of experience architecting and shipping 20+ production-grade Android and iOS applications end-to-end. Built with a modern cyber-neon dark aesthetic, ambient glowing orbs, frosted glassmorphism, animated hexagonal avatar, and 360° rotating conic gradient project cards.
 
 ---
 
