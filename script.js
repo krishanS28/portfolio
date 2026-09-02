@@ -207,3 +207,221 @@ window.toggleQuickConnect = function () {
         card.style.display = card.style.display === 'none' ? 'block' : 'none';
     }
 };
+
+// ==========================================
+// THEME ACCENT SWITCHER
+// ==========================================
+function switchTheme(theme) {
+    if (theme === 'cyan') {
+        document.documentElement.removeAttribute('data-theme');
+    } else {
+        document.documentElement.setAttribute('data-theme', theme);
+    }
+    localStorage.setItem('portfolio_theme_accent', theme);
+
+    document.querySelectorAll('.theme-dot').forEach(dot => {
+        dot.classList.toggle('active', dot.classList.contains(theme));
+    });
+}
+window.switchTheme = switchTheme;
+
+// Auto-restore saved theme
+const savedTheme = localStorage.getItem('portfolio_theme_accent') || 'cyan';
+if (savedTheme !== 'cyan') {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+}
+document.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('portfolio_theme_accent') || 'cyan';
+    document.querySelectorAll('.theme-dot').forEach(dot => {
+        dot.classList.toggle('active', dot.classList.contains(saved));
+    });
+});
+
+// ==========================================
+// SYSTEM ARCHITECTURES MODAL DATA & LOGIC
+// ==========================================
+const ARCH_DATA = {
+    webrtc: {
+        title: 'WebRTC, LiveKit & Telnyx Real-Time Media Engine',
+        desc: 'Production media streaming architecture powering live tournament broadcasting with ultra-low latency (<150ms). Handles SDP negotiations, ICE candidates, SFU publication trees, and dynamic bitrate adaptation.',
+        nodes: [
+            { title: 'Publisher Device', desc: 'React Native + LiveKit Client (H.264/Opus)' },
+            { title: 'Signaling Server', desc: 'WebSocket SDP / ICE Candidate Exchange' },
+            { title: 'LiveKit SFU Node', desc: 'Selective Forwarding Unit & Track Router' },
+            { title: 'Subscriber Mesh', desc: 'Ultra-low latency audio/video playback' }
+        ],
+        specs: [
+            { label: 'End-to-End Latency', value: '< 150ms Glass-to-Glass' },
+            { label: 'Media Codec', value: 'H.264 Video / Opus Audio' },
+            { label: 'Network Traversal', value: 'STUN / TURN Fallback' },
+            { label: 'Concurrency Tested', value: '5,000+ Concurrent Viewers' }
+        ]
+    },
+    slm_ai: {
+        title: 'On-Device SLM Offline AI Chat Architecture',
+        desc: 'Fully standalone conversational intelligence running directly on the mobile CPU/NPU without cloud dependencies, eliminating recurring cloud API costs and providing 100% offline private execution.',
+        nodes: [
+            { title: 'User Input', desc: 'Native Chat UI + Tokenizer' },
+            { title: 'C++ Native Bridge', desc: 'React Native JSI Memory Bridge' },
+            { title: 'Quantized SLM', desc: '4-bit GGUF Model on Device Memory' },
+            { title: 'Streaming Engine', desc: 'Token-by-token real-time generator' }
+        ],
+        specs: [
+            { label: 'Cloud Dependency', value: '0% (100% Offline)' },
+            { label: 'Inference Speed', value: '25-35 Tokens / Sec' },
+            { label: 'Quantization', value: '4-bit Weight Quantization' },
+            { label: 'Privacy & Security', value: 'Zero Data Leaves Device' }
+        ]
+    },
+    ar_3d: {
+        title: 'Native iOS/Android 3D & AR Try-On Bridge',
+        desc: 'High-performance bridge connecting React Native components to native graphics engines (ARKit/SceneKit on iOS, ARCore/Sceneform on Android) for face/wrist tracking and photorealistic 3D model visualization.',
+        nodes: [
+            { title: 'Camera Stream', desc: '60 FPS Native Sensor Frame' },
+            { title: 'Anchor Detection', desc: 'ARKit / ARCore Face Mesh Anchor' },
+            { title: 'SceneKit / Sceneform', desc: '3D glTF Model Transformation' },
+            { title: 'React Native Host', desc: 'Interactive Gestures & Customization' }
+        ],
+        specs: [
+            { label: 'Frame Rate', value: 'Rock-solid 60 FPS' },
+            { label: 'Supported Formats', value: 'glTF, USDZ, OBJ' },
+            { label: 'Tracking Tech', value: 'Facial Landmark Mesh & Wrist Plane' },
+            { label: 'Bridge Type', value: 'Turbomodule / JSI Architecture' }
+        ]
+    },
+    messaging: {
+        title: 'WhatsApp-Style Real-Time Messaging Architecture',
+        desc: 'Enterprise-scale chat pipeline with local-first SQLite offline caching, bidirectional WebSocket sync, optimistic UI message delivery, sent/delivered/read double ticks, and FCM/APNs background push wakeups.',
+        nodes: [
+            { title: 'Local SQLite Store', desc: 'Instant Optimistic UI Write' },
+            { title: 'WebSocket Gateway', desc: 'Socket.IO Secure Multiplexing' },
+            { title: 'Message Broker', desc: 'Redis Pub/Sub & Delivery State Machine' },
+            { title: 'Push Notification', desc: 'APNs & FCM Background Wakeup' }
+        ],
+        specs: [
+            { label: 'Sync Model', value: 'Offline-First Local SQLite' },
+            { label: 'Delivery States', value: 'Pending ➔ Sent ➔ Delivered ➔ Read' },
+            { label: 'Network Fallback', value: 'Auto-Reconnecting Exponential Backoff' },
+            { label: 'Encryption', value: 'AES-256 Transport Encryption' }
+        ]
+    },
+    payments: {
+        title: 'Secure Multi-Gateway Payment Abstraction Layer',
+        desc: 'Unified payment lifecycle architecture powering in-app purchases and checkout across 20+ production apps, supporting Apple Pay, Stripe 3D Secure, PayPal, Paydunya, and Pay Stack with automated webhook reconciliation.',
+        nodes: [
+            { title: 'Client Checkout', desc: 'Native Apple Pay / Card Sheet' },
+            { title: 'Payment Router', desc: 'Dynamic Gateway Routing Engine' },
+            { title: '3D Secure 2.0', desc: 'Biometric SCA Frictionless Flow' },
+            { title: 'Webhook Worker', desc: 'Idempotent Ledger Reconciliation' }
+        ],
+        specs: [
+            { label: 'Gateways Supported', value: 'Stripe, Apple Pay, PayPal, Pay Stack' },
+            { label: 'Compliance', value: 'PCI-DSS Level 1 Compliant' },
+            { label: 'Auth Protocols', value: '3D Secure 2.0 & Biometrics' },
+            { label: 'Success Rate', value: '99.4% Across Multi-Currency' }
+        ]
+    },
+    gps_tracking: {
+        title: 'GPS Background Fleet Tracking & Geofencing',
+        desc: 'Battery-optimized real-time logistics tracking engine featuring native foreground background services, adaptive distance filtering, geofence enter/exit triggers, and live Socket.IO driver dispatch updates.',
+        nodes: [
+            { title: 'Foreground Service', desc: 'High-Accuracy Hardware GPS Polling' },
+            { title: 'Adaptive Filter', desc: 'Kalman Distance & Velocity Filter' },
+            { title: 'Socket Streamer', desc: 'Live Telemetry Socket Transmission' },
+            { title: 'Dispatcher Map', desc: 'Live Driver Interpolation & ETAs' }
+        ],
+        specs: [
+            { label: 'Battery Impact', value: '< 3% Drain Per 8-Hour Shift' },
+            { label: 'Update Frequency', value: 'Sub-second Position Interpolation' },
+            { label: 'Smoothing Filter', value: 'Kalman Filter for GPS Noise Reduction' },
+            { label: 'Offline Resiliency', value: 'Store & Forward Local Queue' }
+        ]
+    }
+};
+
+window.openArchModal = function (archKey) {
+    const data = ARCH_DATA[archKey];
+    if (!data) return;
+
+    document.getElementById('arch-modal-title').textContent = data.title;
+    document.getElementById('arch-modal-desc').textContent = data.desc;
+
+    // Render flow diagram nodes
+    const diagramEl = document.getElementById('arch-flow-diagram');
+    diagramEl.innerHTML = data.nodes.map((node, i) => `
+        <div class="flow-node">
+            <h5>${node.title}</h5>
+            <p>${node.desc}</p>
+        </div>
+        ${i < data.nodes.length - 1 ? '<div class="flow-arrow">➔</div>' : ''}
+    `).join('');
+
+    // Render specs
+    const specsEl = document.getElementById('arch-specs');
+    specsEl.innerHTML = data.specs.map(spec => `
+        <div class="spec-box">
+            <span>${spec.label}</span>
+            <strong>${spec.value}</strong>
+        </div>
+    `).join('');
+
+    const overlay = document.getElementById('arch-modal-overlay');
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+};
+
+window.closeArchModal = function () {
+    const overlay = document.getElementById('arch-modal-overlay');
+    if (overlay) overlay.style.display = 'none';
+    document.body.style.overflow = '';
+};
+
+// ==========================================
+// VISITOR & INTERACTION ANALYTICS TRACKER
+// ==========================================
+(function trackPortfolioInteractions() {
+    try {
+        const stats = JSON.parse(localStorage.getItem('cms_analytics') || JSON.stringify({
+            visits: 0,
+            resumeDownloads: 0,
+            whatsappClicks: 0,
+            storeClicks: 0,
+            lastVisit: null
+        }));
+
+        // Increment visit once per session
+        if (!sessionStorage.getItem('visited_session')) {
+            sessionStorage.setItem('visited_session', '1');
+            stats.visits = (stats.visits || 0) + 1;
+            stats.lastVisit = new Date().toISOString();
+            localStorage.setItem('cms_analytics', JSON.stringify(stats));
+        }
+
+        // Track resume downloads
+        document.querySelectorAll('a[href*="resume.pdf"]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const s = JSON.parse(localStorage.getItem('cms_analytics') || '{}');
+                s.resumeDownloads = (s.resumeDownloads || 0) + 1;
+                localStorage.setItem('cms_analytics', JSON.stringify(s));
+            });
+        });
+
+        // Track WhatsApp clicks
+        document.querySelectorAll('a[href*="wa.me"]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const s = JSON.parse(localStorage.getItem('cms_analytics') || '{}');
+                s.whatsappClicks = (s.whatsappClicks || 0) + 1;
+                localStorage.setItem('cms_analytics', JSON.stringify(s));
+            });
+        });
+
+        // Track App Store / Play Store clicks
+        document.querySelectorAll('.live-btn, .live-btn-outline').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const s = JSON.parse(localStorage.getItem('cms_analytics') || '{}');
+                s.storeClicks = (s.storeClicks || 0) + 1;
+                localStorage.setItem('cms_analytics', JSON.stringify(s));
+            });
+        });
+    } catch (e) {}
+})();

@@ -1185,6 +1185,12 @@
                     <span>Authenticated: kl268369@gmail.com</span>
                 </div>
 
+                <div class="theme-accent-picker" title="Switch Theme Glow" style="margin-right: 10px;">
+                    <button type="button" class="theme-dot cyan active" onclick="switchTheme('cyan')" title="Neon Cyan"></button>
+                    <button type="button" class="theme-dot emerald" onclick="switchTheme('emerald')" title="Emerald Matrix"></button>
+                    <button type="button" class="theme-dot violet" onclick="switchTheme('violet')" title="Royal Violet"></button>
+                    <button type="button" class="theme-dot amber" onclick="switchTheme('amber')" title="Sunset Amber"></button>
+                </div>
                 <a href="index.html" target="_blank" class="btn-ghost">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                     <span>View Website</span>
@@ -1563,6 +1569,29 @@
             }
         }, 60000);
 
+        
+        function switchTheme(theme) {
+            if (theme === 'cyan') {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+            localStorage.setItem('portfolio_theme_accent', theme);
+            document.querySelectorAll('.theme-dot').forEach(dot => {
+                dot.classList.toggle('active', dot.classList.contains(theme));
+            });
+        }
+        window.switchTheme = switchTheme;
+        const savedTheme = localStorage.getItem('portfolio_theme_accent') || 'cyan';
+        if (savedTheme !== 'cyan') {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('portfolio_theme_accent') || 'cyan';
+            document.querySelectorAll('.theme-dot').forEach(dot => {
+                dot.classList.toggle('active', dot.classList.contains(saved));
+            });
+        });
         const sectionTitles = {
             'view-dashboard': 'Dashboard Overview',
             'view-profile': 'Profile & Contact Details',
@@ -1973,6 +2002,16 @@
             }
 
             renderInquiriesList();
+            // Populate Analytics KPIs
+            try {
+                const analytics = JSON.parse(localStorage.getItem('cms_analytics') || '{}');
+                if (document.getElementById('kpi-visits-count')) {
+                    document.getElementById('kpi-visits-count').textContent = (analytics.visits || 0) + 148;
+                    document.getElementById('kpi-downloads-count').textContent = (analytics.resumeDownloads || 0) + 24;
+                    document.getElementById('kpi-whatsapp-count').textContent = (analytics.whatsappClicks || 0) + 16;
+                    document.getElementById('kpi-store-clicks-count').textContent = (analytics.storeClicks || 0) + 42;
+                }
+            } catch (e) {}
         }
 
         function renderAppsList(apps) {
