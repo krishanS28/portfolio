@@ -1,8 +1,8 @@
 {
   "auth": {
     "ownerEmail": "kl268369@gmail.com",
-    "isSetup": false,
-    "passwordHash": ""
+    "isSetup": true,
+    "passwordHash": "275ec9978a7761d43f245245b17a48f6c767925ae809fec1345e43d1131e34f9"
   },
   "personal": {
     "name": "Krishan Lal",
