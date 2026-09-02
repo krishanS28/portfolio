@@ -796,45 +796,7 @@
             margin-bottom: 22px;
         }
 
-        .skill-tags-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 14px;
-        }
-
-        .skill-tag-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(0, 240, 255, 0.08);
-            border: 1px solid rgba(0, 240, 255, 0.28);
-            color: #ffffff;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.88em;
-            font-weight: 600;
-        }
-
-        .skill-tag-remove {
-            color: #f87171;
-            cursor: pointer;
-            font-weight: 800;
-            font-size: 1.1em;
-            line-height: 1;
-            padding: 0 2px;
-        }
-
-        .skill-tag-remove:hover {
-            color: #ef4444;
-        }
-
-        .add-skill-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 16px;
-            max-width: 420px;
-        }
+        /* Cleaned legacy tags block */
 
         /* Testimonials Styles */
         .testimonial-editor-card {
@@ -1273,6 +1235,74 @@
             border-radius: 20px;
             letter-spacing: 0.8px;
             text-transform: uppercase;
+        }
+
+    
+        /* ==========================================
+           LOCKED INLINE BUTTON & TAG INPUT BAR
+           ========================================== */
+        .add-skill-row {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            align-items: center !important;
+            background: rgba(8, 14, 26, 0.9) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 12px !important;
+            padding: 5px 6px 5px 16px !important;
+            max-width: 460px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            margin-top: 14px !important;
+            transition: all 0.25s ease !important;
+        }
+
+        .add-skill-row:focus-within {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 16px var(--primary-glow) !important;
+            background: rgba(12, 20, 38, 0.98) !important;
+        }
+
+        .add-skill-row input {
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+            width: auto !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 8px 10px 8px 0 !important;
+            color: #ffffff !important;
+            font-size: 0.9em !important;
+            outline: none !important;
+        }
+
+        .add-skill-row .btn-add-skill {
+            flex: 0 0 auto !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            background: linear-gradient(135deg, var(--primary), #3b82f6) !important;
+            color: #06090f !important;
+            border: none !important;
+            padding: 9px 20px !important;
+            border-radius: 8px !important;
+            font-size: 0.85em !important;
+            font-weight: 800 !important;
+            cursor: pointer !important;
+            white-space: nowrap !important;
+            box-shadow: 0 2px 10px var(--primary-glow) !important;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
+        .add-skill-row .btn-add-skill:hover {
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 18px var(--primary-glow) !important;
+            filter: brightness(1.1) !important;
+        }
+
+        .add-skill-row .btn-add-skill:active {
+            transform: translateY(0) !important;
         }
 
     </style>
@@ -2595,10 +2625,10 @@
                     </div>
 
                     <div class="add-skill-row">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary); opacity: 0.8; margin-right: 4px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                         <input type="text" id="input-new-skill-${gIdx}" placeholder="Add new skill to ${escapeHtml(group.category || '')} (press Enter)..." onkeydown="if(event.key==='Enter') addNewSkill(${gIdx})">
                         <button type="button" class="btn-add-skill" onclick="addNewSkill(${gIdx})">
-                            <span>+ Add Skill</span>
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            <span>Add</span>
                         </button>
                     </div>
                 `;
