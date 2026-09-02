@@ -14,13 +14,13 @@
     "name": "Krishan Lal",
     "role": "Senior React Native Developer",
     "experienceYears": "4.8+",
-    "bio": "4.8+ Years Experience architecting & shipping 20+ production-grade Android and iOS applications end-to-end.",
+    "location": "Panchkula / Chandigarh, India",
     "email": "kl268369@gmail.com",
     "phone": "+91 9992724729",
     "whatsapp": "919992724729",
-    "location": "Panchkula / Chandigarh, India",
     "linkedin": "https://www.linkedin.com/in/krishan-lal-a599901aa",
-    "github": "https://github.com/krishanS28"
+    "github": "https://github.com/krishanS28",
+    "bio": "4.8+ Years Experience architecting & shipping 20+ production-grade Android and iOS applications end-to-end."
   },
   "liveApps": [
     {
@@ -114,19 +114,53 @@
   "skills": [
     {
       "category": "Mobile Core",
-      "items": ["React Native", "TypeScript", "JavaScript (ES6+)", "Redux Toolkit", "Context API", "Native Bridges (Swift/Kotlin)", "Jest", "Detox"]
+      "items": [
+        "React Native",
+        "TypeScript",
+        "JavaScript (ES6+)",
+        "Redux Toolkit",
+        "Context API",
+        "Native Bridges (Swift/Kotlin)",
+        "Jest",
+        "Detox"
+      ]
     },
     {
       "category": "Real-Time & Media",
-      "items": ["WebRTC", "LiveKit", "Telnyx", "Socket.IO", "WebSocket", "Push Notifications (FCM/APNs)", "Agora", "AV Foundation"]
+      "items": [
+        "WebRTC",
+        "LiveKit",
+        "Telnyx",
+        "Socket.IO",
+        "WebSocket",
+        "Push Notifications (FCM/APNs)",
+        "Agora",
+        "AV Foundation"
+      ]
     },
     {
       "category": "AI & Future Tech",
-      "items": ["Small Language Models (SLM)", "Offline AI Chat Engine", "AR Try-On", "3D Model Rendering", "MediaPipe", "BLE Bluetooth"]
+      "items": [
+        "Small Language Models (SLM)",
+        "Offline AI Chat Engine",
+        "AR Try-On",
+        "3D Model Rendering",
+        "MediaPipe",
+        "BLE Bluetooth"
+      ]
     },
     {
       "category": "Architecture & Cloud",
-      "items": ["Clean Architecture", "Offline-First", "REST APIs", "GraphQL", "SQLite / MMKV", "Stripe / Apple Pay", "Fastlane", "CI/CD"]
+      "items": [
+        "Clean Architecture",
+        "Offline-First",
+        "REST APIs",
+        "GraphQL",
+        "SQLite / MMKV",
+        "Stripe / Apple Pay",
+        "Fastlane",
+        "CI/CD"
+      ]
     }
   ]
 }
