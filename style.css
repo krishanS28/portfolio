@@ -279,6 +279,14 @@ nav ul li a:hover, nav ul li a.active {
     padding-bottom: 2px;
 }
 
+.hero-bio {
+    font-size: 1.15em;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 30px;
+    max-width: 600px;
+}
+
 /* Hero Metrics Strip */
 .hero-metrics {
     display: flex;
@@ -440,8 +448,8 @@ nav ul li a:hover, nav ul li a.active {
 
 .tech-avatar-wrapper {
     position: relative;
-    width: 360px;
-    height: 400px;
+    width: 320px;
+    height: 380px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -449,29 +457,18 @@ nav ul li a:hover, nav ul li a.active {
 
 .tech-avatar-glow {
     position: absolute;
-    width: 320px;
-    height: 320px;
-    border-radius: 40px;
+    width: 300px;
+    height: 360px;
+    border-radius: 36px;
     background: radial-gradient(circle, var(--primary-glow) 0%, var(--accent-glow) 50%, transparent 75%);
     filter: blur(35px);
     z-index: 1;
 }
 
-.tech-rotating-ring {
-    position: absolute;
-    width: 340px;
-    height: 340px;
-    border-radius: 36px;
-    border: 2px dashed rgba(0, 240, 255, 0.4);
-    animation: rotateGradient 24s linear infinite;
-    z-index: 2;
-    pointer-events: none;
-}
-
 .tech-avatar-card {
     position: relative;
     width: 300px;
-    height: 340px;
+    height: 370px;
     border-radius: 28px;
     overflow: hidden;
     z-index: 3;
@@ -484,49 +481,15 @@ nav ul li a:hover, nav ul li a.active {
 .tech-avatar-card:hover {
     transform: translateY(-6px) scale(1.02);
     border-color: var(--primary);
-    box-shadow: 0 25px 60px rgba(0, 240, 255, 0.4);
+    box-shadow: 0 25px 60px rgba(0, 240, 255, 0.45);
 }
 
 .tech-avatar-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 15%;
+    object-position: center 12%;
     display: block;
-}
-
-.avatar-floating-badge {
-    position: absolute;
-    bottom: 5px;
-    background: rgba(7, 11, 18, 0.95);
-    backdrop-filter: blur(15px);
-    border: 1px solid var(--primary);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 15px var(--primary-glow);
-    padding: 8px 18px;
-    border-radius: 25px;
-    font-size: 0.82em;
-    font-weight: 700;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    z-index: 5;
-    white-space: nowrap;
-}
-
-.avatar-top-badge {
-    position: absolute;
-    top: 5px;
-    right: 15px;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    color: #070b12;
-    padding: 4px 14px;
-    border-radius: 15px;
-    font-size: 0.72em;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    z-index: 5;
-    box-shadow: 0 4px 15px var(--primary-glow);
 }
 
 /* ==========================================
