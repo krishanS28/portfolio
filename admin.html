@@ -320,6 +320,17 @@
             gap: 6px;
             flex: 1;
             overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 240, 255, 0.2) transparent;
+        }
+
+        .nav-menu::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .nav-menu::-webkit-scrollbar-thumb {
+            background: rgba(0, 240, 255, 0.25);
+            border-radius: 4px;
         }
 
         .nav-section-title {
@@ -620,25 +631,84 @@
 
         input[type="text"],
         input[type="email"],
+        input[type="password"],
         textarea,
         select {
-            background: var(--bg-input);
-            border: 1px solid var(--border);
+            background: var(--bg-input) !important;
+            border: 1px solid var(--border) !important;
             border-radius: 12px;
-            padding: 12px 16px;
-            color: #ffffff;
-            font-size: 0.92em;
+            padding: 13px 16px;
+            color: #ffffff !important;
+            font-size: 0.94em;
             outline: none;
             transition: all 0.25s ease;
+            width: 100%;
         }
 
         input[type="text"]:focus,
         input[type="email"]:focus,
+        input[type="password"]:focus,
         textarea:focus,
         select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
-            background: rgba(30, 45, 75, 0.8);
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 16px var(--primary-glow) !important;
+            background: rgba(26, 38, 64, 0.95) !important;
+            color: #ffffff !important;
+        }
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus {
+            -webkit-text-fill-color: #ffffff !important;
+            -webkit-box-shadow: 0 0 0px 1000px #16213a inset !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        .btn-primary-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: #06090f;
+            border: none;
+            padding: 13px 30px;
+            border-radius: 12px;
+            font-size: 0.94em;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 18px var(--primary-glow);
+            width: auto;
+        }
+
+        .btn-primary-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 240, 255, 0.45);
+        }
+
+        .cloud-sync-card {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 16px;
+            padding: 22px 26px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .cloud-sync-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34d399;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82em;
+            font-weight: 800;
         }
 
         textarea {
@@ -1245,20 +1315,20 @@
                 </div>
             </div>
 
-            <!-- SECTION 7: SECURITY & CLOUD KEY -->
+            <!-- SECTION 7: SECURITY & CLOUD ENGINE -->
             <div class="section-view" id="view-security">
                 <div class="glass-panel">
                     <div class="panel-heading">
                         <div>
-                            <h2>🔐 Security, Password & Cloud Key</h2>
-                            <p>Manage your master password and device cloud sync key.</p>
+                            <h2>🔐 Security & Password Manager</h2>
+                            <p>Manage your master password and cloud publishing status.</p>
                         </div>
                     </div>
 
                     <div class="form-grid">
                         <div class="form-group full-width">
-                            <h3 style="font-size: 1.05em; color: #fff; margin-bottom: 8px;">🔑 Change Master Password</h3>
-                            <p style="color: var(--text-muted); font-size: 0.85em; margin-bottom: 14px;">Update the password used to sign in to this CMS.</p>
+                            <h3 style="font-size: 1.1em; color: #fff; margin-bottom: 6px;">🔑 Change Master Password</h3>
+                            <p style="color: var(--text-muted); font-size: 0.86em; margin-bottom: 14px;">Update the password used to sign in to this CMS.</p>
                         </div>
 
                         <div class="form-group">
@@ -1271,19 +1341,42 @@
                             <input type="password" id="change-pwd-confirm" placeholder="Re-enter master password">
                         </div>
 
-                        <div class="form-group full-width">
-                            <button type="button" class="btn-ghost" onclick="handleChangePassword()">
+                        <div class="form-group full-width" style="margin-top: 6px;">
+                            <button type="button" class="btn-primary-action" onclick="handleChangePassword()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                                 <span>Update Master Password</span>
                             </button>
                         </div>
 
-                        <div class="form-group full-width" style="margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px;">
-                            <h3 style="font-size: 1.05em; color: #fff; margin-bottom: 8px;">☁️ GitHub Cloud Publishing Key</h3>
-                            <p style="color: var(--text-muted); font-size: 0.85em; margin-bottom: 14px;">Stored securely ONLY on your personal device's local storage.</p>
-                            <input type="password" id="cloud-gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-                            <button type="button" class="btn-ghost" style="margin-top: 10px;" onclick="saveCloudToken()">
-                                <span>Save Cloud Key on this Device</span>
-                            </button>
+                        <div class="form-group full-width" style="margin-top: 30px; border-top: 1px solid var(--border); padding-top: 25px;">
+                            <h3 style="font-size: 1.1em; color: #fff; margin-bottom: 6px;">☁️ Cloud Deployment Engine</h3>
+                            <p style="color: var(--text-muted); font-size: 0.86em; margin-bottom: 14px;">Your portfolio CMS is connected to GitHub Pages. All updates publish live worldwide with 1 click.</p>
+                            
+                            <div class="cloud-sync-card">
+                                <div style="display: flex; align-items: center; gap: 14px;">
+                                    <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(0, 240, 255, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <h4 style="color: #fff; font-size: 0.95em; font-weight: 700;">Automatic 1-Click Publishing: ACTIVE</h4>
+                                        <p style="color: var(--text-muted); font-size: 0.82em; margin-top: 3px;">Repository: <strong style="color: var(--primary);">krishanS28/portfolio</strong> • Branch: <strong>main</strong></p>
+                                    </div>
+                                </div>
+                                <div class="cloud-sync-badge">
+                                    <i class="pulse-dot"></i>
+                                    <span>CONNECTED</span>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 18px;">
+                                <a onclick="toggleAdvancedToken()" style="color: var(--text-muted); font-size: 0.82em; cursor: pointer; text-decoration: underline;">Advanced: Configure Custom Access Token</a>
+                                <div id="advanced-token-box" style="display: none; margin-top: 12px;">
+                                    <input type="password" id="cloud-gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                                    <button type="button" class="btn-ghost" style="margin-top: 8px;" onclick="saveCloudToken()">
+                                        <span>Save Custom Token</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1692,6 +1785,13 @@
             if (token) {
                 localStorage.setItem('gh_portfolio_token', token);
                 notify('✓ GitHub Cloud Key saved securely on this device!');
+            }
+        }
+
+        function toggleAdvancedToken() {
+            const box = document.getElementById('advanced-token-box');
+            if (box) {
+                box.style.display = box.style.display === 'none' ? 'block' : 'none';
             }
         }
 
