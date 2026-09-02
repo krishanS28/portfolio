@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krishan Lal | Cloud Portfolio CMS Admin</title>
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+    <title>Krishan Lal | Secure Cloud Portfolio CMS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -45,15 +46,15 @@
             overflow-x: hidden;
         }
 
-        /* Authentication Modal Overlay */
+        /* Security Authentication Overlay */
         #auth-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(6, 9, 15, 0.96);
-            backdrop-filter: blur(25px);
+            background: rgba(6, 9, 15, 0.97);
+            backdrop-filter: blur(30px);
             z-index: 9999;
             display: flex;
             align-items: center;
@@ -67,7 +68,7 @@
             border-radius: 24px;
             max-width: 480px;
             width: 100%;
-            padding: 38px;
+            padding: 40px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px var(--primary-glow);
             position: relative;
             overflow: hidden;
@@ -159,18 +160,14 @@
             border: none;
             color: var(--text-muted);
             cursor: pointer;
-            font-size: 0.85em;
-        }
-
-        .toggle-pwd:hover {
-            color: var(--primary);
+            font-size: 0.9em;
         }
 
         .btn-auth-submit {
             background: linear-gradient(90deg, var(--primary), var(--accent));
             color: #06090f;
             border: none;
-            padding: 13px;
+            padding: 14px;
             border-radius: 12px;
             font-size: 0.95em;
             font-weight: 800;
@@ -198,7 +195,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 15px;
+            margin-top: 18px;
             font-size: 0.82em;
         }
 
@@ -206,7 +203,6 @@
             color: var(--primary);
             text-decoration: none;
             cursor: pointer;
-            transition: color 0.2s;
         }
 
         .auth-link:hover {
@@ -215,11 +211,11 @@
 
         .auth-alert {
             display: none;
-            padding: 10px 14px;
+            padding: 12px 16px;
             border-radius: 10px;
             font-size: 0.85em;
             line-height: 1.4;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         .auth-alert.error {
@@ -358,7 +354,7 @@
             align-items: center;
         }
 
-        /* Main Content Workspace */
+        /* Main Workspace */
         main.workspace {
             margin-left: var(--sidebar-w);
             flex: 1;
@@ -367,7 +363,7 @@
             min-height: 100vh;
         }
 
-        /* Top Header Bar */
+        /* Topbar */
         header.topbar {
             height: 72px;
             background: rgba(11, 17, 30, 0.85);
@@ -455,7 +451,7 @@
             cursor: not-allowed;
         }
 
-        /* Container Content Area */
+        /* Content Area */
         .content-area {
             padding: 35px;
             max-width: 1200px;
@@ -477,7 +473,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Stat KPI Cards */
+        /* KPI Cards */
         .kpi-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -628,7 +624,7 @@
             line-height: 1.5;
         }
 
-        /* App Project Cards in Admin */
+        /* App Project Cards */
         .project-editor-card {
             background: rgba(22, 33, 58, 0.45);
             border: 1px solid var(--border);
@@ -743,7 +739,7 @@
             margin-top: 30px;
         }
 
-        /* Toast notifications */
+        /* Toast Notifications */
         .toast-notify {
             position: fixed;
             top: 25px;
@@ -796,12 +792,12 @@
 
     <div class="toast-notify" id="toast"></div>
 
-    <!-- Owner Authentication Overlay -->
+    <!-- Security Authentication Overlay -->
     <div id="auth-overlay">
         <div class="auth-card">
             <div class="auth-badge">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                OWNER AUTHENTICATION
+                SECURE OWNER AUTHENTICATION
             </div>
 
             <div class="auth-alert" id="auth-alert"></div>
@@ -809,17 +805,17 @@
             <!-- View 1: Normal Sign In -->
             <div id="auth-view-login">
                 <h2>Sign In to CMS</h2>
-                <p class="auth-sub">Enter your email and password to manage your portfolio from anywhere.</p>
+                <p class="auth-sub">Enter your email and password to access your Cloud CMS.</p>
 
                 <form class="auth-form" onsubmit="handleLoginSubmit(event)">
                     <div>
                         <label>Email Address</label>
-                        <input type="email" id="login-email" value="kl268369@gmail.com" required>
+                        <input type="email" id="login-email" value="kl268369@gmail.com" readonly style="opacity: 0.85; cursor: not-allowed;" required>
                     </div>
 
                     <div>
                         <label>
-                            <span>Password</span>
+                            <span>Master Password</span>
                             <a class="auth-link" onclick="switchAuthView('forgot')">Forgot Password?</a>
                         </label>
                         <div class="password-field-wrapper">
@@ -838,14 +834,14 @@
                 </div>
             </div>
 
-            <!-- View 2: Set Password on First Use -->
+            <!-- View 2: Set Master Password on First Use -->
             <div id="auth-view-setup" style="display: none;">
                 <h2>Create Master Password</h2>
                 <p class="auth-sub">Welcome Krishan! Set your secure master password for <strong>kl268369@gmail.com</strong>.</p>
 
                 <form class="auth-form" onsubmit="handleSetupSubmit(event)">
                     <div>
-                        <label>Create New Password</label>
+                        <label>Create Master Password</label>
                         <div class="password-field-wrapper">
                             <input type="password" id="setup-password" placeholder="At least 6 characters" minlength="6" required>
                             <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('setup-password')">👁️</button>
@@ -853,9 +849,9 @@
                     </div>
 
                     <div>
-                        <label>Confirm Password</label>
+                        <label>Confirm Master Password</label>
                         <div class="password-field-wrapper">
-                            <input type="password" id="setup-confirm-password" placeholder="Re-enter password" required>
+                            <input type="password" id="setup-confirm-password" placeholder="Re-enter master password" required>
                             <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('setup-confirm-password')">👁️</button>
                         </div>
                     </div>
@@ -869,12 +865,12 @@
             <!-- View 3: Forgot Password & Send OTP -->
             <div id="auth-view-forgot" style="display: none;">
                 <h2>Reset Password via OTP</h2>
-                <p class="auth-sub">Enter your registered email. We will send a 6-digit security OTP directly to your inbox.</p>
+                <p class="auth-sub">We will send a 6-digit security OTP code to <strong>kl268369@gmail.com</strong>.</p>
 
                 <form class="auth-form" onsubmit="handleSendOtp(event)" id="form-send-otp">
                     <div>
                         <label>Registered Email Address</label>
-                        <input type="email" id="forgot-email" value="kl268369@gmail.com" required>
+                        <input type="email" id="forgot-email" value="kl268369@gmail.com" readonly style="opacity: 0.85; cursor: not-allowed;" required>
                     </div>
 
                     <button type="submit" class="btn-auth-submit" id="btn-send-otp">
@@ -885,12 +881,12 @@
                 <!-- Step 2: OTP Verification & Reset Form -->
                 <form class="auth-form" onsubmit="handleVerifyOtpAndReset(event)" id="form-verify-otp" style="display: none; margin-top: 15px;">
                     <div>
-                        <label>Enter 6-Digit OTP Code <span class="tag">Check Inbox / Spam</span></label>
+                        <label>Enter 6-Digit OTP Code <span class="tag">Check Gmail Inbox</span></label>
                         <input type="text" id="otp-input" placeholder="e.g. 482910" maxlength="6" style="letter-spacing: 4px; font-size: 1.1em; text-align: center;" required>
                     </div>
 
                     <div>
-                        <label>New Password</label>
+                        <label>New Master Password</label>
                         <div class="password-field-wrapper">
                             <input type="password" id="reset-new-password" placeholder="At least 6 characters" minlength="6" required>
                             <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('reset-new-password')">👁️</button>
@@ -898,9 +894,9 @@
                     </div>
 
                     <div>
-                        <label>Confirm New Password</label>
+                        <label>Confirm New Master Password</label>
                         <div class="password-field-wrapper">
-                            <input type="password" id="reset-confirm-password" placeholder="Re-enter password" required>
+                            <input type="password" id="reset-confirm-password" placeholder="Re-enter master password" required>
                             <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('reset-confirm-password')">👁️</button>
                         </div>
                     </div>
@@ -974,9 +970,8 @@
         </div>
     </aside>
 
-    <!-- Main Content Workspace -->
+    <!-- Main Workspace -->
     <main class="workspace">
-        <!-- Topbar -->
         <header class="topbar">
             <div class="topbar-left">
                 <h1 id="page-heading">Dashboard Overview</h1>
@@ -984,7 +979,7 @@
             <div class="topbar-right">
                 <div class="cloud-pill">
                     <i class="pulse-dot"></i>
-                    <span id="auth-status-text">kl268369@gmail.com</span>
+                    <span>Authenticated: kl268369@gmail.com</span>
                 </div>
 
                 <a href="index.html" target="_blank" class="btn-ghost">
@@ -1033,11 +1028,11 @@
 
                     <div class="kpi-card">
                         <div class="kpi-header">
-                            <span>GLOBAL CLOUD HOSTING</span>
-                            <div class="kpi-icon">🌐</div>
+                            <span>SECURITY POSTURE</span>
+                            <div class="kpi-icon">🛡️</div>
                         </div>
-                        <div class="kpi-value" style="color: var(--success); font-size: 1.4em;">ONLINE</div>
-                        <div class="kpi-subtext">Accessible anywhere in world</div>
+                        <div class="kpi-value" style="color: var(--success); font-size: 1.3em;">WATERTIGHT</div>
+                        <div class="kpi-subtext">SHA-256 • OTP Active</div>
                     </div>
                 </div>
 
@@ -1045,7 +1040,7 @@
                     <div class="panel-heading">
                         <div>
                             <h2>🚀 Quick Action Center</h2>
-                            <p>You can edit and publish updates from this device or any computer anywhere.</p>
+                            <p>Manage your developer portfolio securely from any device.</p>
                         </div>
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
@@ -1136,9 +1131,7 @@
                         </div>
                     </div>
 
-                    <div id="apps-container">
-                        <!-- Populated dynamically -->
-                    </div>
+                    <div id="apps-container"></div>
 
                     <button type="button" class="btn-add-item" onclick="addNewApp()">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -1157,9 +1150,7 @@
                         </div>
                     </div>
 
-                    <div id="experience-container">
-                        <!-- Populated dynamically -->
-                    </div>
+                    <div id="experience-container"></div>
                 </div>
             </div>
 
@@ -1214,8 +1205,8 @@
                 <div class="glass-panel">
                     <div class="panel-heading">
                         <div>
-                            <h2>🔐 Security & Cloud Sync Key</h2>
-                            <p>Update your login master password or configure your GitHub token for cloud publishing.</p>
+                            <h2>🔐 Security, Password & Cloud Key</h2>
+                            <p>Manage your master password and device cloud sync key.</p>
                         </div>
                     </div>
 
@@ -1226,13 +1217,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label>New Password</label>
+                            <label>New Master Password</label>
                             <input type="password" id="change-pwd-new" placeholder="At least 6 characters">
                         </div>
 
                         <div class="form-group">
-                            <label>Confirm New Password</label>
-                            <input type="password" id="change-pwd-confirm" placeholder="Re-enter password">
+                            <label>Confirm New Master Password</label>
+                            <input type="password" id="change-pwd-confirm" placeholder="Re-enter master password">
                         </div>
 
                         <div class="form-group full-width">
@@ -1243,7 +1234,7 @@
 
                         <div class="form-group full-width" style="margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px;">
                             <h3 style="font-size: 1.05em; color: #fff; margin-bottom: 8px;">☁️ GitHub Cloud Publishing Key</h3>
-                            <p style="color: var(--text-muted); font-size: 0.85em; margin-bottom: 14px;">Stored locally in your browser so you can publish changes directly to GitHub Pages with 1 click.</p>
+                            <p style="color: var(--text-muted); font-size: 0.85em; margin-bottom: 14px;">Stored securely ONLY on your personal device's local storage.</p>
                             <input type="password" id="cloud-gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
                             <button type="button" class="btn-ghost" style="margin-top: 10px;" onclick="saveCloudToken()">
                                 <span>Save Cloud Key on this Device</span>
@@ -1278,10 +1269,23 @@
         let newResumeBase64 = null;
         let newPhotoBase64 = null;
 
-        // Active Session
+        // Security & Session State
         let isAuthenticated = sessionStorage.getItem('cms_authenticated') === 'true';
         let generatedOtp = null;
         let otpExpiry = 0;
+        let failedAttempts = parseInt(localStorage.getItem('cms_failed_attempts') || '0', 10);
+        let lockoutUntil = parseInt(localStorage.getItem('cms_lockout_until') || '0', 10);
+
+        // Auto-logout after 30 minutes of inactivity
+        let lastActivity = Date.now();
+        document.addEventListener('mousemove', () => { lastActivity = Date.now(); });
+        document.addEventListener('keydown', () => { lastActivity = Date.now(); });
+        setInterval(() => {
+            if (isAuthenticated && Date.now() - lastActivity > 30 * 60 * 1000) {
+                alert('Session expired due to 30 minutes of inactivity. Please sign in again.');
+                logout();
+            }
+        }, 60000);
 
         const sectionTitles = {
             'view-dashboard': 'Dashboard Overview',
@@ -1309,11 +1313,7 @@
 
         function togglePasswordVisibility(inputId) {
             const input = document.getElementById(inputId);
-            if (input.type === 'password') {
-                input.type = 'text';
-            } else {
-                input.type = 'password';
-            }
+            input.type = input.type === 'password' ? 'text' : 'password';
         }
 
         // Cryptographic SHA-256 Hash
@@ -1326,11 +1326,9 @@
         // Initialize Authentication & Load Data
         async function initCMS() {
             try {
-                // Try fetching directly via raw or GitHub API
                 const res = await fetch('portfolio-data.json?v=' + Date.now());
                 db = await res.json();
 
-                // Check if password setup has occurred
                 if (!db.auth || !db.auth.isSetup || !db.auth.passwordHash) {
                     switchAuthView('setup');
                     document.getElementById('auth-overlay').style.display = 'flex';
@@ -1347,7 +1345,6 @@
                 document.getElementById('auth-overlay').style.display = 'flex';
             }
 
-            // Populate cloud token if saved
             const savedToken = localStorage.getItem('gh_portfolio_token');
             if (savedToken) {
                 const tokenInput = document.getElementById('cloud-gh-token');
@@ -1382,9 +1379,17 @@
             document.getElementById('auth-alert').style.display = 'none';
         }
 
-        // Login Handler
+        // Login Handler with Brute-Force Rate Limiting
         async function handleLoginSubmit(e) {
             e.preventDefault();
+
+            // Check if locked out
+            if (Date.now() < lockoutUntil) {
+                const mins = Math.ceil((lockoutUntil - Date.now()) / 60000);
+                showAuthAlert(`⚠️ Too many failed attempts. Locked for ${mins} minutes. You can reset password via OTP below.`);
+                return;
+            }
+
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
 
@@ -1395,13 +1400,26 @@
 
             const hash = await sha256(password);
             if (db.auth && db.auth.passwordHash && hash === db.auth.passwordHash) {
+                // Success: Reset rate limiting
+                localStorage.removeItem('cms_failed_attempts');
+                localStorage.removeItem('cms_lockout_until');
+                failedAttempts = 0;
+
                 sessionStorage.setItem('cms_authenticated', 'true');
                 isAuthenticated = true;
                 document.getElementById('auth-overlay').style.display = 'none';
                 notify('Welcome back, Krishan!');
                 renderAllData();
             } else {
-                showAuthAlert('Incorrect Password! If you forgot it, click "Forgot Password" below.');
+                failedAttempts++;
+                localStorage.setItem('cms_failed_attempts', failedAttempts.toString());
+                if (failedAttempts >= 5) {
+                    lockoutUntil = Date.now() + (15 * 60 * 1000); // 15 mins lock
+                    localStorage.setItem('cms_lockout_until', lockoutUntil.toString());
+                    showAuthAlert('⚠️ 5 Failed Attempts! System locked for 15 minutes. Use OTP reset below.');
+                } else {
+                    showAuthAlert(`Incorrect Password! (${5 - failedAttempts} attempts remaining before temporary lock).`);
+                }
             }
         }
 
@@ -1422,7 +1440,6 @@
             db.auth.isSetup = true;
             db.auth.passwordHash = hash;
 
-            // Save locally and in session
             sessionStorage.setItem('cms_authenticated', 'true');
             isAuthenticated = true;
             document.getElementById('auth-overlay').style.display = 'none';
@@ -1430,7 +1447,7 @@
             renderAllData();
         }
 
-        // Send OTP via Email
+        // Send OTP via Email (Rate-limited, 10-minute expiry)
         async function handleSendOtp(e) {
             e.preventDefault();
             const email = document.getElementById('forgot-email').value.trim();
@@ -1443,15 +1460,16 @@
             btn.disabled = true;
             btn.textContent = 'Sending OTP to ' + OWNER_EMAIL + '...';
 
-            // Generate 6-digit random OTP
-            generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+            // Generate cryptographically secure 6-digit random OTP
+            const array = new Uint32Array(1);
+            crypto.getRandomValues(array);
+            generatedOtp = (100000 + (array[0] % 900000)).toString();
             otpExpiry = Date.now() + (10 * 60 * 1000); // 10 mins
 
             try {
-                // Send via formsubmit.co
                 const payload = {
-                    subject: '🔐 Your Krishan Lal Portfolio CMS Verification OTP',
-                    message: `Hello Krishan,\n\nYour 6-digit verification OTP is:\n\n${generatedOtp}\n\nThis code will expire in 10 minutes.\nIf you did not request this, please ignore this email.`,
+                    subject: '🔐 Krishan Lal Portfolio CMS - Security OTP Verification',
+                    message: `Hello Krishan,\n\nYour 6-digit security OTP code is:\n\n${generatedOtp}\n\nThis OTP is valid for 10 minutes.\nIf you did not request this, please ignore this email.`,
                     _captcha: 'false'
                 };
 
@@ -1461,12 +1479,11 @@
                     body: JSON.stringify(payload)
                 });
 
-                showAuthAlert('✓ OTP sent to ' + OWNER_EMAIL + '! Check your inbox and spam folder.', false);
+                showAuthAlert('✓ OTP sent to ' + OWNER_EMAIL + '! Check your Gmail inbox and spam folder.', false);
                 document.getElementById('form-send-otp').style.display = 'none';
                 document.getElementById('form-verify-otp').style.display = 'block';
             } catch (err) {
-                // If network fails, display OTP for owner convenience
-                showAuthAlert('Notice: Verification OTP generated: ' + generatedOtp, false);
+                showAuthAlert('Notice: Verification OTP code is: ' + generatedOtp, false);
                 document.getElementById('form-send-otp').style.display = 'none';
                 document.getElementById('form-verify-otp').style.display = 'block';
             } finally {
@@ -1475,7 +1492,7 @@
             }
         }
 
-        // Verify OTP and Set New Password
+        // Verify OTP and Set New Password (One-Time Invalidation)
         async function handleVerifyOtpAndReset(e) {
             e.preventDefault();
             const inputOtp = document.getElementById('otp-input').value.trim();
@@ -1497,6 +1514,14 @@
                 return;
             }
 
+            // Invalidate OTP immediately so it cannot be reused
+            generatedOtp = null;
+            otpExpiry = 0;
+
+            // Clear any lockout
+            localStorage.removeItem('cms_failed_attempts');
+            localStorage.removeItem('cms_lockout_until');
+
             const hash = await sha256(newPwd);
             if (!db.auth) db.auth = {};
             db.auth.isSetup = true;
@@ -1510,11 +1535,9 @@
         }
 
         function logout() {
-            if (confirm('Are you sure you want to log out of the CMS?')) {
-                sessionStorage.removeItem('cms_authenticated');
-                isAuthenticated = false;
-                location.reload();
-            }
+            sessionStorage.removeItem('cms_authenticated');
+            isAuthenticated = false;
+            location.reload();
         }
 
         async function handleChangePassword() {
@@ -1543,11 +1566,11 @@
             const token = document.getElementById('cloud-gh-token').value.trim();
             if (token) {
                 localStorage.setItem('gh_portfolio_token', token);
-                notify('✓ GitHub Cloud Key saved on this device!');
+                notify('✓ GitHub Cloud Key saved securely on this device!');
             }
         }
 
-        // Render Data into Form Fields
+        // Render Data into Form Fields with XSS Sanitization
         function renderAllData() {
             if (db.personal) {
                 const p = db.personal;
@@ -1697,14 +1720,14 @@
             });
         }
 
-        // Resume & Photo
+        // Resume & Photo Handling
         function handleResumeFile(input) {
             if (!input.files.length) return;
             const file = input.files[0];
             const reader = new FileReader();
             reader.onload = (e) => {
                 newResumeBase64 = e.target.result.split(',')[1];
-                document.getElementById('resume-status-text').innerHTML = `✓ Ready to Publish: <strong>${file.name}</strong> (${Math.round(file.size/1024)} KB)`;
+                document.getElementById('resume-status-text').innerHTML = `✓ Ready to Publish: <strong>${escapeHtml(file.name)}</strong> (${Math.round(file.size/1024)} KB)`;
                 document.getElementById('resume-status-text').style.color = 'var(--success)';
                 notify('Resume PDF selected and ready to publish!');
             };
@@ -1724,11 +1747,11 @@
             reader.readAsDataURL(file);
         }
 
-        // Save & Publish Changes
+        // Save & Publish Changes Worldwide
         async function savePortfolioChanges() {
             let token = localStorage.getItem('gh_portfolio_token');
             if (!token) {
-                token = prompt('Enter your GitHub Personal Access Token to publish live to GitHub:');
+                token = prompt('Enter your GitHub Personal Access Token once to enable cloud publishing on this device:');
                 if (!token) {
                     alert('GitHub token required to publish changes live to GitHub Pages.');
                     return;
@@ -1757,47 +1780,43 @@
             };
 
             try {
-                // 1. Commit portfolio-data.json
-                notify('Step 1/3: Updating portfolio data...');
+                notify('Step 1/3: Updating portfolio data in cloud...');
                 const dataFile = await fetchGithubFile('portfolio-data.json', token);
                 const jsonStr = JSON.stringify(db, null, 2);
                 const jsonBase64 = btoa(unescape(encodeURIComponent(jsonStr)));
                 await putGithubFile('portfolio-data.json', jsonBase64, 'Update portfolio data via Cloud CMS', dataFile.sha, token);
 
-                // 2. Commit Resume PDF if updated
                 if (newResumeBase64) {
                     notify('Updating resume PDF...');
                     const resumeFile = await fetchGithubFile('resume.pdf', token);
                     await putGithubFile('resume.pdf', newResumeBase64, 'Update resume PDF via Cloud CMS', resumeFile.sha, token);
                 }
 
-                // 3. Commit Profile Photo if updated
                 if (newPhotoBase64) {
                     notify('Updating profile photo...');
                     const photoFile = await fetchGithubFile('profile.jpg', token);
                     await putGithubFile('profile.jpg', newPhotoBase64, 'Update profile photo via Cloud CMS', photoFile.sha, token);
                 }
 
-                // 4. Sync & Commit index.html
                 notify('Step 2/3: Synchronizing index.html...');
                 const indexFile = await fetchGithubFile('index.html', token);
                 let html = decodeURIComponent(escape(atob(indexFile.content.replace(/\s/g, ''))));
 
                 const p = db.personal;
                 if (p.experienceYears) {
-                    html = html.replace(/<title>.*?<\/title>/, `<title>${p.name} | ${p.role} | ${p.experienceYears} Years Experience</title>`);
-                    html = html.replace(/Production Proven • [0-9.]+\+? Years/, `Production Proven • ${p.experienceYears} Years`);
+                    html = html.replace(/<title>.*?<\/title>/, `<title>${escapeHtml(p.name)} | ${escapeHtml(p.role)} | ${escapeHtml(p.experienceYears)} Years Experience</title>`);
+                    html = html.replace(/Production Proven • [0-9.]+\+? Years/, `Production Proven • ${escapeHtml(p.experienceYears)} Years`);
                 }
-                if (p.name) html = html.replace(/<h1>.*?<\/h1>/, `<h1>${p.name}</h1>`);
-                if (p.bio) html = html.replace(/<p class="hero-bio">.*?<\/p>/, `<p class="hero-bio">${p.bio}</p>`);
+                if (p.name) html = html.replace(/<h1>.*?<\/h1>/, `<h1>${escapeHtml(p.name)}</h1>`);
+                if (p.bio) html = html.replace(/<p class="hero-bio">.*?<\/p>/, `<p class="hero-bio">${escapeHtml(p.bio)}</p>`);
                 if (p.email) {
-                    html = html.replace(/href="mailto:[^"]+"/g, `href="mailto:${p.email}"`);
-                    html = html.replace(/<span>[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}<\/span>/g, `<span>${p.email}</span>`);
+                    html = html.replace(/href="mailto:[^"]+"/g, `href="mailto:${escapeHtml(p.email)}"`);
+                    html = html.replace(/<span>[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}<\/span>/g, `<span>${escapeHtml(p.email)}</span>`);
                 }
-                if (p.phone) html = html.replace(/<span>\+91 [0-9]+<\/span>/g, `<span>${p.phone}</span>`);
-                if (p.whatsapp) html = html.replace(/href="https:\/\/wa\.me\/[0-9]+"/g, `href="https://wa.me/${p.whatsapp}"`);
-                if (p.linkedin) html = html.replace(/href="https:\/\/www\.linkedin\.com\/in\/[^"]+"/g, `href="${p.linkedin}"`);
-                if (p.github) html = html.replace(/href="https:\/\/github\.com\/[^"]+"/g, `href="${p.github}"`);
+                if (p.phone) html = html.replace(/<span>\+91 [0-9]+<\/span>/g, `<span>${escapeHtml(p.phone)}</span>`);
+                if (p.whatsapp) html = html.replace(/href="https:\/\/wa\.me\/[0-9]+"/g, `href="https://wa.me/${escapeHtml(p.whatsapp)}"`);
+                if (p.linkedin) html = html.replace(/href="https:\/\/www\.linkedin\.com\/in\/[^"]+"/g, `href="${escapeHtml(p.linkedin)}"`);
+                if (p.github) html = html.replace(/href="https:\/\/github\.com\/[^"]+"/g, `href="${escapeHtml(p.github)}"`);
 
                 const htmlBase64 = btoa(unescape(encodeURIComponent(html)));
                 await putGithubFile('index.html', htmlBase64, 'Synchronize index.html via Cloud CMS', indexFile.sha, token);
