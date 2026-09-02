@@ -1,42 +1,43 @@
-# 🚀 Modern Cyber-Neon Developer Portfolio
+# 🚀 Krishan Lal — Senior React Native Developer Portfolio
 
-Inspired by [Er. Lakhwinder Singh's Portfolio](https://erlakhwindersingh.github.io/portfolio/), this is a high-performance, responsive developer portfolio featuring a modern dark theme, animated neon glowing orbs, frosted glassmorphism, animated hexagonal profile avatar, and 360° rotating conic gradient live application cards.
+A high-performance, ultra-responsive developer portfolio showcasing 4.7+ years of experience architecting and shipping 20+ production-grade Android and iOS applications end-to-end. Built with a modern cyber-neon dark aesthetic, ambient glowing orbs, frosted glassmorphism, animated hexagonal avatar, and 360° rotating conic gradient project cards.
 
 ---
 
-## ✨ Features Included
+## 🌐 Live Website
+👉 **[https://krishanS28.github.io/portfolio/](https://krishanS28.github.io/portfolio/)**
 
-- **Animated Hexagon Avatar**: Signature tech avatar with neon glow border and smooth shake animation (`slowShake`).
+---
+
+## ✨ Features
+
+- **Cyber-Neon Glassmorphic Design**: Electric blue & cyan floating ambient orbs with dynamic color transitions and frosted glass cards.
+- **Animated Hexagon Avatar**: Signature tech profile frame with outer neon glow and subtle shake animation (`slowShake`).
 - **360° Rotating Conic Gradient Cards**: Glowing animated border for "Currently Live Apps" with a pulsing live status beacon.
-- **Ambient Glowing Orbs & Dynamic Background**: Electric blue & cyan floating orbs with smooth color gradient transitions.
-- **Glassmorphic Interactive UI**: Frosted glass cards (`backdrop-filter: blur(25px)`), hover elevations, and responsive navigation.
-- **Timeline & Role Progressions**: Structured work experience with company monograms, dates, and glowing sub-role nodes.
-- **Skills Grid**: Neon hover pill tags for cross-platform, native mobile, web, and cloud technologies.
-- **Resume Modal**: Interactive popup for downloading resume with email trigger.
-- **100% Zero-Dependency**: Pure vanilla HTML5, CSS3, and JavaScript — no build steps required, ultra-fast loading speed.
+- **20+ Production Applications Showcase**: Detailed breakdowns of flagship apps (ORB, Alpha Padel, DubiSale, ABG NextLevel, Ship Swift, Baligan, Mazady, Sweet Mystery) and on-demand platforms.
+- **Core Engineering Architectures**: Deep dive into WebRTC, LiveKit, Telnyx media pipelines, on-device offline SLM AI, and native iOS/Android AR/3D bridging.
+- **Categorized Skills Matrix**: Clean structured view of Mobile, State Management, Real-Time Media, AI/AR, Payments, APIs, and Release Tools.
+- **Interactive Resume Modal**: One-click resume download with email capture.
+- **100% Zero-Dependency**: Pure vanilla HTML5, CSS3, and JavaScript — no build steps, ultra-fast loading speed.
 
 ---
 
-## 🛠️ How to Customize with Your Details
+## 🛠️ Project Structure
 
-1. **Change Your Name & Title**:
-   - Open `index.html` and edit line `52` (`<h1>Your Name</h1>`) and line `53` (`<h2>And I'm a <span>Sr. Software Engineer</span></h2>`).
-2. **Change Your Profile Photo**:
-   - Simply place your photo in this folder and rename it to `profile.jpg` (or change the `src="profile.jpg"` attribute in `index.html`).
-3. **Change Your Resume**:
-   - Replace `resume.pdf` with your actual resume PDF.
-4. **Update Experience, Skills & Projects**:
-   - In `index.html`, scroll to `#experience`, `#skills`, `#live-apps`, `#projects`, or `#education` and adjust text/links as needed.
-5. **Update Social Links**:
-   - Search for `https://linkedin.com` and `https://github.com` in `index.html` and replace with your profile URLs.
+```
+├── index.html          # Semantic HTML5 layout & portfolio structure
+├── style.css           # Custom styling, glassmorphism & keyframe animations
+├── script.js           # Smooth scrolling, active scrollspy, and resume modal logic
+├── profile.jpg         # Profile image asset
+├── resume.pdf          # Downloadable resume document
+└── README.md           # Project documentation
+```
 
 ---
 
-## 🌐 How to Deploy for FREE on GitHub Pages
+## 📬 Contact & Connect
 
-1. Create a new GitHub repository (e.g. `portfolio`).
-2. Upload all files from this folder (`index.html`, `style.css`, `script.js`, `profile.jpg`, `resume.pdf`).
-3. In GitHub repo, go to **Settings** > **Pages**.
-4. Under **Branch**, select `main` (or `master`) and folder `/ (root)`, then click **Save**.
-5. Within 1 minute, your portfolio will be live at:
-   `https://<your-username>.github.io/<repo-name>/`
+- **Email**: [kl268369@gmail.com](mailto:kl268369@gmail.com)
+- **LinkedIn**: [https://www.linkedin.com/in/krishan-lal-a599901aa](https://www.linkedin.com/in/krishan-lal-a599901aa)
+- **WhatsApp**: [+91 9992724729](https://wa.me/919992724729)
+- **GitHub**: [https://github.com/krishanS28](https://github.com/krishanS28)
