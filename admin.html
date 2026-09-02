@@ -1514,6 +1514,40 @@
 
                             <div style="margin-top: 18px;">
                                 <a onclick="toggleAdvancedToken()" style="color: var(--text-muted); font-size: 0.82em; cursor: pointer; text-decoration: underline;">Advanced: Configure Custom Access Token</a>
+
+                            <!-- Custom Domain krishanlal.dev Manager -->
+                            <div class="form-group full-width" style="margin-top: 30px; border-top: 1px solid var(--border); padding-top: 25px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <h3 style="font-size: 1.1em; color: #fff; margin: 0;">🌐 Custom Domain Manager: krishanlal.dev</h3>
+                                    <span class="tag" style="background: rgba(0, 240, 255, 0.15); color: var(--primary); border: 1px solid rgba(0, 240, 255, 0.3);">READY FOR DNS POINTING</span>
+                                </div>
+                                <p style="color: var(--text-muted); font-size: 0.86em; margin-bottom: 16px;">Connect your custom domain <strong>krishanlal.dev</strong> directly to GitHub Pages with lifetime free auto-renewing SSL certificate.</p>
+
+                                <div class="cloud-sync-card" style="flex-direction: column; align-items: flex-start; gap: 14px;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                                        <div>
+                                            <strong style="color: #fff; font-size: 0.95em;">Target Domain:</strong>
+                                            <span style="color: var(--primary); font-family: monospace; font-size: 1.05em; margin-left: 8px;">krishanlal.dev</span>
+                                        </div>
+                                        <div class="cloud-sync-badge">
+                                            <i class="pulse-dot"></i>
+                                            <span>READY TO CONNECT</span>
+                                        </div>
+                                    </div>
+
+                                    <div style="width: 100%; border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 12px;">
+                                        <h5 style="color: #cbd5e1; font-size: 0.85em; margin-bottom: 8px;">DNS Records to add in your Domain Registrar (GoDaddy / Namecheap / Hostinger / Cloudflare):</h5>
+                                        <div style="background: rgba(0, 0, 0, 0.4); border-radius: 8px; padding: 12px 16px; font-family: monospace; font-size: 0.84em; color: #94a3b8; line-height: 1.8;">
+                                            <div><strong>A Record:</strong> Host: <code style="color: #fff;">@</code> ➔ Points to: <span style="color: #00f0ff;">185.199.108.153</span></div>
+                                            <div><strong>A Record:</strong> Host: <code style="color: #fff;">@</code> ➔ Points to: <span style="color: #00f0ff;">185.199.109.153</span></div>
+                                            <div><strong>A Record:</strong> Host: <code style="color: #fff;">@</code> ➔ Points to: <span style="color: #00f0ff;">185.199.110.153</span></div>
+                                            <div><strong>A Record:</strong> Host: <code style="color: #fff;">@</code> ➔ Points to: <span style="color: #00f0ff;">185.199.111.153</span></div>
+                                            <div><strong>CNAME Record:</strong> Host: <code style="color: #fff;">www</code> ➔ Points to: <span style="color: #00f0ff;">krishanS28.github.io.</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                                 <div id="advanced-token-box" style="display: none; margin-top: 12px;">
                                     <input type="password" id="cloud-gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
                                     <button type="button" class="btn-ghost" style="margin-top: 8px;" onclick="saveCloudToken()">
