@@ -1028,6 +1028,213 @@
                 font-size: 0.9em;
             }
         }
+    
+        /* ==========================================
+           SKILLS & TECH STACK CMS DESIGN SYSTEM
+           ========================================== */
+        .skill-group-box {
+            background: rgba(13, 20, 36, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 18px;
+            padding: 22px 24px;
+            margin-bottom: 22px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-group-box:hover {
+            border-color: rgba(0, 240, 255, 0.35);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-dim);
+            transform: translateY(-2px);
+        }
+
+        .skill-group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .skill-group-title {
+            color: #ffffff;
+            font-size: 1.08em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .skill-count-badge {
+            font-size: 0.75em;
+            font-weight: 800;
+            color: var(--primary);
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .skill-tags-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-bottom: 16px;
+            min-height: 38px;
+        }
+
+        .skill-tag-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(18, 28, 50, 0.85);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e2e8f0;
+            padding: 7px 14px;
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-tag-pill:hover {
+            background: rgba(26, 42, 74, 0.98);
+            border-color: var(--primary);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px var(--primary-glow);
+        }
+
+        .skill-tag-remove {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 0.72em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: 2px;
+        }
+
+        .skill-tag-remove:hover {
+            background: #ef4444;
+            color: #ffffff;
+            transform: scale(1.15);
+        }
+
+        .add-skill-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: rgba(6, 10, 18, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 5px 6px 5px 14px;
+            transition: all 0.25s ease;
+        }
+
+        .add-skill-row:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 16px var(--primary-glow);
+            background: rgba(10, 16, 28, 0.9);
+        }
+
+        .add-skill-row input {
+            flex: 1;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            color: #ffffff !important;
+            padding: 8px 0 !important;
+            font-size: 0.9em;
+            outline: none;
+        }
+
+        .add-skill-row .btn-add-skill {
+            background: linear-gradient(135deg, var(--primary), #3b82f6);
+            color: #06090f;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 18px;
+            font-size: 0.84em;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px var(--primary-glow);
+        }
+
+        .add-skill-row .btn-add-skill:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        /* Testimonial Cards & Inquiries */
+        .testimonial-editor-card {
+            background: rgba(13, 20, 36, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-editor-card:hover {
+            border-color: rgba(0, 240, 255, 0.35);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .inquiry-card {
+            background: rgba(13, 20, 36, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 4px solid var(--primary);
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(20px);
+            transition: all 0.25s ease;
+        }
+
+        .inquiry-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Topbar Clean Layout */
+        .topbar-left {
+            min-width: 0;
+            flex-shrink: 1;
+        }
+        .topbar-left h1 {
+            font-size: 1.22em;
+            font-weight: 800;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 320px;
+        }
+        .topbar-right {
+            flex-shrink: 0;
+            gap: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -1240,7 +1447,7 @@
             <div class="topbar-right">
                 <div class="cloud-pill">
                     <i class="pulse-dot"></i>
-                    <span>Authenticated: kl268369@gmail.com</span>
+                    <span>Cloud: <strong style="color: #fff;">kl268369</strong></span>
                 </div>
 
                 <div class="theme-accent-picker" title="Switch Theme Glow" style="margin-right: 10px;">
@@ -2266,6 +2473,17 @@
             });
         }
 
+        // Category Icon Helper
+        function getCategoryIcon(cat) {
+            if (!cat) return '⚡';
+            const c = cat.toLowerCase();
+            if (c.includes('mobile')) return '📱';
+            if (c.includes('real-time') || c.includes('media')) return '📡';
+            if (c.includes('ai') || c.includes('future')) return '🧠';
+            if (c.includes('architecture') || c.includes('cloud')) return '☁️';
+            return '📁';
+        }
+
         // Skills Manager Logic
         function renderSkillsList(skills) {
             const container = document.getElementById('skills-admin-container');
@@ -2276,9 +2494,12 @@
                 const box = document.createElement('div');
                 box.className = 'skill-group-box';
                 box.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h3 style="color: #fff; font-size: 1.05em;">📂 ${escapeHtml(group.category || 'Skill Category')}</h3>
-                        <span style="font-size: 0.8em; color: var(--text-muted);">${(group.items || []).length} Skills</span>
+                    <div class="skill-group-header">
+                        <div class="skill-group-title">
+                            <span>${getCategoryIcon(group.category)}</span>
+                            <span>${escapeHtml(group.category || 'Skill Category')}</span>
+                        </div>
+                        <span class="skill-count-badge">${(group.items || []).length} SKILLS</span>
                     </div>
 
                     <div class="skill-tags-wrapper" id="skill-tags-${gIdx}">
@@ -2291,9 +2512,10 @@
                     </div>
 
                     <div class="add-skill-row">
-                        <input type="text" id="input-new-skill-${gIdx}" placeholder="Add skill (e.g. Kotlin)" onkeydown="if(event.key==='Enter') addNewSkill(${gIdx})">
-                        <button type="button" class="btn-primary-action" style="padding: 10px 18px; font-size: 0.85em;" onclick="addNewSkill(${gIdx})">
-                            <span>+ Add</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary); opacity: 0.8; margin-right: 4px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <input type="text" id="input-new-skill-${gIdx}" placeholder="Add new skill to ${escapeHtml(group.category || '')} (press Enter)..." onkeydown="if(event.key==='Enter') addNewSkill(${gIdx})">
+                        <button type="button" class="btn-add-skill" onclick="addNewSkill(${gIdx})">
+                            <span>+ Add Skill</span>
                         </button>
                     </div>
                 `;
