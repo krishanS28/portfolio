@@ -1,4 +1,9 @@
 {
+  "auth": {
+    "ownerEmail": "kl268369@gmail.com",
+    "isSetup": false,
+    "passwordHash": ""
+  },
   "personal": {
     "name": "Krishan Lal",
     "role": "Senior React Native Developer",

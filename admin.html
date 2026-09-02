@@ -45,7 +45,7 @@
             overflow-x: hidden;
         }
 
-        /* Login Screen Overlay */
+        /* Authentication Modal Overlay */
         #auth-overlay {
             position: fixed;
             top: 0;
@@ -65,9 +65,9 @@
             background: var(--bg-card);
             border: 1px solid var(--border-highlight);
             border-radius: 24px;
-            max-width: 520px;
+            max-width: 480px;
             width: 100%;
-            padding: 40px;
+            padding: 38px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px var(--primary-glow);
             position: relative;
             overflow: hidden;
@@ -94,35 +94,49 @@
             border-radius: 20px;
             font-size: 0.82em;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .auth-card h2 {
-            font-size: 1.8em;
+            font-size: 1.7em;
             font-weight: 800;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             background: linear-gradient(135deg, #ffffff 40%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .auth-card p {
+        .auth-card p.auth-sub {
             color: var(--text-muted);
-            font-size: 0.9em;
+            font-size: 0.88em;
             line-height: 1.5;
-            margin-bottom: 24px;
+            margin-bottom: 22px;
         }
 
-        .auth-form input[type="password"],
-        .auth-form input[type="text"] {
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .auth-form label {
+            font-size: 0.82em;
+            font-weight: 600;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .auth-form input[type="text"],
+        .auth-form input[type="email"],
+        .auth-form input[type="password"] {
             width: 100%;
             background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 14px 18px;
+            padding: 13px 16px;
             color: #ffffff;
             font-size: 0.95em;
-            margin-bottom: 16px;
             outline: none;
             transition: all 0.25s;
         }
@@ -132,44 +146,94 @@
             box-shadow: 0 0 15px var(--primary-glow);
         }
 
-        .btn-unlock {
-            width: 100%;
+        .password-field-wrapper {
+            position: relative;
+        }
+
+        .toggle-pwd {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .toggle-pwd:hover {
+            color: var(--primary);
+        }
+
+        .btn-auth-submit {
             background: linear-gradient(90deg, var(--primary), var(--accent));
             color: #06090f;
             border: none;
-            padding: 14px;
+            padding: 13px;
             border-radius: 12px;
-            font-size: 1em;
+            font-size: 0.95em;
             font-weight: 800;
             cursor: pointer;
             transition: all 0.25s;
-            box-shadow: 0 4px 20px var(--primary-glow);
-            margin-bottom: 20px;
-        }
-
-        .btn-unlock:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.5);
-        }
-
-        .auth-help {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 12px;
-            padding: 14px 16px;
-            font-size: 0.82em;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        .auth-help ol {
-            padding-left: 18px;
+            box-shadow: 0 4px 18px var(--primary-glow);
             margin-top: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .auth-help a {
+        .btn-auth-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 240, 255, 0.5);
+        }
+
+        .btn-auth-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .auth-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 0.82em;
+        }
+
+        .auth-link {
             color: var(--primary);
             text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+
+        .auth-alert {
+            display: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.85em;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .auth-alert.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--danger);
+            color: #f87171;
+        }
+
+        .auth-alert.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid var(--success);
+            color: #34d399;
         }
 
         /* Sidebar Styling */
@@ -737,23 +801,118 @@
         <div class="auth-card">
             <div class="auth-badge">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                OWNER AUTHENTICATION REQUIRED
+                OWNER AUTHENTICATION
             </div>
-            <h2>Unlock Cloud CMS</h2>
-            <p>Access your portfolio CMS from any computer or mobile device in the world by entering your GitHub Personal Access Token.</p>
 
-            <form class="auth-form" onsubmit="handleLogin(event)">
-                <input type="password" id="auth-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" required>
-                <button type="submit" class="btn-unlock" id="btn-unlock">🔓 Unlock Admin Dashboard</button>
-            </form>
+            <div class="auth-alert" id="auth-alert"></div>
 
-            <div class="auth-help">
-                <strong>How to get your token in 30 seconds:</strong>
-                <ol>
-                    <li>Go to <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a></li>
-                    <li>Click <strong>Generate new token (classic)</strong></li>
-                    <li>Check the <strong>repo</strong> box and click Generate!</li>
-                </ol>
+            <!-- View 1: Normal Sign In -->
+            <div id="auth-view-login">
+                <h2>Sign In to CMS</h2>
+                <p class="auth-sub">Enter your email and password to manage your portfolio from anywhere.</p>
+
+                <form class="auth-form" onsubmit="handleLoginSubmit(event)">
+                    <div>
+                        <label>Email Address</label>
+                        <input type="email" id="login-email" value="kl268369@gmail.com" required>
+                    </div>
+
+                    <div>
+                        <label>
+                            <span>Password</span>
+                            <a class="auth-link" onclick="switchAuthView('forgot')">Forgot Password?</a>
+                        </label>
+                        <div class="password-field-wrapper">
+                            <input type="password" id="login-password" placeholder="••••••••••••" required>
+                            <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('login-password')">👁️</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-auth-submit" id="btn-login-submit">
+                        <span>🔓 Sign In to Dashboard</span>
+                    </button>
+                </form>
+
+                <div class="auth-links" style="justify-content: center; margin-top: 20px;">
+                    <a class="auth-link" onclick="switchAuthView('forgot')">🔑 Forgot Password? Send OTP to Email</a>
+                </div>
+            </div>
+
+            <!-- View 2: Set Password on First Use -->
+            <div id="auth-view-setup" style="display: none;">
+                <h2>Create Master Password</h2>
+                <p class="auth-sub">Welcome Krishan! Set your secure master password for <strong>kl268369@gmail.com</strong>.</p>
+
+                <form class="auth-form" onsubmit="handleSetupSubmit(event)">
+                    <div>
+                        <label>Create New Password</label>
+                        <div class="password-field-wrapper">
+                            <input type="password" id="setup-password" placeholder="At least 6 characters" minlength="6" required>
+                            <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('setup-password')">👁️</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Confirm Password</label>
+                        <div class="password-field-wrapper">
+                            <input type="password" id="setup-confirm-password" placeholder="Re-enter password" required>
+                            <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('setup-confirm-password')">👁️</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-auth-submit" id="btn-setup-submit">
+                        <span>✓ Set Password & Enter CMS</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- View 3: Forgot Password & Send OTP -->
+            <div id="auth-view-forgot" style="display: none;">
+                <h2>Reset Password via OTP</h2>
+                <p class="auth-sub">Enter your registered email. We will send a 6-digit security OTP directly to your inbox.</p>
+
+                <form class="auth-form" onsubmit="handleSendOtp(event)" id="form-send-otp">
+                    <div>
+                        <label>Registered Email Address</label>
+                        <input type="email" id="forgot-email" value="kl268369@gmail.com" required>
+                    </div>
+
+                    <button type="submit" class="btn-auth-submit" id="btn-send-otp">
+                        <span>📧 Send 6-Digit OTP to Email</span>
+                    </button>
+                </form>
+
+                <!-- Step 2: OTP Verification & Reset Form -->
+                <form class="auth-form" onsubmit="handleVerifyOtpAndReset(event)" id="form-verify-otp" style="display: none; margin-top: 15px;">
+                    <div>
+                        <label>Enter 6-Digit OTP Code <span class="tag">Check Inbox / Spam</span></label>
+                        <input type="text" id="otp-input" placeholder="e.g. 482910" maxlength="6" style="letter-spacing: 4px; font-size: 1.1em; text-align: center;" required>
+                    </div>
+
+                    <div>
+                        <label>New Password</label>
+                        <div class="password-field-wrapper">
+                            <input type="password" id="reset-new-password" placeholder="At least 6 characters" minlength="6" required>
+                            <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('reset-new-password')">👁️</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Confirm New Password</label>
+                        <div class="password-field-wrapper">
+                            <input type="password" id="reset-confirm-password" placeholder="Re-enter password" required>
+                            <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('reset-confirm-password')">👁️</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-auth-submit" id="btn-verify-otp">
+                        <span>✓ Verify OTP & Set New Password</span>
+                    </button>
+                </form>
+
+                <div class="auth-links" style="justify-content: center; margin-top: 20px;">
+                    <a class="auth-link" onclick="switchAuthView('login')">← Back to Sign In</a>
+                </div>
             </div>
         </div>
     </div>
@@ -801,11 +960,17 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
                 <span>Profile Photo</span>
             </a>
+
+            <div class="nav-section-title">Security</div>
+            <a class="nav-item" onclick="showSection('view-security')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <span>Password & Cloud Key</span>
+            </a>
         </nav>
 
         <div class="sidebar-footer">
             <button type="button" onclick="logout()" class="btn-ghost" style="padding: 5px 10px; font-size: 0.78em;">Log Out</button>
-            <span style="color: var(--primary);">krishanS28</span>
+            <span style="color: var(--primary);">kl268369</span>
         </div>
     </aside>
 
@@ -819,7 +984,7 @@
             <div class="topbar-right">
                 <div class="cloud-pill">
                     <i class="pulse-dot"></i>
-                    <span>Cloud Sync Active (Any Device)</span>
+                    <span id="auth-status-text">kl268369@gmail.com</span>
                 </div>
 
                 <a href="index.html" target="_blank" class="btn-ghost">
@@ -1044,6 +1209,50 @@
                 </div>
             </div>
 
+            <!-- SECTION 7: SECURITY & CLOUD KEY -->
+            <div class="section-view" id="view-security">
+                <div class="glass-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>🔐 Security & Cloud Sync Key</h2>
+                            <p>Update your login master password or configure your GitHub token for cloud publishing.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <h3 style="font-size: 1.05em; color: #fff; margin-bottom: 8px;">🔑 Change Master Password</h3>
+                            <p style="color: var(--text-muted); font-size: 0.85em; margin-bottom: 14px;">Update the password used to sign in to this CMS.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input type="password" id="change-pwd-new" placeholder="At least 6 characters">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Confirm New Password</label>
+                            <input type="password" id="change-pwd-confirm" placeholder="Re-enter password">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <button type="button" class="btn-ghost" onclick="handleChangePassword()">
+                                <span>Update Master Password</span>
+                            </button>
+                        </div>
+
+                        <div class="form-group full-width" style="margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px;">
+                            <h3 style="font-size: 1.05em; color: #fff; margin-bottom: 8px;">☁️ GitHub Cloud Publishing Key</h3>
+                            <p style="color: var(--text-muted); font-size: 0.85em; margin-bottom: 14px;">Stored locally in your browser so you can publish changes directly to GitHub Pages with 1 click.</p>
+                            <input type="password" id="cloud-gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                            <button type="button" class="btn-ghost" style="margin-top: 10px;" onclick="saveCloudToken()">
+                                <span>Save Cloud Key on this Device</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Sticky Bottom Deploy Bar -->
             <div class="save-banner">
                 <div style="display: flex; align-items: center; gap: 10px;">
@@ -1063,11 +1272,16 @@
     <script>
         const REPO_OWNER = 'krishanS28';
         const REPO_NAME = 'portfolio';
+        const OWNER_EMAIL = 'kl268369@gmail.com';
 
         let db = {};
         let newResumeBase64 = null;
         let newPhotoBase64 = null;
-        let authToken = localStorage.getItem('gh_portfolio_token') || '';
+
+        // Active Session
+        let isAuthenticated = sessionStorage.getItem('cms_authenticated') === 'true';
+        let generatedOtp = null;
+        let otpExpiry = 0;
 
         const sectionTitles = {
             'view-dashboard': 'Dashboard Overview',
@@ -1075,7 +1289,8 @@
             'view-apps': 'Live Production Store Apps',
             'view-experience': 'Work Experience Timeline',
             'view-resume': 'Resume PDF Manager',
-            'view-photo': 'Profile Photo Manager'
+            'view-photo': 'Profile Photo Manager',
+            'view-security': 'Security & Password Settings'
         };
 
         function showSection(sectionId) {
@@ -1092,105 +1307,247 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Authentication Handling
-        function checkAuth() {
-            if (authToken) {
-                document.getElementById('auth-overlay').style.display = 'none';
-                loadData();
+        function togglePasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
             } else {
-                document.getElementById('auth-overlay').style.display = 'flex';
+                input.type = 'password';
             }
         }
 
-        async function handleLogin(e) {
-            e.preventDefault();
-            const token = document.getElementById('auth-token-input').value.trim();
-            if (!token) return;
+        // Cryptographic SHA-256 Hash
+        async function sha256(str) {
+            const buffer = new TextEncoder().encode(str);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
 
-            const btn = document.getElementById('btn-unlock');
+        // Initialize Authentication & Load Data
+        async function initCMS() {
+            try {
+                // Try fetching directly via raw or GitHub API
+                const res = await fetch('portfolio-data.json?v=' + Date.now());
+                db = await res.json();
+
+                // Check if password setup has occurred
+                if (!db.auth || !db.auth.isSetup || !db.auth.passwordHash) {
+                    switchAuthView('setup');
+                    document.getElementById('auth-overlay').style.display = 'flex';
+                } else if (!isAuthenticated) {
+                    switchAuthView('login');
+                    document.getElementById('auth-overlay').style.display = 'flex';
+                } else {
+                    document.getElementById('auth-overlay').style.display = 'none';
+                    renderAllData();
+                }
+            } catch (err) {
+                console.error('Error loading config:', err);
+                switchAuthView('login');
+                document.getElementById('auth-overlay').style.display = 'flex';
+            }
+
+            // Populate cloud token if saved
+            const savedToken = localStorage.getItem('gh_portfolio_token');
+            if (savedToken) {
+                const tokenInput = document.getElementById('cloud-gh-token');
+                if (tokenInput) tokenInput.value = savedToken;
+            }
+        }
+
+        function switchAuthView(viewName) {
+            document.getElementById('auth-view-login').style.display = 'none';
+            document.getElementById('auth-view-setup').style.display = 'none';
+            document.getElementById('auth-view-forgot').style.display = 'none';
+            hideAuthAlert();
+
+            if (viewName === 'setup') {
+                document.getElementById('auth-view-setup').style.display = 'block';
+            } else if (viewName === 'forgot') {
+                document.getElementById('auth-view-forgot').style.display = 'block';
+                document.getElementById('form-send-otp').style.display = 'block';
+                document.getElementById('form-verify-otp').style.display = 'none';
+            } else {
+                document.getElementById('auth-view-login').style.display = 'block';
+            }
+        }
+
+        function showAuthAlert(msg, isError = true) {
+            const alert = document.getElementById('auth-alert');
+            alert.textContent = msg;
+            alert.className = 'auth-alert ' + (isError ? 'error' : 'success');
+        }
+
+        function hideAuthAlert() {
+            document.getElementById('auth-alert').style.display = 'none';
+        }
+
+        // Login Handler
+        async function handleLoginSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            if (email.toLowerCase() !== OWNER_EMAIL.toLowerCase()) {
+                showAuthAlert('Access Denied: Only registered owner (' + OWNER_EMAIL + ') can sign in.');
+                return;
+            }
+
+            const hash = await sha256(password);
+            if (db.auth && db.auth.passwordHash && hash === db.auth.passwordHash) {
+                sessionStorage.setItem('cms_authenticated', 'true');
+                isAuthenticated = true;
+                document.getElementById('auth-overlay').style.display = 'none';
+                notify('Welcome back, Krishan!');
+                renderAllData();
+            } else {
+                showAuthAlert('Incorrect Password! If you forgot it, click "Forgot Password" below.');
+            }
+        }
+
+        // Setup First Master Password
+        async function handleSetupSubmit(e) {
+            e.preventDefault();
+            const p1 = document.getElementById('setup-password').value;
+            const p2 = document.getElementById('setup-confirm-password').value;
+
+            if (p1 !== p2) {
+                showAuthAlert('Passwords do not match! Please verify.');
+                return;
+            }
+
+            const hash = await sha256(p1);
+            if (!db.auth) db.auth = {};
+            db.auth.ownerEmail = OWNER_EMAIL;
+            db.auth.isSetup = true;
+            db.auth.passwordHash = hash;
+
+            // Save locally and in session
+            sessionStorage.setItem('cms_authenticated', 'true');
+            isAuthenticated = true;
+            document.getElementById('auth-overlay').style.display = 'none';
+            notify('🎉 Master Password Created Successfully!');
+            renderAllData();
+        }
+
+        // Send OTP via Email
+        async function handleSendOtp(e) {
+            e.preventDefault();
+            const email = document.getElementById('forgot-email').value.trim();
+            if (email.toLowerCase() !== OWNER_EMAIL.toLowerCase()) {
+                showAuthAlert('OTP can only be sent to the registered owner email: ' + OWNER_EMAIL);
+                return;
+            }
+
+            const btn = document.getElementById('btn-send-otp');
             btn.disabled = true;
-            btn.textContent = 'Verifying with GitHub...';
+            btn.textContent = 'Sending OTP to ' + OWNER_EMAIL + '...';
+
+            // Generate 6-digit random OTP
+            generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+            otpExpiry = Date.now() + (10 * 60 * 1000); // 10 mins
 
             try {
-                const res = await fetch('https://api.github.com/user', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                if (!res.ok) throw new Error('Invalid Token or insufficient permissions');
+                // Send via formsubmit.co
+                const payload = {
+                    subject: '🔐 Your Krishan Lal Portfolio CMS Verification OTP',
+                    message: `Hello Krishan,\n\nYour 6-digit verification OTP is:\n\n${generatedOtp}\n\nThis code will expire in 10 minutes.\nIf you did not request this, please ignore this email.`,
+                    _captcha: 'false'
+                };
 
-                const user = await res.json();
-                authToken = token;
-                localStorage.setItem('gh_portfolio_token', token);
-                document.getElementById('auth-overlay').style.display = 'none';
-                notify(`Welcome back, ${user.name || user.login}!`);
-                loadData();
+                await fetch(`https://formsubmit.co/ajax/${OWNER_EMAIL}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                showAuthAlert('✓ OTP sent to ' + OWNER_EMAIL + '! Check your inbox and spam folder.', false);
+                document.getElementById('form-send-otp').style.display = 'none';
+                document.getElementById('form-verify-otp').style.display = 'block';
             } catch (err) {
-                alert('Authentication Failed: ' + err.message);
+                // If network fails, display OTP for owner convenience
+                showAuthAlert('Notice: Verification OTP generated: ' + generatedOtp, false);
+                document.getElementById('form-send-otp').style.display = 'none';
+                document.getElementById('form-verify-otp').style.display = 'block';
+            } finally {
                 btn.disabled = false;
-                btn.textContent = '🔓 Unlock Admin Dashboard';
+                btn.textContent = '📧 Send 6-Digit OTP to Email';
             }
+        }
+
+        // Verify OTP and Set New Password
+        async function handleVerifyOtpAndReset(e) {
+            e.preventDefault();
+            const inputOtp = document.getElementById('otp-input').value.trim();
+            const newPwd = document.getElementById('reset-new-password').value;
+            const confirmPwd = document.getElementById('reset-confirm-password').value;
+
+            if (Date.now() > otpExpiry) {
+                showAuthAlert('This OTP has expired! Please request a new one.');
+                return;
+            }
+
+            if (inputOtp !== generatedOtp) {
+                showAuthAlert('Invalid OTP code! Please check your email and try again.');
+                return;
+            }
+
+            if (newPwd !== confirmPwd) {
+                showAuthAlert('New passwords do not match!');
+                return;
+            }
+
+            const hash = await sha256(newPwd);
+            if (!db.auth) db.auth = {};
+            db.auth.isSetup = true;
+            db.auth.passwordHash = hash;
+
+            sessionStorage.setItem('cms_authenticated', 'true');
+            isAuthenticated = true;
+            document.getElementById('auth-overlay').style.display = 'none';
+            notify('🎉 Password Reset Successfully! Welcome back.');
+            renderAllData();
         }
 
         function logout() {
-            if (confirm('Log out of Cloud CMS on this device?')) {
-                localStorage.removeItem('gh_portfolio_token');
-                authToken = '';
+            if (confirm('Are you sure you want to log out of the CMS?')) {
+                sessionStorage.removeItem('cms_authenticated');
+                isAuthenticated = false;
                 location.reload();
             }
         }
 
-        // GitHub API Helpers
-        async function fetchGithubFile(path) {
-            const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
-                headers: {
-                    'Authorization': `Bearer ${authToken}`,
-                    'Accept': 'application/vnd.github.v3+json'
-                }
-            });
-            if (!res.ok) throw new Error(`Could not read ${path} (${res.status})`);
-            return await res.json();
-        }
+        async function handleChangePassword() {
+            const p1 = document.getElementById('change-pwd-new').value;
+            const p2 = document.getElementById('change-pwd-confirm').value;
 
-        async function putGithubFile(path, base64Content, commitMsg, sha) {
-            const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${authToken}`,
-                    'Accept': 'application/vnd.github.v3+json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    message: commitMsg,
-                    content: base64Content,
-                    sha: sha
-                })
-            });
-            if (!res.ok) {
-                const err = await res.json();
-                throw new Error(err.message || `Failed to update ${path}`);
+            if (p1.length < 6) {
+                alert('Password must be at least 6 characters long.');
+                return;
             }
-            return await res.json();
+
+            if (p1 !== p2) {
+                alert('New passwords do not match!');
+                return;
+            }
+
+            const hash = await sha256(p1);
+            if (!db.auth) db.auth = {};
+            db.auth.passwordHash = hash;
+            document.getElementById('change-pwd-new').value = '';
+            document.getElementById('change-pwd-confirm').value = '';
+            notify('✓ Master Password Updated! Click "Publish Worldwide" to save changes across all devices.');
         }
 
-        // Load Portfolio Data
-        async function loadData() {
-            try {
-                // Try fetching directly via GitHub API
-                const fileObj = await fetchGithubFile('portfolio-data.json');
-                const decoded = decodeURIComponent(escape(atob(fileObj.content.replace(/\s/g, ''))));
-                db = JSON.parse(decoded);
-                renderAllData();
-            } catch (err) {
-                // Fallback to local fetch if API fetch fails or on localhost
-                try {
-                    const localRes = await fetch('portfolio-data.json');
-                    db = await localRes.json();
-                    renderAllData();
-                } catch (localErr) {
-                    notify('Error loading data: ' + err.message, true);
-                }
+        function saveCloudToken() {
+            const token = document.getElementById('cloud-gh-token').value.trim();
+            if (token) {
+                localStorage.setItem('gh_portfolio_token', token);
+                notify('✓ GitHub Cloud Key saved on this device!');
             }
         }
 
+        // Render Data into Form Fields
         function renderAllData() {
             if (db.personal) {
                 const p = db.personal;
@@ -1367,11 +1724,16 @@
             reader.readAsDataURL(file);
         }
 
-        // Save & Publish Worldwide to GitHub
+        // Save & Publish Changes
         async function savePortfolioChanges() {
-            if (!authToken) {
-                checkAuth();
-                return;
+            let token = localStorage.getItem('gh_portfolio_token');
+            if (!token) {
+                token = prompt('Enter your GitHub Personal Access Token to publish live to GitHub:');
+                if (!token) {
+                    alert('GitHub token required to publish changes live to GitHub Pages.');
+                    return;
+                }
+                localStorage.setItem('gh_portfolio_token', token.trim());
             }
 
             const btnTop = document.getElementById('btn-top-save');
@@ -1381,7 +1743,6 @@
             btnTop.textContent = 'Publishing...';
             btnBottom.textContent = 'Publishing Live to GitHub... Please wait...';
 
-            // Collect personal info
             db.personal = {
                 name: document.getElementById('p-name').value,
                 role: document.getElementById('p-role').value,
@@ -1397,29 +1758,29 @@
 
             try {
                 // 1. Commit portfolio-data.json
-                notify('Step 1/3: Updating portfolio data in cloud...');
-                const dataFile = await fetchGithubFile('portfolio-data.json');
+                notify('Step 1/3: Updating portfolio data...');
+                const dataFile = await fetchGithubFile('portfolio-data.json', token);
                 const jsonStr = JSON.stringify(db, null, 2);
                 const jsonBase64 = btoa(unescape(encodeURIComponent(jsonStr)));
-                await putGithubFile('portfolio-data.json', jsonBase64, 'Update portfolio data via Cloud CMS', dataFile.sha);
+                await putGithubFile('portfolio-data.json', jsonBase64, 'Update portfolio data via Cloud CMS', dataFile.sha, token);
 
                 // 2. Commit Resume PDF if updated
                 if (newResumeBase64) {
                     notify('Updating resume PDF...');
-                    const resumeFile = await fetchGithubFile('resume.pdf');
-                    await putGithubFile('resume.pdf', newResumeBase64, 'Update resume PDF via Cloud CMS', resumeFile.sha);
+                    const resumeFile = await fetchGithubFile('resume.pdf', token);
+                    await putGithubFile('resume.pdf', newResumeBase64, 'Update resume PDF via Cloud CMS', resumeFile.sha, token);
                 }
 
                 // 3. Commit Profile Photo if updated
                 if (newPhotoBase64) {
                     notify('Updating profile photo...');
-                    const photoFile = await fetchGithubFile('profile.jpg');
-                    await putGithubFile('profile.jpg', newPhotoBase64, 'Update profile photo via Cloud CMS', photoFile.sha);
+                    const photoFile = await fetchGithubFile('profile.jpg', token);
+                    await putGithubFile('profile.jpg', newPhotoBase64, 'Update profile photo via Cloud CMS', photoFile.sha, token);
                 }
 
                 // 4. Sync & Commit index.html
                 notify('Step 2/3: Synchronizing index.html...');
-                const indexFile = await fetchGithubFile('index.html');
+                const indexFile = await fetchGithubFile('index.html', token);
                 let html = decodeURIComponent(escape(atob(indexFile.content.replace(/\s/g, ''))));
 
                 const p = db.personal;
@@ -1439,10 +1800,9 @@
                 if (p.github) html = html.replace(/href="https:\/\/github\.com\/[^"]+"/g, `href="${p.github}"`);
 
                 const htmlBase64 = btoa(unescape(encodeURIComponent(html)));
-                await putGithubFile('index.html', htmlBase64, 'Synchronize index.html via Cloud CMS', indexFile.sha);
+                await putGithubFile('index.html', htmlBase64, 'Synchronize index.html via Cloud CMS', indexFile.sha, token);
 
-                // Success!
-                notify('🎉 Published Worldwide! GitHub Pages is deploying changes live.');
+                notify('🎉 Published Worldwide! GitHub Pages will update in ~30 seconds.');
                 btnTop.textContent = '✓ Published!';
                 btnBottom.textContent = '✓ Published Live Everywhere!';
                 newResumeBase64 = null;
@@ -1456,12 +1816,44 @@
                 }, 3500);
 
             } catch (err) {
-                notify('Publishing error: ' + err.message, true);
+                notify('Publishing notice: ' + err.message, true);
                 btnTop.disabled = false;
                 btnBottom.disabled = false;
                 btnTop.innerHTML = '<span>Publish Worldwide</span>';
                 btnBottom.innerHTML = '<span>Publish Worldwide</span>';
             }
+        }
+
+        async function fetchGithubFile(path, token) {
+            const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+            if (!res.ok) throw new Error(`Could not read ${path} (${res.status})`);
+            return await res.json();
+        }
+
+        async function putGithubFile(path, base64Content, commitMsg, sha, token) {
+            const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: commitMsg,
+                    content: base64Content,
+                    sha: sha
+                })
+            });
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.message || `Failed to update ${path}`);
+            }
+            return await res.json();
         }
 
         function notify(msg, isError = false) {
@@ -1481,7 +1873,7 @@
                 .replace(/>/g, '&gt;');
         }
 
-        checkAuth();
+        initCMS();
     </script>
 </body>
 </html>
