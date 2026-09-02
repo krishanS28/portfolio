@@ -376,6 +376,13 @@ window.closeArchModal = function () {
     document.body.style.overflow = '';
 };
 
+// Close architecture modal on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        window.closeArchModal();
+    }
+});
+
 // ==========================================
 // VISITOR & INTERACTION ANALYTICS TRACKER
 // ==========================================
