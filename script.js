@@ -4,7 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Smooth Scrolling with Offset
-    const navLinks = document.querySelectorAll('nav ul li a, .logo-badge');
+    const navLinks = document.querySelectorAll('nav ul li a, .brand-logo');
     const navHeight = document.querySelector('nav').offsetHeight;
 
     navLinks.forEach(link => {
