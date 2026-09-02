@@ -888,6 +888,64 @@
             margin-bottom: 12px;
         }
 
+        
+        /* Theme Dynamic CSS Variables */
+        [data-theme="emerald"] {
+            --primary: #00ff88 !important;
+            --primary-glow: rgba(0, 255, 136, 0.35) !important;
+            --accent: #10b981 !important;
+        }
+
+        [data-theme="violet"] {
+            --primary: #c084fc !important;
+            --primary-glow: rgba(192, 132, 252, 0.35) !important;
+            --accent: #8b5cf6 !important;
+        }
+
+        [data-theme="amber"] {
+            --primary: #fbbf24 !important;
+            --primary-glow: rgba(251, 191, 36, 0.35) !important;
+            --accent: #f59e0b !important;
+        }
+
+        /* Topbar Theme Picker */
+        .theme-accent-picker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(10, 15, 28, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 6px 12px;
+            border-radius: 30px;
+        }
+
+        .theme-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 0;
+            outline: none;
+        }
+
+        .theme-dot.cyan { background: #00f0ff; box-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
+        .theme-dot.emerald { background: #00ff88; box-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
+        .theme-dot.violet { background: #c084fc; box-shadow: 0 0 10px rgba(192, 132, 252, 0.5); }
+        .theme-dot.amber { background: #fbbf24; box-shadow: 0 0 10px rgba(251, 191, 36, 0.5); }
+
+        .theme-dot.active {
+            transform: scale(1.3);
+            border-color: #ffffff;
+            box-shadow: 0 0 14px currentColor, 0 0 4px #ffffff;
+        }
+
+        .theme-dot:hover:not(.active) {
+            transform: scale(1.2);
+        }
+
         /* Sticky Footer Bar */
         .save-banner {
             position: sticky;
