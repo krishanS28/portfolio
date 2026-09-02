@@ -699,6 +699,41 @@
         </div>
     </section>
 
+    <!-- Client & Leadership Recommendations Section -->
+    <section id="testimonials">
+        <h2 class="section-title">Client & Leadership <span>Recommendations</span></h2>
+        <p class="section-subtitle">What founders, engineering directors, and product teams say about shipping with Krishan.</p>
+        
+        <div class="testimonials-grid" id="testimonials-grid-container">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-quote">"Krishan is an exceptional mobile lead. He delivered our Alpha Padel tournament platform with high-concurrency live video streaming and referee workflows ahead of schedule. Truly production-proven quality."</p>
+                <div class="client-info">
+                    <strong>Marco Rossi</strong>
+                    <span>Founder & CEO, AnyTimes SRL (Italy) • Alpha Padel</span>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-quote">"The dual-app driver and customer dispatch architecture built by Krishan is robust, ultra-fast, and flawless under real-world delivery conditions. His expertise in GPS tracking and socket messaging is top-notch."</p>
+                <div class="client-info">
+                    <strong>David Miller</strong>
+                    <span>Operations Director, Ship Swift LLC (USA) • Ship Swift Dispatch</span>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-quote">"Working with Krishan was smooth and highly professional. Flawless Apple Pay integration, Arabic RTL layout support, and sub-second live bidding feeds. Highly recommended for any senior engineering role."</p>
+                <div class="client-info">
+                    <strong>Karim Al-Hassan</strong>
+                    <span>Product Lead, Mazady (Lebanon) • Mazady Marketplace</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Education Section -->
     <section id="education">
         <h2 class="section-title">Education & <span>Qualifications</span></h2>
@@ -821,7 +856,38 @@
         <p>&copy; 2026 Krishan Lal • Senior React Native Developer. All Rights Reserved.</p>
     </footer>
 
+    <!-- Floating Recruiter Quick-Connect Widget -->
+    <div class="quick-connect-widget" id="quick-connect">
+        <div class="quick-connect-pill" onclick="toggleQuickConnect()">
+            <span class="pulse-dot"></span>
+            <span>Available for Senior / Lead Roles • <strong>Let's Connect</strong></span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+        </div>
+
+        <div class="quick-connect-card" id="quick-connect-card" style="display: none;">
+            <div class="quick-connect-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="pulse-dot"></span>
+                    <strong style="font-size: 0.95em; color: #fff;">Direct Recruiter Connect</strong>
+                </div>
+                <button type="button" class="btn-close-quick" onclick="toggleQuickConnect()" title="Close">✕</button>
+            </div>
+            <p style="font-size: 0.82em; color: var(--text-muted); margin: 8px 0 14px; line-height: 1.5;">Looking for a Senior React Native Lead / Mobile Architect? Connect directly with Krishan:</p>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <a href="https://wa.me/919992724729?text=Hi%20Krishan,%20I%20reviewed%20your%20portfolio%20and%20would%20like%20to%20discuss%20an%20opportunity." target="_blank" class="quick-btn whatsapp">
+                    <span>💬 WhatsApp (+91 9992724729)</span>
+                </a>
+                <a href="mailto:kl268369@gmail.com?subject=Senior%20React%20Native%20Opportunity" class="quick-btn email">
+                    <span>✉️ Send Official Email</span>
+                </a>
+                <a href="resume.pdf" download="Krishan_Lal_Senior_React_Native_Developer_Resume.pdf" class="quick-btn resume">
+                    <span>📄 Download Latest Resume (PDF)</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- Interactive Scripts -->
-    <script src="script.js?v=6"></script>
+    <script src="script.js?v=7"></script>
 </body>
 </html>

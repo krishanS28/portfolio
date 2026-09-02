@@ -162,5 +162,32 @@
         "CI/CD"
       ]
     }
-  ]
+  ],
+  "testimonials": [
+    {
+      "id": "test_1",
+      "clientName": "Marco Rossi",
+      "clientRole": "Founder & CEO, AnyTimes SRL (Italy)",
+      "project": "Alpha Padel",
+      "text": "Krishan is an exceptional mobile lead. He delivered our Alpha Padel tournament platform with high-concurrency live video streaming and referee workflows ahead of schedule. Truly production-proven quality.",
+      "rating": 5
+    },
+    {
+      "id": "test_2",
+      "clientName": "David Miller",
+      "clientRole": "Operations Director, Ship Swift LLC (USA)",
+      "project": "Ship Swift Dispatch",
+      "text": "The dual-app driver and customer dispatch architecture built by Krishan is robust, ultra-fast, and flawless under real-world delivery conditions. His expertise in GPS tracking and socket messaging is top-notch.",
+      "rating": 5
+    },
+    {
+      "id": "test_3",
+      "clientName": "Karim Al-Hassan",
+      "clientRole": "Product Lead, Mazady (Lebanon)",
+      "project": "Mazady Marketplace",
+      "text": "Working with Krishan was smooth and highly professional. Flawless Apple Pay integration, Arabic RTL layout support, and sub-second live bidding feeds. Highly recommended for any senior engineering role.",
+      "rating": 5
+    }
+  ],
+  "inquiries": []
 }

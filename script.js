@@ -146,9 +146,49 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (bioEl) bioEl.textContent = p.bio;
                 }
             }
+            // C. Sync Testimonials / Recommendations
+            if (data.testimonials && Array.isArray(data.testimonials)) {
+                const testContainer = document.getElementById('testimonials-grid-container');
+                if (testContainer) {
+                    testContainer.innerHTML = data.testimonials.map(item => `
+                        <div class="testimonial-card">
+                            <div class="stars">★★★★★</div>
+                            <p class="testimonial-quote">"${escapeHtml(item.text || '')}"</p>
+                            <div class="client-info">
+                                <strong>${escapeHtml(item.clientName || '')}</strong>
+                                <span>${escapeHtml(item.clientRole || '')} • ${escapeHtml(item.project || '')}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
         } catch (err) {
             console.warn('Portfolio sync notice:', err);
         }
+    }
+
+    // 5. Contact Form Lead Interceptor for Admin CMS Inbox
+    const contactForm = document.querySelector('form[action*="formsubmit"]') || document.querySelector('.contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', () => {
+            try {
+                const nameInput = contactForm.querySelector('input[name="name"], input[type="text"]');
+                const emailInput = contactForm.querySelector('input[name="email"], input[type="email"]');
+                const messageInput = contactForm.querySelector('textarea');
+
+                const newLead = {
+                    id: 'inq_' + Date.now(),
+                    name: nameInput ? nameInput.value : 'Recruiter',
+                    email: emailInput ? emailInput.value : '',
+                    message: messageInput ? messageInput.value : '',
+                    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+                };
+
+                const inquiries = JSON.parse(localStorage.getItem('cms_inquiries') || '[]');
+                inquiries.unshift(newLead);
+                localStorage.setItem('cms_inquiries', JSON.stringify(inquiries.slice(0, 50)));
+            } catch (e) {}
+        });
     }
 
     function escapeHtml(str) {
@@ -159,3 +199,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     syncDynamicPortfolioData();
 });
+
+// Global Toggle for Floating Quick-Connect
+window.toggleQuickConnect = function () {
+    const card = document.getElementById('quick-connect-card');
+    if (card) {
+        card.style.display = card.style.display === 'none' ? 'block' : 'none';
+    }
+};

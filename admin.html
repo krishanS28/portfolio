@@ -787,7 +787,80 @@
         .btn-add-item:hover {
             background: rgba(0, 240, 255, 0.12);
             border-color: var(--primary);
-            transform: translateY(-2px);
+        /* Skills Manager Styles */
+        .skill-group-box {
+            background: rgba(22, 33, 58, 0.45);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 22px;
+        }
+
+        .skill-tags-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .skill-tag-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 240, 255, 0.08);
+            border: 1px solid rgba(0, 240, 255, 0.28);
+            color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.88em;
+            font-weight: 600;
+        }
+
+        .skill-tag-remove {
+            color: #f87171;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 1.1em;
+            line-height: 1;
+            padding: 0 2px;
+        }
+
+        .skill-tag-remove:hover {
+            color: #ef4444;
+        }
+
+        .add-skill-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            max-width: 420px;
+        }
+
+        /* Testimonials Styles */
+        .testimonial-editor-card {
+            background: rgba(22, 33, 58, 0.45);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Inquiries Inbox Styles */
+        .inquiry-card {
+            background: rgba(22, 33, 58, 0.45);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 16px;
+        }
+
+        .inquiry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 10px;
         }
 
         /* Upload Area */
@@ -1061,6 +1134,16 @@
                 <span>Work Experience</span>
             </a>
 
+            <a class="nav-item" onclick="showSection('view-skills')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                <span>Skills & Tech Stack</span>
+            </a>
+
+            <a class="nav-item" onclick="showSection('view-testimonials')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                <span>Client Reviews</span>
+            </a>
+
             <div class="nav-section-title">Media & Vault</div>
             <a class="nav-item" onclick="showSection('view-resume')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
@@ -1070,6 +1153,11 @@
             <a class="nav-item" onclick="showSection('view-photo')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
                 <span>Profile Photo</span>
+            </a>
+
+            <a class="nav-item" onclick="showSection('view-inquiries')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <span>Messages Inbox</span>
             </a>
 
             <div class="nav-section-title">Security</div>
@@ -1269,6 +1357,39 @@
                 </div>
             </div>
 
+            <!-- SECTION: SKILLS MANAGER -->
+            <div class="section-view" id="view-skills">
+                <div class="glass-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>⚡ Skills & Tech Stack Manager</h2>
+                            <p>Add, edit or organize your technical skills and architectural competencies.</p>
+                        </div>
+                    </div>
+
+                    <div id="skills-admin-container"></div>
+                </div>
+            </div>
+
+            <!-- SECTION: TESTIMONIALS MANAGER -->
+            <div class="section-view" id="view-testimonials">
+                <div class="glass-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>🌟 Client Reviews & Recommendations</h2>
+                            <p>Manage recommendations and testimonials from founders, CTOs, and clients.</p>
+                        </div>
+                    </div>
+
+                    <div id="testimonials-admin-container"></div>
+
+                    <button type="button" class="btn-add-item" onclick="addNewTestimonial()" style="margin-top: 20px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>+ Add New Client Recommendation</span>
+                    </button>
+                </div>
+            </div>
+
             <!-- SECTION 5: RESUME VAULT -->
             <div class="section-view" id="view-resume">
                 <div class="glass-panel">
@@ -1312,6 +1433,23 @@
                             <input type="file" id="input-photo" accept="image/*" style="display: none;" onchange="handlePhotoFile(this)">
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- SECTION: INQUIRIES INBOX -->
+            <div class="section-view" id="view-inquiries">
+                <div class="glass-panel">
+                    <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h2>📬 Recruiter & Client Messages Inbox</h2>
+                            <p>Direct inquiries submitted by recruiters, founders and visitors through your portfolio contact form.</p>
+                        </div>
+                        <button type="button" class="btn-ghost" onclick="clearInquiries()">
+                            <span>Clear All Messages</span>
+                        </button>
+                    </div>
+
+                    <div id="inquiries-container"></div>
                 </div>
             </div>
 
@@ -1430,8 +1568,11 @@
             'view-profile': 'Profile & Contact Details',
             'view-apps': 'Live Production Store Apps',
             'view-experience': 'Work Experience Timeline',
+            'view-skills': 'Skills & Tech Stack Manager',
+            'view-testimonials': 'Client Reviews & Recommendations',
             'view-resume': 'Resume PDF Manager',
             'view-photo': 'Profile Photo Manager',
+            'view-inquiries': 'Recruiter Inquiries & Messages',
             'view-security': 'Security & Password Settings'
         };
 
@@ -1822,6 +1963,16 @@
             if (db.experience) {
                 renderExperienceList(db.experience);
             }
+
+            if (db.skills) {
+                renderSkillsList(db.skills);
+            }
+
+            if (db.testimonials) {
+                renderTestimonialsList(db.testimonials);
+            }
+
+            renderInquiriesList();
         }
 
         function renderAppsList(apps) {
@@ -1943,6 +2094,166 @@
                 `;
                 container.appendChild(card);
             });
+        }
+
+        // Skills Manager Logic
+        function renderSkillsList(skills) {
+            const container = document.getElementById('skills-admin-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            skills.forEach((group, gIdx) => {
+                const box = document.createElement('div');
+                box.className = 'skill-group-box';
+                box.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="color: #fff; font-size: 1.05em;">📂 ${escapeHtml(group.category || 'Skill Category')}</h3>
+                        <span style="font-size: 0.8em; color: var(--text-muted);">${(group.items || []).length} Skills</span>
+                    </div>
+
+                    <div class="skill-tags-wrapper" id="skill-tags-${gIdx}">
+                        ${(group.items || []).map((skill, sIdx) => `
+                            <span class="skill-tag-pill">
+                                <span>${escapeHtml(skill)}</span>
+                                <span class="skill-tag-remove" onclick="removeSkill(${gIdx}, ${sIdx})" title="Remove Skill">✕</span>
+                            </span>
+                        `).join('')}
+                    </div>
+
+                    <div class="add-skill-row">
+                        <input type="text" id="input-new-skill-${gIdx}" placeholder="Add skill (e.g. Kotlin)" onkeydown="if(event.key==='Enter') addNewSkill(${gIdx})">
+                        <button type="button" class="btn-primary-action" style="padding: 10px 18px; font-size: 0.85em;" onclick="addNewSkill(${gIdx})">
+                            <span>+ Add</span>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function addNewSkill(gIdx) {
+            const input = document.getElementById(`input-new-skill-${gIdx}`);
+            const val = (input.value || '').trim();
+            if (!val) return;
+            if (!db.skills[gIdx].items) db.skills[gIdx].items = [];
+            if (!db.skills[gIdx].items.includes(val)) {
+                db.skills[gIdx].items.push(val);
+                renderSkillsList(db.skills);
+                notify(`Added "${val}" to ${db.skills[gIdx].category}`);
+            }
+            input.value = '';
+        }
+
+        function removeSkill(gIdx, sIdx) {
+            const removed = db.skills[gIdx].items.splice(sIdx, 1);
+            renderSkillsList(db.skills);
+            notify(`Removed "${removed}"`);
+        }
+
+        // Testimonials Manager Logic
+        function renderTestimonialsList(testimonials) {
+            const container = document.getElementById('testimonials-admin-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            testimonials.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'testimonial-editor-card';
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 10px;">
+                        <span style="font-weight: 700; color: var(--primary);">Review #${idx + 1}</span>
+                        <button type="button" class="btn-delete" onclick="removeTestimonial(${idx})">✕ Delete</button>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Client / Executive Name</label>
+                            <input type="text" value="${escapeHtml(item.clientName || '')}" oninput="db.testimonials[${idx}].clientName = this.value">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Client Role & Company</label>
+                            <input type="text" value="${escapeHtml(item.clientRole || '')}" oninput="db.testimonials[${idx}].clientRole = this.value">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Associated Project</label>
+                            <input type="text" value="${escapeHtml(item.project || '')}" oninput="db.testimonials[${idx}].project = this.value">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Testimonial Review Quote</label>
+                            <textarea rows="3" oninput="db.testimonials[${idx}].text = this.value">${escapeHtml(item.text || '')}</textarea>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function addNewTestimonial() {
+            if (!db.testimonials) db.testimonials = [];
+            db.testimonials.push({
+                id: 'test_' + Date.now(),
+                clientName: 'New Client / Founder',
+                clientRole: 'CEO / CTO, Company',
+                project: 'Mobile Application',
+                text: 'Krishan demonstrated exceptional mobile engineering expertise and delivered outstanding production results.',
+                rating: 5
+            });
+            renderTestimonialsList(db.testimonials);
+            notify('Added new client recommendation slot');
+        }
+
+        function removeTestimonial(idx) {
+            if (confirm('Delete this recommendation?')) {
+                db.testimonials.splice(idx, 1);
+                renderTestimonialsList(db.testimonials);
+            }
+        }
+
+        // Inquiries Inbox Logic
+        function renderInquiriesList() {
+            const container = document.getElementById('inquiries-container');
+            if (!container) return;
+            const inquiries = db.inquiries || JSON.parse(localStorage.getItem('cms_inquiries') || '[]');
+
+            if (!inquiries.length) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity: 0.5; margin-bottom: 12px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        <p>No recruiter messages yet. Messages sent via your website contact form will appear here automatically.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = inquiries.map((inq, idx) => `
+                <div class="inquiry-card">
+                    <div class="inquiry-header">
+                        <div>
+                            <strong style="color: #fff; font-size: 1.05em;">${escapeHtml(inq.name || 'Anonymous Recruiter')}</strong>
+                            <span style="color: var(--text-muted); font-size: 0.85em; margin-left: 8px;">(${escapeHtml(inq.email || 'No email')})</span>
+                        </div>
+                        <span style="font-size: 0.8em; color: var(--primary);">${escapeHtml(inq.date || 'Recent')}</span>
+                    </div>
+                    <p style="color: #cbd5e1; font-size: 0.92em; line-height: 1.5; margin: 10px 0;">${escapeHtml(inq.message || '')}</p>
+                    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 12px;">
+                        <a href="mailto:${escapeHtml(inq.email)}?subject=Re: Portfolio Inquiry" class="btn-primary-action" style="padding: 6px 14px; font-size: 0.82em; text-decoration: none;">
+                            <span>✉️ Reply via Email</span>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function clearInquiries() {
+            if (confirm('Clear all recruiter messages?')) {
+                db.inquiries = [];
+                localStorage.removeItem('cms_inquiries');
+                renderInquiriesList();
+                notify('Inquiries inbox cleared');
+            }
         }
 
         // Resume & Photo Handling
