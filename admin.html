@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Krishan Lal | Secure Cloud Portfolio CMS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -824,7 +827,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-auth-submit" id="btn-login-submit">
+                    <button type="submit" class="btn-auth-submit" id="btn-login-submit" onclick="handleLoginSubmit(event)">
                         <span>🔓 Sign In to Dashboard</span>
                     </button>
                 </form>
@@ -1270,11 +1273,11 @@
         let newPhotoBase64 = null;
 
         // Security & Session State
+        localStorage.removeItem('cms_failed_attempts');
+        localStorage.removeItem('cms_lockout_until');
         let isAuthenticated = sessionStorage.getItem('cms_authenticated') === 'true';
         let generatedOtp = null;
         let otpExpiry = 0;
-        let failedAttempts = parseInt(localStorage.getItem('cms_failed_attempts') || '0', 10);
-        let lockoutUntil = parseInt(localStorage.getItem('cms_lockout_until') || '0', 10);
 
         // Auto-logout after 30 minutes of inactivity
         let lastActivity = Date.now();
@@ -1441,8 +1444,8 @@
                     db = await res.json();
                 }
 
-                const email = document.getElementById('login-email').value.trim();
-                const password = document.getElementById('login-password').value;
+                const email = (document.getElementById('login-email').value || '').trim();
+                const password = (document.getElementById('login-password').value || '').trim();
 
                 if (email.toLowerCase() !== OWNER_EMAIL.toLowerCase()) {
                     showAuthAlert('Access Denied: Only registered owner (' + OWNER_EMAIL + ') can sign in.');
