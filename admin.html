@@ -1491,27 +1491,55 @@
             background: rgba(13, 20, 36, 0.75);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-top: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 18px;
-            padding: 22px 24px;
-            margin-bottom: 22px;
+            border-radius: 16px;
+            margin-bottom: 14px;
             backdrop-filter: blur(20px);
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            padding: 0;
         }
 
         .skill-group-box:hover {
             border-color: rgba(0, 240, 255, 0.35);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-dim);
-            transform: translateY(-2px);
+            box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45), 0 0 16px rgba(0, 240, 255, 0.12);
+        }
+
+        .skill-group-box.is-expanded {
+            border-color: rgba(0, 240, 255, 0.5);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 24px var(--primary-glow);
+            background: rgba(15, 24, 44, 0.95);
         }
 
         .skill-group-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            gap: 16px;
+            padding: 16px 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s ease;
+            flex-wrap: wrap;
+            margin-bottom: 0;
+        }
+
+        .skill-group-header:hover {
+            background: rgba(0, 240, 255, 0.035);
+        }
+
+        .skill-group-box.is-expanded .skill-group-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .skill-drawer {
+            display: none;
+            padding: 22px 24px 20px;
+            animation: drawerSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .skill-group-box.is-expanded .skill-drawer {
+            display: block;
         }
 
         .skill-group-title {
@@ -2311,13 +2339,13 @@
                     <div class="panel-heading">
                         <div>
                             <h2>⚡ Skills & Tech Stack Manager</h2>
-                            <p>Add, edit or organize your technical skills and architectural competencies.</p>
+                            <p>Click on any skill domain from the list below to expand, edit or add skills.</p>
                         </div>
                     </div>
 
                     <div id="skills-admin-container"></div>
 
-                    <button type="button" class="btn-add-item" onclick="addNewSkillCategory()" style="margin-top: 20px;">
+                    <button type="button" class="btn-add-item" onclick="openAddSkillCategoryModal()" style="margin-top: 20px;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                         <span>+ Add New Skill Category</span>
                     </button>
@@ -2594,6 +2622,63 @@
                     <button type="submit" class="btn-gradient">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                         <span>✓ Add App to Portfolio</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add New Skill Category Modal -->
+    <div id="modal-add-skill-category" class="admin-modal-overlay" onclick="closeAddSkillCategoryModal(event)">
+        <div class="admin-modal-card" onclick="event.stopPropagation()">
+            <div class="modal-header-row">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(0, 240, 255, 0.15); border: 1px solid rgba(0, 240, 255, 0.35); display: flex; align-items: center; justify-content: center; font-size: 1.35em;">⚡</div>
+                    <div>
+                        <h3 style="color: #ffffff; font-size: 1.25em; font-weight: 700; margin: 0;">Add New Skill Category</h3>
+                        <p style="color: var(--text-muted); font-size: 0.83em; margin: 3px 0 0;">Create a specialized skill domain with production competencies.</p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close-modal" onclick="closeAddSkillCategoryModal()" title="Close">✕</button>
+            </div>
+
+            <div id="add-skill-cat-error-box" class="modal-error-alert" style="display: none;"></div>
+
+            <form id="form-add-skill-cat" onsubmit="handleCreateSkillCategorySubmit(event)" novalidate style="margin-top: 18px;">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Category Title <span class="required-star">* (Compulsory)</span></label>
+                        <input type="text" id="new-cat-title" placeholder="e.g. Cloud & DevOps Architecture" required minlength="3">
+                        <span class="field-hint">Must be unique (minimum 3 characters)</span>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Domain Theme / Icon <span class="required-star">* (Compulsory)</span></label>
+                        <select id="new-cat-theme" class="modal-select">
+                            <option value="📱 Mobile Development">📱 Mobile Development</option>
+                            <option value="🏛️ State & Architecture">🏛️ State & Architecture</option>
+                            <option value="📡 Real-Time & Media">📡 Real-Time & Media</option>
+                            <option value="🧠 AI / AR / 3D & Bridging">🧠 AI / AR / 3D & Bridging</option>
+                            <option value="💳 Payments & Gateways">💳 Payments & Gateways</option>
+                            <option value="🌐 APIs, Services & Cloud">🌐 APIs, Services & Cloud</option>
+                            <option value="🛠️ Tools & Store Release">🛠️ Tools & Store Release</option>
+                            <option value="⚡ Custom Specialization">⚡ Custom Specialization</option>
+                        </select>
+                        <span class="field-hint">Defines visual styling and icon</span>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Initial Skills <span class="required-star">* (Compulsory)</span></label>
+                        <input type="text" id="new-cat-skills" placeholder="e.g. Docker, Kubernetes, AWS, Terraform (comma separated)" required minlength="2">
+                        <span class="field-hint">Enter at least one skill. Separate multiple skills with commas.</span>
+                    </div>
+                </div>
+
+                <div class="drawer-footer" style="margin-top: 22px;">
+                    <button type="button" class="btn-ghost" onclick="closeAddSkillCategoryModal()">Cancel</button>
+                    <button type="submit" class="btn-gradient">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>✓ Create Category</span>
                     </button>
                 </div>
             </form>
@@ -3623,6 +3708,8 @@
         }
 
         // Skills Manager Logic
+        const expandedSkillGroupsSet = new Set();
+
         function renderSkillsList(skills) {
             const container = document.getElementById('skills-admin-container');
             if (!container) return;
@@ -3631,9 +3718,11 @@
             const list = skills || [];
             if (!list.length) {
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: var(--text-muted); background: rgba(13, 20, 36, 0.5); border-radius: 14px; border: 1px dashed rgba(255,255,255,0.1);">
-                        <p style="margin-bottom: 12px;">No skill categories found.</p>
-                        <button type="button" class="btn-ghost" onclick="addNewSkillCategory()">+ Create First Category</button>
+                    <div style="text-align: center; padding: 45px 20px; background: rgba(13, 20, 36, 0.5); border: 1px dashed rgba(255, 255, 255, 0.12); border-radius: 16px;">
+                        <div style="font-size: 2.2em; margin-bottom: 10px;">⚡</div>
+                        <h3 style="color: #fff; font-size: 1.15em; font-weight: 700; margin-bottom: 6px;">No Skill Categories Found</h3>
+                        <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 16px;">Click the button below to add your first technical skill domain.</p>
+                        <button type="button" class="btn-ghost" onclick="openAddSkillCategoryModal()" style="margin: 0 auto;">+ Create Skill Category</button>
                     </div>
                 `;
                 return;
@@ -3641,72 +3730,231 @@
 
             list.forEach((group, gIdx) => {
                 const box = document.createElement('div');
-                box.className = 'skill-group-box';
+                const isExpanded = expandedSkillGroupsSet.has(gIdx);
+                box.id = `skill-group-card-${gIdx}`;
+                box.className = `skill-group-box ${isExpanded ? 'is-expanded' : ''}`;
+
                 box.innerHTML = `
-                    <div class="skill-group-header">
-                        <div class="skill-group-title" style="flex: 1; display: flex; align-items: center; gap: 8px;">
-                            <span style="font-size: 1.25em;">${getCategoryIcon(group.category)}</span>
-                            <strong style="color: #fff; font-size: 1.05em; cursor: pointer;" title="Click to rename category" onclick="renameSkillCategory(${gIdx})">${escapeHtml(group.category || 'Skill Category')} ✏️</strong>
+                    <div class="skill-group-header" onclick="toggleSkillCategory(${gIdx})">
+                        <div class="app-item-info">
+                            <span class="project-tag-id">#${gIdx + 1}</span>
+                            <div class="app-item-icon" style="font-size: 1.25em;">${getCategoryIcon(group.category)}</div>
+                            <div class="app-item-meta">
+                                <strong id="skill-cat-title-${gIdx}" style="font-size: 1.05em; color: #fff;">${escapeHtml(group.category || 'Skill Category')}</strong>
+                                <span id="skill-count-sub-${gIdx}" style="font-size: 0.82em; color: var(--text-muted);">${(group.items || []).length} technical production skills</span>
+                            </div>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span class="skill-count-badge">${(group.items || []).length} SKILLS</span>
-                            <button type="button" class="btn-delete" onclick="removeSkillCategory(${gIdx})" title="Delete entire category" style="padding: 4px 10px; font-size: 0.78em;">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                <span>Delete Category</span>
+
+                        <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
+                            <span class="skill-count-badge" id="skill-badge-count-${gIdx}">${(group.items || []).length} SKILLS</span>
+                            <button type="button" class="btn-toggle-edit" onclick="event.stopPropagation(); toggleSkillCategory(${gIdx})">
+                                <span id="btn-skill-toggle-text-${gIdx}">${isExpanded ? '✕ Close ▲' : '✏️ Edit Skills ▾'}</span>
+                            </button>
+                            <button type="button" class="btn-delete" onclick="event.stopPropagation(); removeSkillCategory(${gIdx})" title="Delete entire category">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                <span>Delete</span>
                             </button>
                         </div>
                     </div>
 
-                    <div class="skill-tags-wrapper" id="skill-tags-${gIdx}">
-                        ${(group.items || []).map((skill, sIdx) => `
-                            <span class="skill-tag-pill">
-                                <span>${escapeHtml(skill)}</span>
-                                <span class="skill-tag-remove" onclick="removeSkill(${gIdx}, ${sIdx})" title="Remove Skill">✕</span>
-                            </span>
-                        `).join('')}
-                    </div>
+                    <div class="skill-drawer" id="skill-drawer-${gIdx}">
+                        <div style="margin-bottom: 18px;">
+                            <label style="display: block; font-size: 0.82em; color: var(--text-muted); margin-bottom: 6px; font-weight: 600;">Domain Category Name</label>
+                            <input type="text" value="${escapeHtml(group.category || '')}" 
+                                   placeholder="e.g. Mobile Development"
+                                   style="width: 100%; max-width: 440px; padding: 10px 14px; background: rgba(18, 28, 48, 0.85); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; color: #fff; font-size: 0.9em;"
+                                   oninput="updateSkillCategoryName(${gIdx}, this.value)">
+                        </div>
 
-                    <div class="add-skill-row">
-                        <input type="text" id="input-new-skill-${gIdx}" placeholder="Add new skill to ${escapeHtml(group.category || '')} (press Enter)..." onkeydown="if(event.key==='Enter') addNewSkill(${gIdx})">
-                        <button type="button" class="btn-add-skill" onclick="addNewSkill(${gIdx})">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                            <span>Add</span>
-                        </button>
+                        <div style="margin-bottom: 14px;">
+                            <label style="display: block; font-size: 0.82em; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">Active Skills in this Domain:</label>
+                            <div class="skill-tags-wrapper" id="skill-tags-${gIdx}">
+                                ${(group.items || []).map((skill, sIdx) => `
+                                    <span class="skill-tag-pill">
+                                        <span>${escapeHtml(skill)}</span>
+                                        <span class="skill-tag-remove" onclick="removeSkill(${gIdx}, ${sIdx})" title="Remove Skill">✕</span>
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="add-skill-row">
+                            <input type="text" id="input-new-skill-${gIdx}" placeholder="Type new skill name for ${escapeHtml(group.category || '')} (press Enter to add)..." onkeydown="if(event.key==='Enter') addNewSkill(${gIdx})">
+                            <button type="button" class="btn-add-skill" onclick="addNewSkill(${gIdx})">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                <span>Add Skill</span>
+                            </button>
+                        </div>
+
+                        <div class="drawer-footer" style="margin-top: 18px;">
+                            <button type="button" class="btn-ghost" onclick="toggleSkillCategory(${gIdx})" style="gap: 6px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Done Editing (Collapse)</span>
+                            </button>
+                        </div>
                     </div>
                 `;
                 container.appendChild(box);
             });
         }
 
+        function toggleSkillCategory(gIdx) {
+            const card = document.getElementById(`skill-group-card-${gIdx}`);
+            const btnText = document.getElementById(`btn-skill-toggle-text-${gIdx}`);
+            if (!card) return;
+
+            const isExpanded = card.classList.contains('is-expanded');
+            if (isExpanded) {
+                card.classList.remove('is-expanded');
+                if (btnText) btnText.textContent = '✏️ Edit Skills ▾';
+                expandedSkillGroupsSet.delete(gIdx);
+            } else {
+                card.classList.add('is-expanded');
+                if (btnText) btnText.textContent = '✕ Close ▲';
+                expandedSkillGroupsSet.add(gIdx);
+            }
+        }
+
+        function updateSkillCategoryName(gIdx, newName) {
+            if (!db.skills || !db.skills[gIdx]) return;
+            db.skills[gIdx].category = newName;
+            const titleEl = document.getElementById(`skill-cat-title-${gIdx}`);
+            if (titleEl) titleEl.textContent = newName || 'Skill Category';
+        }
+
         function addNewSkill(gIdx) {
             const input = document.getElementById(`input-new-skill-${gIdx}`);
+            if (!input) return;
             const val = (input.value || '').trim();
-            if (!val) return;
-            if (!db.skills[gIdx].items) db.skills[gIdx].items = [];
-            if (!db.skills[gIdx].items.includes(val)) {
-                db.skills[gIdx].items.push(val);
-                renderSkillsList(db.skills);
-                notify(`Added "${val}" to ${db.skills[gIdx].category}`);
+
+            if (!val) {
+                notify('⚠️ Please enter a skill name.');
+                input.focus();
+                return;
             }
-            input.value = '';
+
+            if (val.length < 2) {
+                notify('⚠️ Skill name must be at least 2 characters.');
+                input.focus();
+                return;
+            }
+
+            if (!db.skills[gIdx].items) db.skills[gIdx].items = [];
+
+            // Duplicate check
+            const isDup = db.skills[gIdx].items.some(s => s.toLowerCase() === val.toLowerCase());
+            if (isDup) {
+                notify(`⚠️ "${val}" already exists in this category!`);
+                input.focus();
+                return;
+            }
+
+            db.skills[gIdx].items.push(val);
+            renderSkillsList(db.skills);
+            notify(`✓ Added "${val}" to ${db.skills[gIdx].category}`);
         }
 
         function removeSkill(gIdx, sIdx) {
+            if (!db.skills[gIdx] || !db.skills[gIdx].items) return;
             const removed = db.skills[gIdx].items.splice(sIdx, 1);
             renderSkillsList(db.skills);
             notify(`Removed "${removed}"`);
         }
 
-        function addNewSkillCategory() {
-            const catName = prompt('Enter New Skill Category Name (e.g. Cloud & DevOps, Database Systems):');
-            if (!catName || !catName.trim()) return;
+        function openAddSkillCategoryModal() {
+            const modal = document.getElementById('modal-add-skill-category');
+            const form = document.getElementById('form-add-skill-cat');
+            const errBox = document.getElementById('add-skill-cat-error-box');
+            if (form) form.reset();
+            if (errBox) {
+                errBox.style.display = 'none';
+                errBox.textContent = '';
+            }
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => {
+                    const input = document.getElementById('new-cat-title');
+                    if (input) input.focus();
+                }, 100);
+            }
+        }
+
+        function closeAddSkillCategoryModal(e) {
+            if (e && e.target && e.target.id !== 'modal-add-skill-category' && !e.target.classList.contains('btn-close-modal') && !e.target.classList.contains('btn-ghost')) {
+                return;
+            }
+            const modal = document.getElementById('modal-add-skill-category');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+
+        function handleCreateSkillCategorySubmit(e) {
+            e.preventDefault();
+            const titleInput = document.getElementById('new-cat-title');
+            const skillsInput = document.getElementById('new-cat-skills');
+
+            const title = (titleInput.value || '').trim();
+            const rawSkills = (skillsInput.value || '').trim();
+
+            if (!title || title.length < 3) {
+                showSkillModalError('Category Title is compulsory (minimum 3 characters).');
+                titleInput.focus();
+                return;
+            }
+
             if (!db.skills) db.skills = [];
-            db.skills.push({
-                category: catName.trim(),
-                items: []
-            });
+
+            // Duplicate Category Check
+            const exists = db.skills.some(c => (c.category || '').toLowerCase() === title.toLowerCase());
+            if (exists) {
+                showSkillModalError(`Category "${title}" already exists!`);
+                titleInput.focus();
+                return;
+            }
+
+            if (!rawSkills || rawSkills.length < 2) {
+                showSkillModalError('Please enter at least one initial skill for this category.');
+                skillsInput.focus();
+                return;
+            }
+
+            const parsedSkills = rawSkills.split(',')
+                .map(s => s.trim())
+                .filter(s => s.length > 0);
+
+            if (!parsedSkills.length) {
+                showSkillModalError('Please enter valid comma-separated skills.');
+                skillsInput.focus();
+                return;
+            }
+
+            const uniqueSkills = [...new Set(parsedSkills)];
+
+            const newCat = {
+                category: title,
+                items: uniqueSkills
+            };
+
+            db.skills.push(newCat);
+            expandedSkillGroupsSet.clear();
+            expandedSkillGroupsSet.add(db.skills.length - 1);
+
             renderSkillsList(db.skills);
-            notify(`Category "${catName.trim()}" created! Add skills into it below.`);
+            closeAddSkillCategoryModal();
+            notify(`✓ Category "${title}" created with ${uniqueSkills.length} skills! Click "Publish Worldwide" to save.`);
+        }
+
+        function showSkillModalError(msg) {
+            const errBox = document.getElementById('add-skill-cat-error-box');
+            if (errBox) {
+                errBox.textContent = '⚠️ ' + msg;
+                errBox.style.display = 'block';
+            } else {
+                alert(msg);
+            }
         }
 
         function removeSkillCategory(gIdx) {
@@ -3714,19 +3962,9 @@
             if (!cat) return;
             if (confirm(`Are you sure you want to delete the "${cat.category}" category and all its skills?`)) {
                 db.skills.splice(gIdx, 1);
+                expandedSkillGroupsSet.delete(gIdx);
                 renderSkillsList(db.skills);
                 notify(`Category "${cat.category}" deleted.`);
-            }
-        }
-
-        function renameSkillCategory(gIdx) {
-            const cat = db.skills[gIdx];
-            if (!cat) return;
-            const newName = prompt('Edit Category Name:', cat.category);
-            if (newName && newName.trim() && newName.trim() !== cat.category) {
-                cat.category = newName.trim();
-                renderSkillsList(db.skills);
-                notify(`Renamed to "${cat.category}"`);
             }
         }
 
