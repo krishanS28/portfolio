@@ -1834,6 +1834,157 @@ html[data-theme-mode="light"] .quick-connect-title {
     color: #0f172a !important;
 }
 
+/* 20+ Production Applications Catalog Section */
+html[data-theme-mode="light"] .app-catalog-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04) !important;
+}
+
+html[data-theme-mode="light"] .app-catalog-card:hover {
+    background: #ffffff !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.08) !important;
+}
+
+html[data-theme-mode="light"] .app-catalog-card h4 {
+    color: #0f172a !important;
+}
+
+html[data-theme-mode="light"] .app-catalog-card p {
+    color: #475569 !important;
+}
+
+html[data-theme-mode="light"] .app-type-badge {
+    background: rgba(2, 132, 199, 0.1) !important;
+    color: #0284c7 !important;
+    border-color: rgba(2, 132, 199, 0.28) !important;
+}
+
+html[data-theme-mode="light"] .app-catalog-footer {
+    border-top: 1px solid #f1f5f9 !important;
+    color: #64748b !important;
+}
+
+/* Buttons (Hero, Contact & Navbar) */
+html[data-theme-mode="light"] .btn-outline {
+    background: #ffffff !important;
+    border: 2px solid var(--primary) !important;
+    color: var(--primary) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
+}
+
+html[data-theme-mode="light"] .btn-outline:hover {
+    background: var(--primary) !important;
+    color: #ffffff !important;
+}
+
+html[data-theme-mode="light"] .btn-linkedin {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
+}
+
+html[data-theme-mode="light"] .btn-linkedin:hover {
+    background: #0a66c2 !important;
+    color: #ffffff !important;
+    border-color: #0a66c2 !important;
+}
+
+html[data-theme-mode="light"] .btn-github {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
+}
+
+html[data-theme-mode="light"] .btn-github:hover {
+    background: #0f172a !important;
+    color: #ffffff !important;
+}
+
+/* Architecture Section Tech Stacks & Modals */
+html[data-theme-mode="light"] .tech-stack {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+}
+
+html[data-theme-mode="light"] .arch-modal-card {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+html[data-theme-mode="light"] .modal-card {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+html[data-theme-mode="light"] .modal-close {
+    color: #0f172a !important;
+}
+
+/* Mobile Menu & Controls */
+html[data-theme-mode="light"] .mobile-toggle {
+    color: #0f172a !important;
+}
+
+html[data-theme-mode="light"] nav ul.show {
+    background: #ffffff !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+html[data-theme-mode="light"] .theme-accent-picker {
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+/* Experience & Education Section Text & Pills */
+html[data-theme-mode="light"] .exp-details .meta {
+    background: #f1f5f9 !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #475569 !important;
+}
+
+html[data-theme-mode="light"] .exp-details p {
+    color: #334155 !important;
+}
+
+html[data-theme-mode="light"] #education .timeline-container {
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+html[data-theme-mode="light"] #education h3,
+html[data-theme-mode="light"] #education h4 {
+    color: #0f172a !important;
+}
+
+html[data-theme-mode="light"] #education p {
+    color: #475569 !important;
+}
+
+/* Contact Section */
+html[data-theme-mode="light"] #contact h2,
+html[data-theme-mode="light"] #contact h3 {
+    color: #0f172a !important;
+}
+
+html[data-theme-mode="light"] #contact p,
+html[data-theme-mode="light"] #contact a,
+html[data-theme-mode="light"] #contact span {
+    color: #334155;
+}
+
+html[data-theme-mode="light"] #contact div[style*="color: #cbd5e1"] {
+    color: #334155 !important;
+}
+
 /* Theme Mode Toggle Button */
 .theme-mode-toggle {
     display: inline-flex;
