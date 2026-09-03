@@ -1753,14 +1753,21 @@
                 </div>
 
                 <!-- Live Recruiter & Traffic Analytics -->
-                <div class="kpi-grid" style="margin-top: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin: 22px 0 10px;">
+                    <span style="font-size: 0.85em; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px;">Live Recruiter & Traffic Analytics</span>
+                    <button type="button" class="btn-ghost" onclick="resetAnalytics()" style="padding: 4px 10px; font-size: 0.76em;" title="Reset all counters to zero">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+                        <span>Reset Counters</span>
+                    </button>
+                </div>
+                <div class="kpi-grid">
                     <div class="kpi-card">
                         <div class="kpi-header">
                             <span>TOTAL WEBSITE VISITS</span>
                             <div class="kpi-icon">👁️</div>
                         </div>
-                        <div class="kpi-value" id="kpi-visits-count">148</div>
-                        <div class="kpi-subtext">Live Recruiter Impressions</div>
+                        <div class="kpi-value" id="kpi-visits-count">0</div>
+                        <div class="kpi-subtext">Real Recruiter Impressions</div>
                     </div>
 
                     <div class="kpi-card">
@@ -1768,8 +1775,8 @@
                             <span>RESUME DOWNLOADS</span>
                             <div class="kpi-icon">📥</div>
                         </div>
-                        <div class="kpi-value" id="kpi-downloads-count" style="color: var(--primary);">24</div>
-                        <div class="kpi-subtext">PDF Downloads Tracked</div>
+                        <div class="kpi-value" id="kpi-downloads-count" style="color: var(--primary);">0</div>
+                        <div class="kpi-subtext">Real PDF Downloads Tracked</div>
                     </div>
 
                     <div class="kpi-card">
@@ -1777,7 +1784,7 @@
                             <span>WHATSAPP CHAT CLICKS</span>
                             <div class="kpi-icon">💬</div>
                         </div>
-                        <div class="kpi-value" id="kpi-whatsapp-count" style="color: #4ade80;">16</div>
+                        <div class="kpi-value" id="kpi-whatsapp-count" style="color: #4ade80;">0</div>
                         <div class="kpi-subtext">Direct Recruiter Outreach</div>
                     </div>
 
@@ -1786,7 +1793,7 @@
                             <span>STORE APPS CLICKS</span>
                             <div class="kpi-icon">🚀</div>
                         </div>
-                        <div class="kpi-value" id="kpi-store-clicks-count" style="color: #c084fc;">42</div>
+                        <div class="kpi-value" id="kpi-store-clicks-count" style="color: #c084fc;">0</div>
                         <div class="kpi-subtext">App Store & Play Store</div>
                     </div>
                 </div>
@@ -2582,16 +2589,36 @@
             }
 
             renderInquiriesList();
-            // Populate Analytics KPIs
+            // Populate Real-Time Analytics KPIs
             try {
-                const analytics = JSON.parse(localStorage.getItem('cms_analytics') || '{}');
+                const a = db.analytics || JSON.parse(localStorage.getItem('cms_analytics') || '{}');
                 if (document.getElementById('kpi-visits-count')) {
-                    document.getElementById('kpi-visits-count').textContent = (analytics.visits || 0) + 148;
-                    document.getElementById('kpi-downloads-count').textContent = (analytics.resumeDownloads || 0) + 24;
-                    document.getElementById('kpi-whatsapp-count').textContent = (analytics.whatsappClicks || 0) + 16;
-                    document.getElementById('kpi-store-clicks-count').textContent = (analytics.storeClicks || 0) + 42;
+                    document.getElementById('kpi-visits-count').textContent = a.visits || 0;
+                    document.getElementById('kpi-downloads-count').textContent = a.resumeDownloads || 0;
+                    document.getElementById('kpi-whatsapp-count').textContent = a.whatsappClicks || 0;
+                    document.getElementById('kpi-store-clicks-count').textContent = a.storeClicks || 0;
                 }
             } catch (e) {}
+        }
+
+        async function resetAnalytics() {
+            if (!confirm('Are you sure you want to reset all traffic & click analytics to 0?')) return;
+            try {
+                const res = await fetch('/api/reset-analytics', { method: 'POST' });
+                const data = await res.json();
+                if (data.analytics) db.analytics = data.analytics;
+            } catch (e) {
+                db.analytics = { visits: 0, resumeDownloads: 0, whatsappClicks: 0, storeClicks: 0 };
+            }
+            try {
+                localStorage.setItem('cms_analytics', JSON.stringify({ visits: 0, resumeDownloads: 0, whatsappClicks: 0, storeClicks: 0 }));
+            } catch (e) {}
+
+            document.getElementById('kpi-visits-count').textContent = '0';
+            document.getElementById('kpi-downloads-count').textContent = '0';
+            document.getElementById('kpi-whatsapp-count').textContent = '0';
+            document.getElementById('kpi-store-clicks-count').textContent = '0';
+            notify('All analytics counters reset to 0.');
         }
 
         function renderAppsList(apps) {

@@ -31,6 +31,51 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    // API: Real-time Event Tracking
+    if (req.method === 'POST' && req.url === '/api/track') {
+        let body = '';
+        req.on('data', chunk => { body += chunk; });
+        req.on('end', () => {
+            try {
+                const { event } = JSON.parse(body);
+                const dataPath = path.join(__dirname, 'portfolio-data.json');
+                let db = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+                if (!db.analytics) {
+                    db.analytics = { visits: 0, resumeDownloads: 0, whatsappClicks: 0, storeClicks: 0 };
+                }
+
+                if (event === 'visit') db.analytics.visits = (db.analytics.visits || 0) + 1;
+                else if (event === 'resume') db.analytics.resumeDownloads = (db.analytics.resumeDownloads || 0) + 1;
+                else if (event === 'whatsapp') db.analytics.whatsappClicks = (db.analytics.whatsappClicks || 0) + 1;
+                else if (event === 'store') db.analytics.storeClicks = (db.analytics.storeClicks || 0) + 1;
+
+                fs.writeFileSync(dataPath, JSON.stringify(db, null, 2), 'utf8');
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, analytics: db.analytics }));
+            } catch (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: err.message }));
+            }
+        });
+        return;
+    }
+
+    // API: Reset Analytics Counters
+    if (req.method === 'POST' && req.url === '/api/reset-analytics') {
+        try {
+            const dataPath = path.join(__dirname, 'portfolio-data.json');
+            let db = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+            db.analytics = { visits: 0, resumeDownloads: 0, whatsappClicks: 0, storeClicks: 0 };
+            fs.writeFileSync(dataPath, JSON.stringify(db, null, 2), 'utf8');
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: true, analytics: db.analytics }));
+        } catch (err) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: err.message }));
+        }
+        return;
+    }
+
     // API: Save Portfolio CMS Data
     if (req.method === 'POST' && req.url === '/api/save-portfolio') {
         let body = '';

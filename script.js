@@ -418,6 +418,16 @@ document.addEventListener('keydown', (e) => {
 // VISITOR & INTERACTION ANALYTICS TRACKER
 // ==========================================
 (function trackPortfolioInteractions() {
+    function sendRealEvent(eventName) {
+        try {
+            fetch('/api/track', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ event: eventName })
+            }).catch(() => {});
+        } catch (e) {}
+    }
+
     try {
         const stats = JSON.parse(localStorage.getItem('cms_analytics') || JSON.stringify({
             visits: 0,
@@ -433,6 +443,7 @@ document.addEventListener('keydown', (e) => {
             stats.visits = (stats.visits || 0) + 1;
             stats.lastVisit = new Date().toISOString();
             localStorage.setItem('cms_analytics', JSON.stringify(stats));
+            sendRealEvent('visit');
         }
 
         // Track resume downloads
@@ -441,6 +452,7 @@ document.addEventListener('keydown', (e) => {
                 const s = JSON.parse(localStorage.getItem('cms_analytics') || '{}');
                 s.resumeDownloads = (s.resumeDownloads || 0) + 1;
                 localStorage.setItem('cms_analytics', JSON.stringify(s));
+                sendRealEvent('resume');
             });
         });
 
@@ -450,6 +462,7 @@ document.addEventListener('keydown', (e) => {
                 const s = JSON.parse(localStorage.getItem('cms_analytics') || '{}');
                 s.whatsappClicks = (s.whatsappClicks || 0) + 1;
                 localStorage.setItem('cms_analytics', JSON.stringify(s));
+                sendRealEvent('whatsapp');
             });
         });
 
@@ -459,6 +472,7 @@ document.addEventListener('keydown', (e) => {
                 const s = JSON.parse(localStorage.getItem('cms_analytics') || '{}');
                 s.storeClicks = (s.storeClicks || 0) + 1;
                 localStorage.setItem('cms_analytics', JSON.stringify(s));
+                sendRealEvent('store');
             });
         });
     } catch (e) {}
