@@ -14,7 +14,7 @@ const MIME_TYPES = {
     '.svg': 'image/svg+xml'
 };
 
-const { exec } = require('child_process');
+const { exec, execSync } = require('child_process');
 
 const server = http.createServer((req, res) => {
     // API: Get Full Portfolio Data
@@ -108,8 +108,11 @@ const server = http.createServer((req, res) => {
                         const edgePath = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
                         const bin = fs.existsSync(chromePath) ? chromePath : (fs.existsSync(edgePath) ? edgePath : null);
                         if (bin) {
-                            execSync(`"${bin}" --headless --disable-gpu --print-to-pdf="${path.join(__dirname, 'resume.pdf')}" http://localhost:5050/resume.html`, { timeout: 15000 });
-                            console.log('✓ Auto-compiled dynamic 2-page resume.pdf');
+                            const targetUrl = 'file:///' + path.join(__dirname, 'resume.html').replace(/\\/g, '/');
+                            exec(`"${bin}" --headless --disable-gpu --print-to-pdf="${path.join(__dirname, 'resume.pdf')}" --no-pdf-header-footer "${targetUrl}"`, (pdfErr) => {
+                                if (pdfErr) console.warn('PDF auto-compile notice:', pdfErr.message);
+                                else console.log('✓ Auto-compiled dynamic 2-page resume.pdf via Chrome');
+                            });
                         }
                     } catch (pdfErr) {
                         console.warn('PDF auto-compile notice:', pdfErr.message);
