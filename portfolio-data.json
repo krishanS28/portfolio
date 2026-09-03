@@ -121,8 +121,7 @@
         "Redux Toolkit",
         "Context API",
         "Native Bridges (Swift/Kotlin)",
-        "Jest",
-        "Detox"
+        "Jest"
       ]
     },
     {
@@ -130,7 +129,6 @@
       "items": [
         "WebRTC",
         "LiveKit",
-        "Telnyx",
         "Socket.IO",
         "WebSocket",
         "Push Notifications (FCM/APNs)",
@@ -155,10 +153,8 @@
         "Clean Architecture",
         "Offline-First",
         "REST APIs",
-        "GraphQL",
         "SQLite / MMKV",
         "Stripe / Apple Pay",
-        "Fastlane",
         "CI/CD"
       ]
     }
