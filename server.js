@@ -31,6 +31,69 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    // API: Submit Client Review from Website
+    if (req.method === 'POST' && req.url === '/api/submit-review') {
+        let body = '';
+        req.on('data', chunk => { body += chunk; });
+        req.on('end', () => {
+            try {
+                const review = JSON.parse(body);
+                if (!review.clientName || !review.text) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    return res.end(JSON.stringify({ error: 'Client name and review message are required.' }));
+                }
+
+                const dataPath = path.join(__dirname, 'portfolio-data.json');
+                let db = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+                if (!db.testimonials) db.testimonials = [];
+
+                const newReview = {
+                    id: 'rev_' + Date.now(),
+                    clientName: String(review.clientName).trim(),
+                    clientRole: String(review.clientRole || 'Client / Collaborator').trim(),
+                    project: String(review.project || 'Mobile Engineering').trim(),
+                    rating: Number(review.rating) || 5,
+                    text: String(review.text).trim(),
+                    email: String(review.email || '').trim(),
+                    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                };
+
+                db.testimonials.unshift(newReview);
+                fs.writeFileSync(dataPath, JSON.stringify(db, null, 2), 'utf8');
+
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, review: newReview, testimonials: db.testimonials }));
+            } catch (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: err.message }));
+            }
+        });
+        return;
+    }
+
+    // API: Delete Review (from Admin Panel)
+    if (req.method === 'POST' && req.url === '/api/delete-review') {
+        let body = '';
+        req.on('data', chunk => { body += chunk; });
+        req.on('end', () => {
+            try {
+                const { id } = JSON.parse(body);
+                const dataPath = path.join(__dirname, 'portfolio-data.json');
+                let db = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+                if (db.testimonials) {
+                    db.testimonials = db.testimonials.filter(t => t.id !== id);
+                    fs.writeFileSync(dataPath, JSON.stringify(db, null, 2), 'utf8');
+                }
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, testimonials: db.testimonials }));
+            } catch (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: err.message }));
+            }
+        });
+        return;
+    }
+
     // API: Save Portfolio CMS Data
     if (req.method === 'POST' && req.url === '/api/save-portfolio') {
         let body = '';

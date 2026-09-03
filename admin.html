@@ -912,28 +912,128 @@
         }
 
         /* Upload Area */
-        .upload-card-box {
-            border: 2px dashed rgba(0, 240, 255, 0.3);
-            border-radius: 18px;
-            padding: 35px 25px;
-            text-align: center;
+        .resume-upload-zone {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            background: rgba(13, 20, 36, 0.75);
+            border: 1px dashed rgba(0, 240, 255, 0.35);
+            border-radius: 16px;
+            padding: 20px 24px;
             cursor: pointer;
-            background: rgba(0, 240, 255, 0.02);
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
+            transition: all 0.25s ease;
+            margin-bottom: 24px;
         }
 
-        .upload-card-box:hover {
+        .resume-upload-zone:hover {
+            background: rgba(18, 28, 52, 0.9);
             border-color: var(--primary);
-            background: rgba(0, 240, 255, 0.08);
+            box-shadow: 0 8px 25px rgba(0, 240, 255, 0.12);
             transform: translateY(-2px);
         }
 
-        .upload-card-box svg {
+        .upload-icon-circle {
             width: 44px;
             height: 44px;
+            border-radius: 12px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: var(--primary);
-            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .upload-icon-circle svg {
+            width: 20px !important;
+            height: 20px !important;
+            color: var(--primary);
+        }
+
+        .upload-text-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .upload-text-content h4 {
+            font-size: 1.02em;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 3px;
+        }
+
+        .upload-text-content p {
+            font-size: 0.84em;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .active-file-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            color: #34d399;
+            padding: 3px 9px;
+            border-radius: 6px;
+            font-size: 0.78em;
+            font-weight: 600;
+        }
+
+        .active-file-chip .chip-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+
+        .btn-browse-pdf {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            color: var(--primary);
+            padding: 9px 16px;
+            border-radius: 9px;
+            font-size: 0.85em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .btn-browse-pdf:hover {
+            background: var(--primary);
+            color: #06090f;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        /* Review link sharing box */
+        .review-link-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+        }
+
+        .review-link-box p {
+            font-size: 0.88em;
+            color: #cbd5e1;
+            margin: 0;
+        }
+
+        .review-link-box strong {
+            color: var(--primary);
         }
 
         
@@ -1875,17 +1975,23 @@
                 <div class="glass-panel">
                     <div class="panel-heading">
                         <div>
-                            <h2>🌟 Client Reviews & Recommendations</h2>
-                            <p>Manage recommendations and testimonials from founders, CTOs, and clients.</p>
+                            <h2>🌟 Client Recommendations Hub</h2>
+                            <p>All genuine reviews and endorsements submitted by clients directly through your website.</p>
                         </div>
                     </div>
 
-                    <div id="testimonials-admin-container"></div>
+                    <div class="review-link-box">
+                        <div>
+                            <p><strong>Direct Client Recommendation Link:</strong></p>
+                            <p style="font-size: 0.82em; color: var(--text-muted); margin-top: 2px;">Send this link to clients or colleagues on WhatsApp / LinkedIn to collect real recommendations.</p>
+                        </div>
+                        <button type="button" class="btn-ghost" onclick="copyReviewLink()" style="gap: 6px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            <span>Copy Review Link</span>
+                        </button>
+                    </div>
 
-                    <button type="button" class="btn-add-item" onclick="addNewTestimonial()" style="margin-top: 20px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                        <span>+ Add New Client Recommendation</span>
-                    </button>
+                    <div id="testimonials-admin-container"></div>
                 </div>
             </div>
 
@@ -1895,14 +2001,31 @@
                     <div class="panel-heading">
                         <div>
                             <h2>📄 Resume PDF Manager & Live Preview</h2>
-                            <p>Drag-and-drop your latest PDF to replace your download resume file immediately.</p>
+                            <p>Upload your latest resume PDF to instantly update the download link on your live portfolio.</p>
                         </div>
                     </div>
 
-                    <div class="upload-card-box" onclick="document.getElementById('input-resume').click()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="12" y2="12"></line><line x1="15" y1="15" x2="12" y2="12"></line></svg>
-                        <h3 style="font-size: 1.15em; margin-bottom: 6px;">Click or Drag & Drop New Resume PDF</h3>
-                        <p style="color: var(--text-muted); font-size: 0.88em;" id="resume-status-text">Active: resume.pdf (54 KB)</p>
+                    <div class="resume-upload-zone" onclick="document.getElementById('input-resume').click()">
+                        <div class="upload-icon-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="12" y1="18" x2="12" y2="12"></line>
+                                <line x1="9" y1="15" x2="12" y2="12"></line>
+                                <line x1="15" y1="15" x2="12" y2="12"></line>
+                            </svg>
+                        </div>
+                        <div class="upload-text-content">
+                            <h4>Upload Updated Resume (PDF)</h4>
+                            <p>Click to browse from your computer or drag-and-drop the updated file here.</p>
+                            <span class="active-file-chip" id="resume-status-text">
+                                <span class="chip-dot"></span> Active File: <strong>resume.pdf</strong> (54 KB)
+                            </span>
+                        </div>
+                        <button type="button" class="btn-browse-pdf" onclick="event.stopPropagation(); document.getElementById('input-resume').click()">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="12 15 17 10 12 5"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            <span>Choose PDF File</span>
+                        </button>
                         <input type="file" id="input-resume" accept=".pdf" style="display: none;" onchange="handleResumeFile(this)">
                     </div>
 
@@ -2774,46 +2897,55 @@
             notify(`Removed "${removed}"`);
         }
 
-        // Testimonials Manager Logic
+        // Testimonials / Client Recommendations Hub Logic
         function renderTestimonialsList(testimonials) {
             const container = document.getElementById('testimonials-admin-container');
             if (!container) return;
             container.innerHTML = '';
 
-            testimonials.forEach((item, idx) => {
+            const list = testimonials || [];
+            if (!list.length) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 45px 20px; background: rgba(13, 20, 36, 0.5); border: 1px dashed rgba(255, 255, 255, 0.12); border-radius: 16px;">
+                        <div style="font-size: 2.4em; margin-bottom: 12px;">🌟</div>
+                        <h3 style="color: #ffffff; font-size: 1.15em; font-weight: 700; margin-bottom: 6px;">No Client Recommendations Yet</h3>
+                        <p style="color: var(--text-muted); font-size: 0.88em; max-width: 480px; margin: 0 auto 18px; line-height: 1.6;">
+                            Client recommendations are now collected directly from the website. When founders, managers, or clients submit a recommendation form on your portfolio, they will appear here automatically.
+                        </p>
+                        <button type="button" class="btn-ghost" onclick="copyReviewLink()" style="margin: 0 auto;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            <span>Copy Recommendation Link for Clients</span>
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            list.forEach((item, idx) => {
                 const card = document.createElement('div');
                 card.className = 'testimonial-editor-card';
+                const starsCount = Math.min(Math.max(Number(item.rating) || 5, 1), 5);
+                const starsStr = '★'.repeat(starsCount);
+
                 card.innerHTML = `
                     <div class="testimonial-editor-header">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span class="project-tag-id">⭐ REVIEW #${idx + 1}</span>
-                            <strong style="color: #ffffff; font-size: 1.02em;">${escapeHtml(item.clientName || 'Client')}</strong>
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <span class="project-tag-id">⭐ ${starsStr}</span>
+                            <strong style="color: #ffffff; font-size: 1.05em;">${escapeHtml(item.clientName || 'Client')}</strong>
+                            <span style="font-size: 0.82em; color: var(--text-muted);">${escapeHtml(item.clientRole || '')}</span>
+                            ${item.date ? `<span style="font-size: 0.78em; color: #64748b;">• ${escapeHtml(item.date)}</span>` : ''}
                         </div>
-                        <button type="button" class="btn-delete" onclick="removeTestimonial(${idx})" title="Delete testimonial review">
+                        <button type="button" class="btn-delete" onclick="removeTestimonial('${item.id || idx}', ${idx})" title="Delete this recommendation">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                             <span>Delete Review</span>
                         </button>
                     </div>
 
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Client / Executive Name</label>
-                            <input type="text" value="${escapeHtml(item.clientName || '')}" oninput="db.testimonials[${idx}].clientName = this.value">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Client Role & Company</label>
-                            <input type="text" value="${escapeHtml(item.clientRole || '')}" oninput="db.testimonials[${idx}].clientRole = this.value">
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label>Associated Project</label>
-                            <input type="text" value="${escapeHtml(item.project || '')}" oninput="db.testimonials[${idx}].project = this.value">
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label>Testimonial Review Quote</label>
-                            <textarea rows="3" oninput="db.testimonials[${idx}].text = this.value">${escapeHtml(item.text || '')}</textarea>
+                    <div style="background: rgba(5, 8, 16, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 16px; margin-top: 12px;">
+                        <p style="color: #e2e8f0; font-size: 0.95em; line-height: 1.6; font-style: italic; margin-bottom: 10px;">"${escapeHtml(item.text || '')}"</p>
+                        <div style="display: flex; gap: 15px; font-size: 0.82em; color: var(--text-muted); flex-wrap: wrap;">
+                            ${item.project ? `<span>📱 <strong>Project:</strong> ${escapeHtml(item.project)}</span>` : ''}
+                            ${item.email ? `<span>✉️ <strong>Contact:</strong> ${escapeHtml(item.email)}</span>` : ''}
                         </div>
                     </div>
                 `;
@@ -2821,25 +2953,30 @@
             });
         }
 
-        function addNewTestimonial() {
-            if (!db.testimonials) db.testimonials = [];
-            db.testimonials.push({
-                id: 'test_' + Date.now(),
-                clientName: 'New Client / Founder',
-                clientRole: 'CEO / CTO, Company',
-                project: 'Mobile Application',
-                text: 'Krishan demonstrated exceptional mobile engineering expertise and delivered outstanding production results.',
-                rating: 5
+        function copyReviewLink() {
+            const url = (window.location.origin.includes('localhost') ? window.location.origin : 'https://krishanlal.is-a.dev') + '/index.html#testimonials';
+            navigator.clipboard.writeText(url).then(() => {
+                notify('Recommendation form link copied to clipboard!');
+            }).catch(() => {
+                prompt('Copy recommendation link to share with clients:', url);
             });
-            renderTestimonialsList(db.testimonials);
-            notify('Added new client recommendation slot');
         }
 
-        function removeTestimonial(idx) {
-            if (confirm('Delete this recommendation?')) {
-                db.testimonials.splice(idx, 1);
-                renderTestimonialsList(db.testimonials);
-            }
+        async function removeTestimonial(id, idx) {
+            if (!confirm('Are you sure you want to permanently delete this client recommendation?')) return;
+
+            db.testimonials.splice(idx, 1);
+            renderTestimonialsList(db.testimonials);
+
+            try {
+                await fetch('/api/delete-review', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: id })
+                });
+            } catch (e) {}
+
+            notify('Recommendation removed.');
         }
 
         // Inquiries Inbox Logic

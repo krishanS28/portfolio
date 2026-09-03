@@ -463,3 +463,221 @@ document.addEventListener('keydown', (e) => {
         });
     } catch (e) {}
 })();
+
+// ==========================================
+// DYNAMIC CLIENT RECOMMENDATIONS LOGIC
+// ==========================================
+let clientReviewsData = [];
+
+async function loadClientRecommendations() {
+    const container = document.getElementById('testimonials-grid-container');
+    if (!container) return;
+
+    try {
+        const res = await fetch('portfolio-data.json?v=' + Date.now());
+        if (res.ok) {
+            const data = await res.json();
+            clientReviewsData = data.testimonials || [];
+        }
+    } catch (e) {
+        try {
+            const cached = localStorage.getItem('local_testimonials');
+            if (cached) clientReviewsData = JSON.parse(cached);
+        } catch (err) {}
+    }
+
+    renderClientRecommendations();
+}
+
+function renderClientRecommendations() {
+    const container = document.getElementById('testimonials-grid-container');
+    if (!container) return;
+
+    if (!clientReviewsData || clientReviewsData.length === 0) {
+        container.innerHTML = `
+            <div class="no-reviews-card">
+                <div class="empty-icon">🤝</div>
+                <h3>No Client Recommendations Yet</h3>
+                <p>Have you worked with Krishan on an iOS, Android, or mobile architecture project? Share your genuine experience and endorsement with potential clients and recruiters.</p>
+                <button type="button" class="btn btn-primary" onclick="openReviewModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    <span>Write the First Recommendation</span>
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = '';
+    clientReviewsData.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'testimonial-card';
+
+        const starsCount = Math.min(Math.max(Number(item.rating) || 5, 1), 5);
+        const starsStr = '★'.repeat(starsCount) + '☆'.repeat(5 - starsCount);
+
+        const nameParts = (item.clientName || 'Client').trim().split(' ');
+        const initials = nameParts.length > 1
+            ? (nameParts[0][0] + nameParts[1][0]).toUpperCase()
+            : (nameParts[0].substring(0, 2)).toUpperCase();
+
+        card.innerHTML = `
+            <div class="stars">${starsStr}</div>
+            <p class="testimonial-quote">"${escapeHtml(item.text || '')}"</p>
+            <div class="client-info-wrapper">
+                <div class="client-avatar-initials">${initials}</div>
+                <div class="client-meta">
+                    <strong>${escapeHtml(item.clientName || 'Client')}</strong>
+                    <span>${escapeHtml(item.clientRole || 'Collaborator')}</span>
+                    ${item.project ? `<span class="project-tag-pill">📱 ${escapeHtml(item.project)}</span>` : ''}
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function openReviewModal() {
+    const modal = document.getElementById('review-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeReviewModal(e) {
+    if (e && e.target && e.target.id !== 'review-modal' && !e.target.classList.contains('btn-close-modal') && !e.target.classList.contains('btn-outline')) {
+        return;
+    }
+    const modal = document.getElementById('review-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
+function setReviewRating(rating) {
+    const selector = document.getElementById('star-selector');
+    const label = document.getElementById('star-rating-label');
+    const input = document.getElementById('rev-rating');
+    if (!selector || !input) return;
+
+    input.value = rating;
+    const stars = selector.querySelectorAll('.star');
+    stars.forEach(s => {
+        const r = Number(s.getAttribute('data-rating'));
+        if (r <= rating) {
+            s.classList.add('active');
+        } else {
+            s.classList.remove('active');
+        }
+    });
+
+    const labels = {
+        1: '1.0 / 5.0 (Poor)',
+        2: '2.0 / 5.0 (Fair)',
+        3: '3.0 / 5.0 (Good)',
+        4: '4.0 / 5.0 (Very Good)',
+        5: '5.0 / 5.0 (Exceptional)'
+    };
+    if (label) label.textContent = labels[rating] || (rating + '.0 / 5.0');
+}
+
+async function submitClientReview(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-submit-review');
+    const name = document.getElementById('rev-name').value.trim();
+    const role = document.getElementById('rev-role').value.trim();
+    const project = document.getElementById('rev-project').value.trim();
+    const rating = Number(document.getElementById('rev-rating').value) || 5;
+    const text = document.getElementById('rev-text').value.trim();
+    const email = document.getElementById('rev-email').value.trim();
+
+    if (!name || !text) {
+        alert('Please provide your name and recommendation text.');
+        return;
+    }
+
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span>Submitting...</span>';
+    }
+
+    const payload = {
+        clientName: name,
+        clientRole: role,
+        project: project,
+        rating: rating,
+        text: text,
+        email: email
+    };
+
+    try {
+        const res = await fetch('/api/submit-review', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            if (data.testimonials) {
+                clientReviewsData = data.testimonials;
+            } else if (data.review) {
+                clientReviewsData.unshift(data.review);
+            }
+        } else {
+            const localReview = {
+                id: 'rev_' + Date.now(),
+                ...payload,
+                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+            };
+            clientReviewsData.unshift(localReview);
+            try {
+                localStorage.setItem('local_testimonials', JSON.stringify(clientReviewsData));
+            } catch (err) {}
+        }
+
+        renderClientRecommendations();
+        closeReviewModal();
+        document.getElementById('public-review-form').reset();
+        setReviewRating(5);
+        alert('🎉 Thank you! Your recommendation has been submitted and published!');
+    } catch (err) {
+        const localReview = {
+            id: 'rev_' + Date.now(),
+            ...payload,
+            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        };
+        clientReviewsData.unshift(localReview);
+        try {
+            localStorage.setItem('local_testimonials', JSON.stringify(clientReviewsData));
+        } catch (e) {}
+
+        renderClientRecommendations();
+        closeReviewModal();
+        document.getElementById('public-review-form').reset();
+        setReviewRating(5);
+        alert('🎉 Thank you! Your recommendation has been submitted and published!');
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<span>Submit Recommendation</span>';
+        }
+    }
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadClientRecommendations();
+});
+
