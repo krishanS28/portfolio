@@ -14,6 +14,14 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <script>
+        (function() {
+            const savedMode = localStorage.getItem('krishan_theme_mode') || 'dark';
+            document.documentElement.setAttribute('data-theme-mode', savedMode);
+            const savedAccent = localStorage.getItem('portfolio_theme_accent') || 'cyan';
+            if (savedAccent !== 'cyan') document.documentElement.setAttribute('data-theme', savedAccent);
+        })();
+    </script>
 
     <!-- Open Graph Tags (WhatsApp / LinkedIn / Social Preview) -->
     <meta property="og:type" content="website">
@@ -72,6 +80,11 @@
             <button type="button" class="theme-dot violet" onclick="switchTheme('violet')" title="Royal Violet"></button>
             <button type="button" class="theme-dot amber" onclick="switchTheme('amber')" title="Sunset Amber"></button>
         </div>
+
+        <button type="button" class="theme-mode-toggle" id="website-theme-toggle" onclick="toggleColorMode()" aria-label="Toggle Dark / White Theme" title="Switch to White (Light) Mode">
+            <span class="theme-mode-icon">🌙</span>
+            <span class="theme-mode-text">Dark</span>
+        </button>
 
         <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
