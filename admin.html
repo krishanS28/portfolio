@@ -1541,25 +1541,73 @@
 
         /* Responsive Layout */
         @media (max-width: 900px) {
-            aside.sidebar { width: 80px; }
+            aside.sidebar { width: 72px; }
             aside.sidebar .brand-text, 
             aside.sidebar .nav-section-title, 
             aside.sidebar .nav-item span,
             aside.sidebar .sidebar-footer { display: none; }
-            aside.sidebar .nav-item { justify-content: center; padding: 14px; }
-            main.workspace { margin-left: 80px; }
+            aside.sidebar .nav-item { justify-content: center; padding: 12px; }
+            main.workspace { margin-left: 72px; }
             .kpi-grid { grid-template-columns: 1fr 1fr; }
             .form-grid { grid-template-columns: 1fr; }
             .form-group.full-width { grid-column: span 1; }
+            header.topbar { padding: 0 20px; }
+            .quick-action-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 640px) {
+            aside.sidebar { width: 56px; }
+            main.workspace { margin-left: 56px; }
+            aside.sidebar .nav-item { padding: 10px 4px; }
+            header.topbar {
+                height: auto;
+                padding: 12px 14px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .topbar-right {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .topbar-right .btn-gradient,
+            .topbar-right .btn-ghost {
+                padding: 8px 12px;
+                font-size: 0.82em;
+            }
+            .content-area {
+                padding: 14px 10px;
+            }
+            .glass-panel {
+                padding: 16px 12px;
+                border-radius: 14px;
+            }
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            .project-editor-header,
+            .skill-group-header {
+                padding: 12px 10px;
+            }
+            .app-item-info {
+                min-width: 100%;
+            }
+            .modal-card {
+                width: 95vw !important;
+                max-width: 95vw !important;
+                padding: 20px 14px !important;
+                border-radius: 18px !important;
+            }
         }
 
         @media (max-width: 480px) {
             .auth-card {
-                padding: 28px 20px;
+                padding: 28px 18px;
                 border-radius: 20px;
+                width: 92vw;
             }
             .auth-card h2 {
-                font-size: 1.4em;
+                font-size: 1.35em;
             }
             .auth-card p.auth-sub {
                 font-size: 0.82em;
