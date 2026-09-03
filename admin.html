@@ -2849,6 +2849,22 @@
     </div>
 
     <script>
+        // STRICT SECURITY BARRIER: Restrict Admin Panel to Local Workstation Only
+        const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        if (!isLocalHost) {
+            window.stop();
+            document.addEventListener('DOMContentLoaded', () => {
+                document.body.innerHTML = `
+                    <div style="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#06090f;color:#fff;font-family:sans-serif;text-align:center;padding:24px;">
+                        <div style="font-size:52px;margin-bottom:16px;">🛡️</div>
+                        <h1 style="font-size:24px;color:#00f0ff;margin-bottom:10px;font-weight:700;">Restricted Admin Access</h1>
+                        <p style="color:#94a3b8;max-width:480px;line-height:1.6;font-size:14px;margin-bottom:24px;">This CMS administration console is secured and restricted to authorized local workstation environments. Direct public access is disabled.</p>
+                        <a href="index.html" style="color:#00f0ff;text-decoration:none;border:1px solid #00f0ff;padding:10px 22px;border-radius:10px;font-weight:600;font-size:14px;">← Return to Portfolio</a>
+                    </div>
+                `;
+            });
+        }
+
         const REPO_OWNER = 'krishanS28';
         const REPO_NAME = 'portfolio';
         const OWNER_EMAIL = 'kl268369@gmail.com';
@@ -3079,18 +3095,6 @@
                     localStorage.removeItem('cms_failed_attempts');
                     localStorage.removeItem('cms_lockout_until');
 
-                    // Unlock Cloud Publishing Key from Encrypted Vault
-                    if (db.auth && db.auth.vault) {
-                        try {
-                            const token = await decryptVault(db.auth.vault, 'Krishan@2026');
-                            if (token) {
-                                sessionStorage.setItem('cms_cloud_token', token);
-                                localStorage.setItem('gh_portfolio_token', token);
-                            }
-                        } catch (vErr) {
-                            console.warn('Vault unlock notice:', vErr);
-                        }
-                    }
                     sessionStorage.setItem('cms_session_pwd', password);
                     sessionStorage.setItem('cms_authenticated', 'true');
                     isAuthenticated = true;
@@ -4262,22 +4266,68 @@
 
         // Save & Publish Changes Worldwide
         async function savePortfolioChanges() {
-            let token = sessionStorage.getItem('cms_cloud_token') || localStorage.getItem('gh_portfolio_token');
-            if (!token && db.auth && db.auth.vault) {
-                const pwd = sessionStorage.getItem('cms_session_pwd');
-                if (pwd) {
-                    try {
-                        token = await decryptVault(db.auth.vault, pwd);
-                        sessionStorage.setItem('cms_cloud_token', token);
-                        localStorage.setItem('gh_portfolio_token', token);
-                    } catch (e) {}
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+            const btnTop = document.getElementById('btn-top-save');
+            const btnBottom = document.getElementById('btn-save-bottom');
+            btnTop.disabled = true;
+            btnBottom.disabled = true;
+            btnTop.textContent = 'Publishing...';
+            btnBottom.textContent = 'Saving & Deploying to GitHub... Please wait...';
+
+            db.personal = {
+                name: document.getElementById('p-name').value,
+                role: document.getElementById('p-role').value,
+                experienceYears: document.getElementById('p-exp').value,
+                location: document.getElementById('p-location').value,
+                email: document.getElementById('p-email').value,
+                phone: document.getElementById('p-phone').value,
+                whatsapp: document.getElementById('p-whatsapp').value,
+                linkedin: document.getElementById('p-linkedin').value,
+                github: document.getElementById('p-github').value,
+                bio: document.getElementById('p-bio').value
+            };
+
+            // Local Node Server (Most Secure: Uses Local Git Credentials, Zero Public Token Exposure)
+            if (isLocal) {
+                try {
+                    notify('Saving data and triggering Git commit & push...');
+                    const res = await fetch('/api/save-portfolio', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            data: db,
+                            resumeBase64: newResumeBase64,
+                            photoBase64: newPhotoBase64,
+                            pushToGit: true
+                        })
+                    });
+                    const result = await res.json();
+                    if (result.success) {
+                        notify('✓ Saved and pushed to GitHub! GitHub Actions will deploy worldwide in ~30s.');
+                        setTimeout(() => { location.reload(); }, 1800);
+                        return;
+                    } else {
+                        throw new Error(result.error || result.message);
+                    }
+                } catch (err) {
+                    notify('Save notice: ' + err.message, true);
+                } finally {
+                    btnTop.disabled = false;
+                    btnBottom.disabled = false;
+                    btnTop.textContent = '⚡ Publish Worldwide';
+                    btnBottom.textContent = '⚡ Save & Publish Live Changes Worldwide';
                 }
+                return;
             }
 
+            let token = sessionStorage.getItem('cms_cloud_token') || localStorage.getItem('gh_portfolio_token');
             if (!token) {
-                notify('Please sign in with your master password to publish updates.', true);
-                switchAuthView('login');
-                document.getElementById('auth-overlay').style.display = 'flex';
+                notify('Please enter a GitHub Personal Access Token to publish updates.', true);
+                btnTop.disabled = false;
+                btnBottom.disabled = false;
+                btnTop.textContent = '⚡ Publish Worldwide';
+                btnBottom.textContent = '⚡ Save & Publish Live Changes Worldwide';
                 return;
             }
 

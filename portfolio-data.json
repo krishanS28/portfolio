@@ -2,13 +2,7 @@
   "auth": {
     "ownerEmail": "kl268369@gmail.com",
     "isSetup": true,
-    "passwordHash": "275ec9978a7761d43f245245b17a48f6c767925ae809fec1345e43d1131e34f9",
-    "vault": {
-      "salt": "2f2f737f8534ebeb9555f17961cbcc64",
-      "iv": "aa8a1eea4ccf14ee4f460fb9",
-      "tag": "e99875655108db0e5be194eff58888f0",
-      "cipher": "7641413d3fb8c4334add26f1c454cfc5d14f0d7a0e1cdfb62c152e35939968782a92025a340ac777"
-    }
+    "passwordHash": "275ec9978a7761d43f245245b17a48f6c767925ae809fec1345e43d1131e34f9"
   },
   "personal": {
     "name": "Krishan Lal",
