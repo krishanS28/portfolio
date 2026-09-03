@@ -353,6 +353,28 @@
             color: #1f2937;
         }
 
+        /* Page 2 Spacing Enhancements */
+        .page-2 .projects-list {
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .page-2 .project-item {
+            font-size: 8.6pt;
+            line-height: 1.44;
+        }
+
+        .page-2 .edu-item {
+            font-size: 8.8pt;
+            line-height: 1.45;
+            margin-bottom: 5px;
+        }
+
+        .page-2 .lang-text {
+            font-size: 8.8pt;
+            line-height: 1.45;
+        }
+
         /* Footer info */
         .resume-page-footer {
             margin-top: auto;
@@ -490,6 +512,13 @@
                 </div>
             </section>
 
+            <section id="sec-p1-projects">
+                <h2 class="section-title">KEY PRODUCTION PLATFORMS</h2>
+                <div class="projects-list" id="cv-projects-p1">
+                    <!-- Hydrated with top flagship apps (ORB, Alpha Padel) -->
+                </div>
+            </section>
+
             <footer class="resume-page-footer">
                 <span>Krishan Lal — Senior React Native Developer</span>
                 <span>Page 1 of 2</span>
@@ -501,10 +530,10 @@
         <!-- ==================== PAGE 2 ==================== -->
         <article class="resume-page page-2" id="resume-page-2">
 
-            <section>
-                <h2 class="section-title">SELECTED PRODUCTION STORE APPS & PRODUCTS</h2>
-                <div class="projects-list" id="cv-projects">
-                    <!-- Hydrated dynamically from portfolio-data.json -->
+            <section id="sec-p2-projects">
+                <h2 class="section-title">ADDITIONAL STORE APPS & DEPLOYMENTS</h2>
+                <div class="projects-list" id="cv-projects-p2">
+                    <!-- Hydrated with remaining store apps -->
                 </div>
             </section>
 
@@ -597,10 +626,9 @@
                     `;
                 }
 
-                // 4. Selected Projects (Live Store Apps)
+                // 4. Selected Projects (Live Store Apps - Distributed across Page 1 & Page 2)
                 if (data.liveApps && Array.isArray(data.liveApps)) {
-                    const projContainer = document.getElementById('cv-projects');
-                    projContainer.innerHTML = data.liveApps.map(app => {
+                    function renderAppItem(app) {
                         const links = [];
                         if (app.appStoreUrl && app.appStoreUrl.trim()) {
                             links.push(`<a class="store-link" href="${escapeHtml(app.appStoreUrl)}" target="_blank">| App Store</a>`);
@@ -618,7 +646,17 @@
                                 ${links.length ? `<span class="project-links">${links.join(' ')}</span>` : ''}
                             </div>
                         `;
-                    }).join('');
+                    }
+
+                    // Top 2 flagship apps on Page 1 to balance page height
+                    const p1Apps = data.liveApps.slice(0, 2);
+                    const p2Apps = data.liveApps.slice(2);
+
+                    const p1Container = document.getElementById('cv-projects-p1');
+                    if (p1Container) p1Container.innerHTML = p1Apps.map(renderAppItem).join('');
+
+                    const p2Container = document.getElementById('cv-projects-p2');
+                    if (p2Container) p2Container.innerHTML = p2Apps.map(renderAppItem).join('');
                 }
 
                 // 5. Education
