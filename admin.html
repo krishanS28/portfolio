@@ -2275,6 +2275,290 @@
             transform: translateY(0) !important;
         }
 
+    
+        /* Settings Trigger Button in Admin */
+        .settings-trigger-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+        }
+
+        .settings-trigger-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: rotate(45deg);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        /* Settings Modal Overlay in Admin */
+        .theme-settings-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 7, 18, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            z-index: 10001;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .theme-settings-overlay.show {
+            display: flex;
+            animation: authPopIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .theme-settings-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            width: 100%;
+            max-width: 440px;
+            padding: 26px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            color: var(--text-main);
+        }
+
+        .theme-settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .theme-settings-title-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-settings-icon {
+            font-size: 1.4em;
+            line-height: 1;
+        }
+
+        .theme-settings-header h3 {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        .theme-settings-header p {
+            font-size: 0.82em;
+            color: var(--text-muted);
+            margin: 2px 0 0;
+        }
+
+        .btn-close-settings {
+            background: var(--bg-base);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-close-settings:hover {
+            color: var(--text-main);
+            border-color: var(--primary);
+        }
+
+        .theme-settings-section {
+            margin-bottom: 20px;
+        }
+
+        .theme-section-label {
+            display: block;
+            font-size: 0.82em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .theme-mode-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .theme-mode-card {
+            background: var(--bg-base);
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 12px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            color: var(--text-main);
+        }
+
+        .theme-mode-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .theme-mode-card.active {
+            border-color: var(--primary);
+            background: rgba(0, 240, 255, 0.08);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        html[data-theme-mode="light"] .theme-mode-card.active {
+            background: rgba(2, 132, 199, 0.08);
+        }
+
+        .theme-mode-card .mode-icon {
+            font-size: 1.4em;
+        }
+
+        .theme-mode-card .mode-info {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .theme-mode-card .mode-info strong {
+            font-size: 0.92em;
+            color: var(--text-main);
+        }
+
+        .theme-mode-card .mode-info span {
+            font-size: 0.72em;
+            color: var(--text-muted);
+        }
+
+        .theme-mode-card .mode-check {
+            font-size: 0.88em;
+            color: var(--primary);
+            display: none;
+            font-weight: 800;
+        }
+
+        .theme-mode-card.active .mode-check {
+            display: block;
+        }
+
+        .theme-accent-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .theme-accent-card {
+            background: var(--bg-base);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-main);
+        }
+
+        .theme-accent-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .theme-accent-card.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+
+        .accent-swatch {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+        }
+
+        .accent-swatch.cyan { background: #00f0ff; box-shadow: 0 0 10px rgba(0, 240, 255, 0.6); }
+        .accent-swatch.emerald { background: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.6); }
+        .accent-swatch.violet { background: #8b5cf6; box-shadow: 0 0 10px rgba(139, 92, 246, 0.6); }
+        .accent-swatch.amber { background: #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.6); }
+
+        .accent-name {
+            font-size: 0.78em;
+            font-weight: 600;
+        }
+
+        .theme-settings-footer {
+            margin-top: 22px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-settings-done {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: #ffffff;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            padding: 9px 24px;
+            font-size: 0.88em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-settings-done:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        /* Light mode graph stats strip & save banner */
+        html[data-theme-mode="light"] .graph-stats-row {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        html[data-theme-mode="light"] .graph-stats-row .label {
+            color: #64748b !important;
+        }
+
+        html[data-theme-mode="light"] .graph-stats-row .value {
+            color: #0f172a !important;
+        }
+
+        html[data-theme-mode="light"] .save-banner {
+            background: #ffffff !important;
+            border: 1px solid rgba(0, 0, 0, 0.12) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+            color: #0f172a !important;
+        }
+
+        html[data-theme-mode="light"] .save-banner span {
+            color: #0f172a !important;
+        }
+
     </style>
 </head>
 <body>
@@ -2494,20 +2778,16 @@
             <div class="topbar-right">
                 <div class="cloud-pill">
                     <i class="pulse-dot"></i>
-                    <span>Cloud: <strong style="color: #fff;">kl268369</strong></span>
+                    <span>Cloud: <strong style="color: var(--text-main);">kl268369</strong></span>
                 </div>
 
-                <div class="theme-accent-picker" title="Switch Theme Glow">
-                    <button type="button" class="theme-dot cyan active" onclick="switchTheme('cyan')" title="Neon Cyan"></button>
-                    <button type="button" class="theme-dot emerald" onclick="switchTheme('emerald')" title="Emerald Matrix"></button>
-                    <button type="button" class="theme-dot violet" onclick="switchTheme('violet')" title="Royal Violet"></button>
-                    <button type="button" class="theme-dot amber" onclick="switchTheme('amber')" title="Sunset Amber"></button>
-                </div>
-
-                <button type="button" class="theme-mode-toggle" id="admin-theme-toggle" onclick="toggleColorMode()" aria-label="Toggle Dark / White Theme" title="Switch to White (Light) Mode">
-                    <span class="theme-mode-icon">🌙</span>
-                    <span class="theme-mode-text">Dark</span>
+                <button type="button" class="settings-trigger-btn" id="btn-admin-settings" onclick="openThemeSettingsModal()" aria-label="Appearance & Theme Settings" title="Customize Theme & Appearance">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
                 </button>
+
                 <a href="index.html" target="_blank" class="btn-ghost">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                     <span>View Website</span>
@@ -4348,7 +4628,7 @@
                             <span class="project-tag-id">#${gIdx + 1}</span>
                             <div class="app-item-icon" style="font-size: 1.25em;">${getCategoryIcon(group.category)}</div>
                             <div class="app-item-meta">
-                                <strong id="skill-cat-title-${gIdx}" style="font-size: 1.05em; color: #fff;">${escapeHtml(group.category || 'Skill Category')}</strong>
+                                <strong id="skill-cat-title-${gIdx}" style="font-size: 1.05em; color: var(--text-main);">${escapeHtml(group.category || 'Skill Category')}</strong>
                                 <span id="skill-count-sub-${gIdx}" style="font-size: 0.82em; color: var(--text-muted);">${(group.items || []).length} technical production skills</span>
                             </div>
                         </div>
@@ -4974,5 +5254,74 @@
 
         initCMS();
     </script>
+
+    <!-- Theme & Appearance Settings Modal (Admin) -->
+    <div id="theme-settings-modal" class="theme-settings-overlay" onclick="closeThemeSettingsModal(event)">
+        <div class="theme-settings-card" onclick="event.stopPropagation()">
+            <div class="theme-settings-header">
+                <div class="theme-settings-title-group">
+                    <div class="theme-settings-icon">⚙️</div>
+                    <div>
+                        <h3>Appearance & Theme</h3>
+                        <p>Customize lighting mode and glow accent.</p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close-settings" onclick="closeThemeSettingsModal()" aria-label="Close settings">✕</button>
+            </div>
+
+            <div class="theme-settings-body">
+                <!-- Color Scheme Mode -->
+                <div class="theme-settings-section">
+                    <span class="theme-section-label">Color Scheme Mode</span>
+                    <div class="theme-mode-options">
+                        <button type="button" class="theme-mode-card" id="opt-mode-dark" onclick="setThemeModeFromModal('dark')">
+                            <span class="mode-icon">🌙</span>
+                            <div class="mode-info">
+                                <strong>Dark Cyber</strong>
+                                <span>Deep slate & neon</span>
+                            </div>
+                            <span class="mode-check">✓</span>
+                        </button>
+                        <button type="button" class="theme-mode-card" id="opt-mode-light" onclick="setThemeModeFromModal('light')">
+                            <span class="mode-icon">☀️</span>
+                            <div class="mode-info">
+                                <strong>Clean White</strong>
+                                <span>Daylight crisp</span>
+                            </div>
+                            <span class="mode-check">✓</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Accent Color -->
+                <div class="theme-settings-section">
+                    <span class="theme-section-label">Accent Highlight Glow</span>
+                    <div class="theme-accent-options">
+                        <button type="button" class="theme-accent-card" id="opt-accent-cyan" onclick="setAccentFromModal('cyan')">
+                            <span class="accent-swatch cyan"></span>
+                            <span class="accent-name">Cyan</span>
+                        </button>
+                        <button type="button" class="theme-accent-card" id="opt-accent-emerald" onclick="setAccentFromModal('emerald')">
+                            <span class="accent-swatch emerald"></span>
+                            <span class="accent-name">Emerald</span>
+                        </button>
+                        <button type="button" class="theme-accent-card" id="opt-accent-violet" onclick="setAccentFromModal('violet')">
+                            <span class="accent-swatch violet"></span>
+                            <span class="accent-name">Violet</span>
+                        </button>
+                        <button type="button" class="theme-accent-card" id="opt-accent-amber" onclick="setAccentFromModal('amber')">
+                            <span class="accent-swatch amber"></span>
+                            <span class="accent-name">Amber</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-settings-footer">
+                <button type="button" class="btn-settings-done" onclick="closeThemeSettingsModal()">Done</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

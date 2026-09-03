@@ -308,6 +308,7 @@ function setColorMode(mode) {
     }
     localStorage.setItem('krishan_theme_mode', mode);
     updateThemeToggleUI(mode);
+    updateModalActiveStates();
 }
 
 function updateThemeToggleUI(mode) {
@@ -326,6 +327,50 @@ function updateThemeToggleUI(mode) {
     });
 }
 window.toggleColorMode = toggleColorMode;
+
+// Modal Functions
+function openThemeSettingsModal() {
+    const modal = document.getElementById('theme-settings-modal');
+    if (!modal) return;
+    updateModalActiveStates();
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeThemeSettingsModal(e) {
+    if (e && e.target !== e.currentTarget && !e.target.classList.contains('btn-close-settings') && !e.target.classList.contains('btn-settings-done')) return;
+    const modal = document.getElementById('theme-settings-modal');
+    if (modal) modal.classList.remove('show');
+    document.body.style.overflow = '';
+}
+
+function setThemeModeFromModal(mode) {
+    setColorMode(mode);
+    updateModalActiveStates();
+}
+
+function setAccentFromModal(accent) {
+    switchTheme(accent);
+    updateModalActiveStates();
+}
+
+function updateModalActiveStates() {
+    const currentMode = document.documentElement.getAttribute('data-theme-mode') || 'dark';
+    const currentAccent = localStorage.getItem('portfolio_theme_accent') || 'cyan';
+
+    document.querySelectorAll('.theme-mode-card').forEach(btn => {
+        btn.classList.toggle('active', btn.id === `opt-mode-${currentMode}`);
+    });
+
+    document.querySelectorAll('.theme-accent-card').forEach(btn => {
+        btn.classList.toggle('active', btn.id === `opt-accent-${currentAccent}`);
+    });
+}
+
+window.openThemeSettingsModal = openThemeSettingsModal;
+window.closeThemeSettingsModal = closeThemeSettingsModal;
+window.setThemeModeFromModal = setThemeModeFromModal;
+window.setAccentFromModal = setAccentFromModal;
 
 // Auto-restore saved color mode
 const initialColorMode = localStorage.getItem('krishan_theme_mode') || 'dark';

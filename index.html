@@ -38,7 +38,7 @@
     <meta name="twitter:image" content="https://krishanS28.github.io/portfolio/profile.jpg?v=3">
 
     <!-- Google Fonts & CSS -->
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="stylesheet" href="style.css?v=10">
 
     <!-- Structured Data Person Schema -->
     <script type="application/ld+json">
@@ -74,16 +74,11 @@
             <span class="brand-pill">SENIOR LEAD</span>
         </a>
 
-        <div class="theme-accent-picker" title="Switch Cyber Glow Accent">
-            <button type="button" class="theme-dot cyan active" onclick="switchTheme('cyan')" title="Neon Cyan"></button>
-            <button type="button" class="theme-dot emerald" onclick="switchTheme('emerald')" title="Emerald Matrix"></button>
-            <button type="button" class="theme-dot violet" onclick="switchTheme('violet')" title="Royal Violet"></button>
-            <button type="button" class="theme-dot amber" onclick="switchTheme('amber')" title="Sunset Amber"></button>
-        </div>
-
-        <button type="button" class="theme-mode-toggle" id="website-theme-toggle" onclick="toggleColorMode()" aria-label="Toggle Dark / White Theme" title="Switch to White (Light) Mode">
-            <span class="theme-mode-icon">🌙</span>
-            <span class="theme-mode-text">Dark</span>
+        <button type="button" class="settings-trigger-btn" id="btn-open-settings" onclick="openThemeSettingsModal()" aria-label="Appearance & Theme Settings" title="Customize Theme & Appearance">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
         </button>
 
         <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation">
@@ -874,7 +869,76 @@
 
 
 
+    
+    <!-- Theme & Appearance Settings Modal -->
+    <div id="theme-settings-modal" class="theme-settings-overlay" onclick="closeThemeSettingsModal(event)">
+        <div class="theme-settings-card" onclick="event.stopPropagation()">
+            <div class="theme-settings-header">
+                <div class="theme-settings-title-group">
+                    <div class="theme-settings-icon">⚙️</div>
+                    <div>
+                        <h3>Appearance & Theme</h3>
+                        <p>Customize lighting mode and cyber glow accent.</p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close-settings" onclick="closeThemeSettingsModal()" aria-label="Close settings">✕</button>
+            </div>
+
+            <div class="theme-settings-body">
+                <!-- Color Scheme Mode -->
+                <div class="theme-settings-section">
+                    <span class="theme-section-label">Color Scheme Mode</span>
+                    <div class="theme-mode-options">
+                        <button type="button" class="theme-mode-card" id="opt-mode-dark" onclick="setThemeModeFromModal('dark')">
+                            <span class="mode-icon">🌙</span>
+                            <div class="mode-info">
+                                <strong>Dark Cyber</strong>
+                                <span>Deep slate & neon</span>
+                            </div>
+                            <span class="mode-check">✓</span>
+                        </button>
+                        <button type="button" class="theme-mode-card" id="opt-mode-light" onclick="setThemeModeFromModal('light')">
+                            <span class="mode-icon">☀️</span>
+                            <div class="mode-info">
+                                <strong>Clean White</strong>
+                                <span>Daylight crisp</span>
+                            </div>
+                            <span class="mode-check">✓</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Accent Color -->
+                <div class="theme-settings-section">
+                    <span class="theme-section-label">Accent Highlight Glow</span>
+                    <div class="theme-accent-options">
+                        <button type="button" class="theme-accent-card" id="opt-accent-cyan" onclick="setAccentFromModal('cyan')">
+                            <span class="accent-swatch cyan"></span>
+                            <span class="accent-name">Cyan</span>
+                        </button>
+                        <button type="button" class="theme-accent-card" id="opt-accent-emerald" onclick="setAccentFromModal('emerald')">
+                            <span class="accent-swatch emerald"></span>
+                            <span class="accent-name">Emerald</span>
+                        </button>
+                        <button type="button" class="theme-accent-card" id="opt-accent-violet" onclick="setAccentFromModal('violet')">
+                            <span class="accent-swatch violet"></span>
+                            <span class="accent-name">Violet</span>
+                        </button>
+                        <button type="button" class="theme-accent-card" id="opt-accent-amber" onclick="setAccentFromModal('amber')">
+                            <span class="accent-swatch amber"></span>
+                            <span class="accent-name">Amber</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-settings-footer">
+                <button type="button" class="btn-settings-done" onclick="closeThemeSettingsModal()">Done</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Interactive Scripts -->
-    <script src="script.js?v=9"></script>
+    <script src="script.js?v=10"></script>
 </body>
 </html>
