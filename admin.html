@@ -884,14 +884,7 @@
 
         /* Cleaned legacy tags block */
 
-        /* Testimonials Styles */
-        .testimonial-editor-card {
-            background: rgba(22, 33, 58, 0.45);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-        }
+
 
         /* Inquiries Inbox Styles */
         .inquiry-card {
@@ -1013,28 +1006,7 @@
             box-shadow: 0 4px 15px var(--primary-glow);
         }
 
-        /* Review link sharing box */
-        .review-link-box {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            background: rgba(0, 240, 255, 0.05);
-            border: 1px solid rgba(0, 240, 255, 0.2);
-            border-radius: 14px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-        }
 
-        .review-link-box p {
-            font-size: 0.88em;
-            color: #cbd5e1;
-            margin: 0;
-        }
-
-        .review-link-box strong {
-            color: var(--primary);
-        }
 
         
         /* Theme Dynamic CSS Variables */
@@ -1434,16 +1406,7 @@
             text-transform: uppercase;
         }
 
-        .testimonial-editor-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 22px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            flex-wrap: wrap;
-        }
+
 
     
         /* ==========================================
@@ -1680,11 +1643,6 @@
             <a class="nav-item" onclick="showSection('view-skills')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
                 <span>Skills & Tech Stack</span>
-            </a>
-
-            <a class="nav-item" onclick="showSection('view-testimonials')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                <span>Client Reviews</span>
             </a>
 
             <div class="nav-section-title">Media & Vault</div>
@@ -1970,30 +1928,7 @@
                 </div>
             </div>
 
-            <!-- SECTION: TESTIMONIALS MANAGER -->
-            <div class="section-view" id="view-testimonials">
-                <div class="glass-panel">
-                    <div class="panel-heading">
-                        <div>
-                            <h2>🌟 Client Recommendations Hub</h2>
-                            <p>All genuine reviews and endorsements submitted by clients directly through your website.</p>
-                        </div>
-                    </div>
 
-                    <div class="review-link-box">
-                        <div>
-                            <p><strong>Direct Client Recommendation Link:</strong></p>
-                            <p style="font-size: 0.82em; color: var(--text-muted); margin-top: 2px;">Send this link to clients or colleagues on WhatsApp / LinkedIn to collect real recommendations.</p>
-                        </div>
-                        <button type="button" class="btn-ghost" onclick="copyReviewLink()" style="gap: 6px;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                            <span>Copy Review Link</span>
-                        </button>
-                    </div>
-
-                    <div id="testimonials-admin-container"></div>
-                </div>
-            </div>
 
             <!-- SECTION 5: RESUME VAULT -->
             <div class="section-view" id="view-resume">
@@ -2248,7 +2183,6 @@
             'view-apps': 'Live Production Store Apps',
             'view-experience': 'Work Experience Timeline',
             'view-skills': 'Skills & Tech Stack Manager',
-            'view-testimonials': 'Client Reviews & Recommendations',
             'view-resume': 'Resume PDF Manager',
             'view-photo': 'Profile Photo Manager',
             'view-inquiries': 'Recruiter Inquiries & Messages',
@@ -2647,10 +2581,6 @@
                 renderSkillsList(db.skills);
             }
 
-            if (db.testimonials) {
-                renderTestimonialsList(db.testimonials);
-            }
-
             renderInquiriesList();
             // Populate Analytics KPIs
             try {
@@ -2897,87 +2827,7 @@
             notify(`Removed "${removed}"`);
         }
 
-        // Testimonials / Client Recommendations Hub Logic
-        function renderTestimonialsList(testimonials) {
-            const container = document.getElementById('testimonials-admin-container');
-            if (!container) return;
-            container.innerHTML = '';
 
-            const list = testimonials || [];
-            if (!list.length) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 45px 20px; background: rgba(13, 20, 36, 0.5); border: 1px dashed rgba(255, 255, 255, 0.12); border-radius: 16px;">
-                        <div style="font-size: 2.4em; margin-bottom: 12px;">🌟</div>
-                        <h3 style="color: #ffffff; font-size: 1.15em; font-weight: 700; margin-bottom: 6px;">No Client Recommendations Yet</h3>
-                        <p style="color: var(--text-muted); font-size: 0.88em; max-width: 480px; margin: 0 auto 18px; line-height: 1.6;">
-                            Client recommendations are now collected directly from the website. When founders, managers, or clients submit a recommendation form on your portfolio, they will appear here automatically.
-                        </p>
-                        <button type="button" class="btn-ghost" onclick="copyReviewLink()" style="margin: 0 auto;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                            <span>Copy Recommendation Link for Clients</span>
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-
-            list.forEach((item, idx) => {
-                const card = document.createElement('div');
-                card.className = 'testimonial-editor-card';
-                const starsCount = Math.min(Math.max(Number(item.rating) || 5, 1), 5);
-                const starsStr = '★'.repeat(starsCount);
-
-                card.innerHTML = `
-                    <div class="testimonial-editor-header">
-                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                            <span class="project-tag-id">⭐ ${starsStr}</span>
-                            <strong style="color: #ffffff; font-size: 1.05em;">${escapeHtml(item.clientName || 'Client')}</strong>
-                            <span style="font-size: 0.82em; color: var(--text-muted);">${escapeHtml(item.clientRole || '')}</span>
-                            ${item.date ? `<span style="font-size: 0.78em; color: #64748b;">• ${escapeHtml(item.date)}</span>` : ''}
-                        </div>
-                        <button type="button" class="btn-delete" onclick="removeTestimonial('${item.id || idx}', ${idx})" title="Delete this recommendation">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            <span>Delete Review</span>
-                        </button>
-                    </div>
-
-                    <div style="background: rgba(5, 8, 16, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 16px; margin-top: 12px;">
-                        <p style="color: #e2e8f0; font-size: 0.95em; line-height: 1.6; font-style: italic; margin-bottom: 10px;">"${escapeHtml(item.text || '')}"</p>
-                        <div style="display: flex; gap: 15px; font-size: 0.82em; color: var(--text-muted); flex-wrap: wrap;">
-                            ${item.project ? `<span>📱 <strong>Project:</strong> ${escapeHtml(item.project)}</span>` : ''}
-                            ${item.email ? `<span>✉️ <strong>Contact:</strong> ${escapeHtml(item.email)}</span>` : ''}
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function copyReviewLink() {
-            const url = (window.location.origin.includes('localhost') ? window.location.origin : 'https://krishanlal.is-a.dev') + '/index.html#testimonials';
-            navigator.clipboard.writeText(url).then(() => {
-                notify('Recommendation form link copied to clipboard!');
-            }).catch(() => {
-                prompt('Copy recommendation link to share with clients:', url);
-            });
-        }
-
-        async function removeTestimonial(id, idx) {
-            if (!confirm('Are you sure you want to permanently delete this client recommendation?')) return;
-
-            db.testimonials.splice(idx, 1);
-            renderTestimonialsList(db.testimonials);
-
-            try {
-                await fetch('/api/delete-review', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: id })
-                });
-            } catch (e) {}
-
-            notify('Recommendation removed.');
-        }
 
         // Inquiries Inbox Logic
         function renderInquiriesList() {
