@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         :root {
             --bg-base: #06090f;
@@ -882,11 +883,77 @@
             margin-bottom: 24px;
         }
 
-        /* Cleaned legacy tags block */
+        /* Traffic Velocity & Analytics Graph Styles */
+        .timeframe-pills {
+            display: inline-flex;
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 3px;
+            gap: 4px;
+        }
 
+        .btn-timeframe {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.78em;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
+        .btn-timeframe:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.06);
+        }
 
-        /* Inquiries Inbox Styles */
+        .btn-timeframe.active {
+            color: #06090f;
+            background: var(--primary);
+            font-weight: 700;
+            box-shadow: 0 2px 10px var(--primary-glow);
+        }
+
+        .graph-stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 22px;
+            padding: 14px 18px;
+            background: rgba(8, 14, 26, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+        }
+
+        .mini-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .mini-stat .label {
+            font-size: 0.72em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            font-weight: 600;
+        }
+
+        .mini-stat .value {
+            font-size: 1.28em;
+            color: #ffffff;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 290px;
+            width: 100%;
+        }
         .inquiry-card {
             background: rgba(22, 33, 58, 0.45);
             border: 1px solid var(--border);
@@ -1798,6 +1865,55 @@
                     </div>
                 </div>
 
+                <!-- Interactive Website Traffic & Recruiter Graph Panel -->
+                <div class="glass-panel" style="margin-top: 24px;">
+                    <div class="panel-heading" style="margin-bottom: 18px; flex-wrap: wrap; gap: 14px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div class="kpi-icon" style="background: rgba(0, 240, 255, 0.12); color: var(--primary); border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 12px; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; font-size: 1.25em;">📈</div>
+                            <div>
+                                <h2 style="font-size: 1.2em; margin: 0; color: #fff;">Website Traffic & Recruiter Impressions Trend</h2>
+                                <p style="font-size: 0.84em; color: var(--text-muted); margin: 3px 0 0;">Day-by-day visitor velocity and recruiter outreach analytics.</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <div style="display: flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 10px; border-radius: 20px;">
+                                <span class="pulse-dot"></span>
+                                <span style="font-size: 0.76em; font-weight: 700; color: #34d399; letter-spacing: 0.5px;">LIVE TRACKING</span>
+                            </div>
+                            <div class="timeframe-pills">
+                                <button type="button" class="btn-timeframe active" id="btn-tf-7d" onclick="switchGraphTimeframe(7)">Last 7 Days</button>
+                                <button type="button" class="btn-timeframe" id="btn-tf-14d" onclick="switchGraphTimeframe(14)">Last 14 Days</button>
+                                <button type="button" class="btn-timeframe" id="btn-tf-30d" onclick="switchGraphTimeframe(30)">Last 30 Days</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mini stats row -->
+                    <div class="graph-stats-row">
+                        <div class="mini-stat">
+                            <span class="label">Today's Visits</span>
+                            <strong class="value" id="graph-stat-today">0</strong>
+                        </div>
+                        <div class="mini-stat">
+                            <span class="label">Period Volume</span>
+                            <strong class="value" id="graph-stat-week" style="color: var(--primary);">0</strong>
+                        </div>
+                        <div class="mini-stat">
+                            <span class="label">Peak Day</span>
+                            <strong class="value" id="graph-stat-peak" style="font-size: 1.05em; color: #f8fafc;">-</strong>
+                        </div>
+                        <div class="mini-stat">
+                            <span class="label">Lead Conversion</span>
+                            <strong class="value" id="graph-stat-engagement" style="color: #4ade80;">0%</strong>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Chart -->
+                    <div class="chart-wrapper">
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+                </div>
+
                 <div class="glass-panel">
                     <div class="panel-heading">
                         <div>
@@ -2207,6 +2323,9 @@
             if (targetView) targetView.classList.add('active');
 
             document.getElementById('page-heading').textContent = sectionTitles[sectionId] || 'Admin Dashboard';
+            if (sectionId === 'view-dashboard' && typeof renderTrafficChart === 'function') {
+                setTimeout(() => renderTrafficChart(currentGraphDays), 60);
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -2599,6 +2718,186 @@
                     document.getElementById('kpi-store-clicks-count').textContent = a.storeClicks || 0;
                 }
             } catch (e) {}
+
+            // Render Traffic Velocity Graph
+            renderTrafficChart(currentGraphDays);
+        }
+
+        let trafficChartInstance = null;
+        let currentGraphDays = 7;
+
+        function renderTrafficChart(timeframeDays = 7) {
+            currentGraphDays = timeframeDays;
+            const canvas = document.getElementById('trafficChart');
+            if (!canvas) return;
+
+            const a = db.analytics || JSON.parse(localStorage.getItem('cms_analytics') || '{}');
+            const dailyMap = a.dailyVisits || {};
+
+            // Generate chronological dates
+            const labels = [];
+            const visitData = [];
+            const actionData = [];
+
+            const now = new Date();
+            for (let i = timeframeDays - 1; i >= 0; i--) {
+                const d = new Date();
+                d.setDate(now.getDate() - i);
+                const isoDate = d.toISOString().split('T')[0];
+                const label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                labels.push(label);
+
+                const v = Number(dailyMap[isoDate]) || 0;
+                visitData.push(v);
+                actionData.push(i === 0 ? ((a.resumeDownloads || 0) + (a.whatsappClicks || 0) + (a.storeClicks || 0)) : 0);
+            }
+
+            // Summary Stats Computation
+            const todayIso = now.toISOString().split('T')[0];
+            const todayVisits = Number(dailyMap[todayIso]) || (visitData.length ? visitData[visitData.length - 1] : 0);
+            const totalPeriodVisits = visitData.reduce((acc, val) => acc + val, 0);
+
+            let maxVal = -1;
+            let peakIndex = 0;
+            visitData.forEach((val, idx) => {
+                if (val > maxVal) {
+                    maxVal = val;
+                    peakIndex = idx;
+                }
+            });
+            const peakDayLabel = maxVal > 0 ? `${labels[peakIndex]} (${maxVal})` : 'None yet';
+            const totalActions = (a.resumeDownloads || 0) + (a.whatsappClicks || 0) + (a.storeClicks || 0);
+            const engRate = totalPeriodVisits > 0 ? Math.min(100, Math.round((totalActions / totalPeriodVisits) * 100)) : (totalActions > 0 ? 100 : 0);
+
+            if (document.getElementById('graph-stat-today')) document.getElementById('graph-stat-today').textContent = todayVisits;
+            if (document.getElementById('graph-stat-week')) document.getElementById('graph-stat-week').textContent = totalPeriodVisits;
+            if (document.getElementById('graph-stat-peak')) document.getElementById('graph-stat-peak').textContent = peakDayLabel;
+            if (document.getElementById('graph-stat-engagement')) document.getElementById('graph-stat-engagement').textContent = engRate + '%';
+
+            if (!window.Chart) {
+                return;
+            }
+
+            const ctx = canvas.getContext('2d');
+            if (trafficChartInstance) {
+                trafficChartInstance.destroy();
+            }
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, 260);
+            gradient.addColorStop(0, 'rgba(0, 240, 255, 0.32)');
+            gradient.addColorStop(0.7, 'rgba(0, 240, 255, 0.04)');
+            gradient.addColorStop(1, 'rgba(0, 240, 255, 0.0)');
+
+            const actionsGradient = ctx.createLinearGradient(0, 0, 0, 260);
+            actionsGradient.addColorStop(0, 'rgba(168, 85, 247, 0.22)');
+            actionsGradient.addColorStop(1, 'rgba(168, 85, 247, 0.0)');
+
+            trafficChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Website Visits & Impressions',
+                            data: visitData,
+                            borderColor: '#00f0ff',
+                            backgroundColor: gradient,
+                            borderWidth: 2.8,
+                            fill: true,
+                            tension: 0.38,
+                            pointBackgroundColor: '#00f0ff',
+                            pointBorderColor: '#0b111e',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 7,
+                            pointHoverBackgroundColor: '#ffffff',
+                            pointHoverBorderColor: '#00f0ff'
+                        },
+                        {
+                            label: 'Recruiter Outreach & Actions',
+                            data: actionData,
+                            borderColor: '#a855f7',
+                            backgroundColor: actionsGradient,
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0.38,
+                            pointBackgroundColor: '#a855f7',
+                            pointBorderColor: '#0b111e',
+                            pointBorderWidth: 2,
+                            pointRadius: 3,
+                            pointHoverRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            align: 'end',
+                            labels: {
+                                color: '#94a3b8',
+                                font: { family: "'Outfit', sans-serif", size: 12 },
+                                usePointStyle: true,
+                                boxWidth: 8,
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(11, 17, 30, 0.95)',
+                            borderColor: 'rgba(0, 240, 255, 0.4)',
+                            borderWidth: 1,
+                            titleColor: '#ffffff',
+                            bodyColor: '#cbd5e1',
+                            padding: 12,
+                            cornerRadius: 10,
+                            titleFont: { family: "'Outfit', sans-serif", size: 13, weight: '700' },
+                            bodyFont: { family: "'Outfit', sans-serif", size: 12 },
+                            displayColors: true,
+                            boxPadding: 4
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#64748b',
+                                font: { family: "'Outfit', sans-serif", size: 11 }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: Math.max(...visitData, 5),
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                stepSize: 1,
+                                precision: 0,
+                                color: '#64748b',
+                                font: { family: "'Outfit', sans-serif", size: 11 }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function switchGraphTimeframe(days) {
+            document.querySelectorAll('.btn-timeframe').forEach(b => b.classList.remove('active'));
+            const btn = document.getElementById(`btn-tf-${days}d`);
+            if (btn) btn.classList.add('active');
+            renderTrafficChart(days);
         }
 
         async function resetAnalytics() {
@@ -2608,17 +2907,18 @@
                 const data = await res.json();
                 if (data.analytics) db.analytics = data.analytics;
             } catch (e) {
-                db.analytics = { visits: 0, resumeDownloads: 0, whatsappClicks: 0, storeClicks: 0 };
+                db.analytics = { visits: 0, resumeDownloads: 0, whatsappClicks: 0, storeClicks: 0, dailyVisits: {} };
             }
             try {
-                localStorage.setItem('cms_analytics', JSON.stringify({ visits: 0, resumeDownloads: 0, whatsappClicks: 0, storeClicks: 0 }));
+                localStorage.setItem('cms_analytics', JSON.stringify({ visits: 0, resumeDownloads: 0, whatsappClicks: 0, storeClicks: 0, dailyVisits: {} }));
             } catch (e) {}
 
             document.getElementById('kpi-visits-count').textContent = '0';
             document.getElementById('kpi-downloads-count').textContent = '0';
             document.getElementById('kpi-whatsapp-count').textContent = '0';
             document.getElementById('kpi-store-clicks-count').textContent = '0';
-            notify('All analytics counters reset to 0.');
+            renderTrafficChart(currentGraphDays);
+            notify('All analytics counters and graph reset to 0.');
         }
 
         function renderAppsList(apps) {

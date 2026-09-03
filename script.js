@@ -442,6 +442,9 @@ document.addEventListener('keydown', (e) => {
             sessionStorage.setItem('visited_session', '1');
             stats.visits = (stats.visits || 0) + 1;
             stats.lastVisit = new Date().toISOString();
+            const today = new Date().toISOString().split('T')[0];
+            if (!stats.dailyVisits) stats.dailyVisits = {};
+            stats.dailyVisits[today] = (stats.dailyVisits[today] || 0) + 1;
             localStorage.setItem('cms_analytics', JSON.stringify(stats));
             sendRealEvent('visit');
         }

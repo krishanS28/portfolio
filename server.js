@@ -41,13 +41,22 @@ const server = http.createServer((req, res) => {
                 const dataPath = path.join(__dirname, 'portfolio-data.json');
                 let db = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
                 if (!db.analytics) {
-                    db.analytics = { visits: 0, resumeDownloads: 0, whatsappClicks: 0, storeClicks: 0 };
+                    db.analytics = { visits: 0, resumeDownloads: 0, whatsappClicks: 0, storeClicks: 0, dailyVisits: {} };
                 }
+                if (!db.analytics.dailyVisits) db.analytics.dailyVisits = {};
 
-                if (event === 'visit') db.analytics.visits = (db.analytics.visits || 0) + 1;
-                else if (event === 'resume') db.analytics.resumeDownloads = (db.analytics.resumeDownloads || 0) + 1;
-                else if (event === 'whatsapp') db.analytics.whatsappClicks = (db.analytics.whatsappClicks || 0) + 1;
-                else if (event === 'store') db.analytics.storeClicks = (db.analytics.storeClicks || 0) + 1;
+                const today = new Date().toISOString().split('T')[0];
+
+                if (event === 'visit') {
+                    db.analytics.visits = (db.analytics.visits || 0) + 1;
+                    db.analytics.dailyVisits[today] = (db.analytics.dailyVisits[today] || 0) + 1;
+                } else if (event === 'resume') {
+                    db.analytics.resumeDownloads = (db.analytics.resumeDownloads || 0) + 1;
+                } else if (event === 'whatsapp') {
+                    db.analytics.whatsappClicks = (db.analytics.whatsappClicks || 0) + 1;
+                } else if (event === 'store') {
+                    db.analytics.storeClicks = (db.analytics.storeClicks || 0) + 1;
+                }
 
                 fs.writeFileSync(dataPath, JSON.stringify(db, null, 2), 'utf8');
                 res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -65,7 +74,7 @@ const server = http.createServer((req, res) => {
         try {
             const dataPath = path.join(__dirname, 'portfolio-data.json');
             let db = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-            db.analytics = { visits: 0, resumeDownloads: 0, whatsappClicks: 0, storeClicks: 0 };
+            db.analytics = { visits: 0, resumeDownloads: 0, whatsappClicks: 0, storeClicks: 0, dailyVisits: {} };
             fs.writeFileSync(dataPath, JSON.stringify(db, null, 2), 'utf8');
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ success: true, analytics: db.analytics }));

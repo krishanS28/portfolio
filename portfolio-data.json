@@ -164,6 +164,7 @@
     "visits": 0,
     "resumeDownloads": 0,
     "whatsappClicks": 0,
-    "storeClicks": 0
+    "storeClicks": 0,
+    "dailyVisits": {}
   }
 }
