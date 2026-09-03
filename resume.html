@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishan Lal - Senior React Native Developer Resume</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0070f3;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --border-color: #e5e7eb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #0b0f19;
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.35;
+        }
+
+        /* Top Action Bar (Screen Only) */
+        .top-action-bar {
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .bar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+
+        .bar-brand .badge {
+            background: rgba(0, 240, 255, 0.15);
+            border: 1px solid rgba(0, 240, 255, 0.35);
+            color: #00f0ff;
+            font-size: 0.72em;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .bar-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            font-size: 0.86em;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action.print-btn {
+            background: linear-gradient(135deg, #00f0ff, #3b82f6);
+            color: #06090f;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
+        }
+
+        .btn-action.print-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0, 240, 255, 0.5);
+        }
+
+        .btn-action.back-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #cbd5e1;
+        }
+
+        .btn-action.back-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        /* Resume Canvas Container */
+        .resume-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+            padding: 32px 16px 60px;
+        }
+
+        /* Page Frame (Exact A4 Dimensions) */
+        .resume-page {
+            width: 210mm;
+            min-height: 297mm;
+            max-height: 297mm;
+            background: #ffffff;
+            color: #111827;
+            padding: 13mm 16mm 12mm;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.65);
+            border-radius: 2px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Header Styles */
+        .resume-header {
+            text-align: center;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .resume-name {
+            font-size: 21pt;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+            color: #111827;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+        }
+
+        .resume-title {
+            font-size: 10.5pt;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-style: italic;
+        }
+
+        .resume-contacts {
+            font-size: 8.8pt;
+            color: #374151;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .resume-contacts a {
+            color: #0284c7;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .resume-contacts a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-sep {
+            color: #9ca3af;
+        }
+
+        /* Section Headings */
+        .section-title {
+            font-size: 9.8pt;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #111827;
+            margin-top: 10px;
+            margin-bottom: 6px;
+            padding-bottom: 3px;
+            border-bottom: 1.2px solid #111827;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Summary Text */
+        .summary-text {
+            font-size: 8.8pt;
+            line-height: 1.45;
+            color: #1f2937;
+            text-align: justify;
+            margin-bottom: 6px;
+        }
+
+        /* Technical Skills Matrix */
+        .skills-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 3.5px;
+            margin-bottom: 6px;
+        }
+
+        .skill-row {
+            font-size: 8.6pt;
+            line-height: 1.35;
+            display: flex;
+        }
+
+        .skill-row strong {
+            color: #111827;
+            min-width: 145px;
+            flex-shrink: 0;
+            font-weight: 700;
+        }
+
+        .skill-row span {
+            color: #374151;
+        }
+
+        /* Professional Experience */
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
+
+        .exp-company {
+            font-size: 9.3pt;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .exp-role {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .exp-date {
+            font-size: 8.6pt;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .bullet-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 0 0 6px 0;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 14px;
+            font-size: 8.6pt;
+            line-height: 1.4;
+            color: #1f2937;
+            margin-bottom: 3.5px;
+            text-align: justify;
+        }
+
+        .bullet-list li::before {
+            content: "•";
+            position: absolute;
+            left: 2px;
+            top: 0;
+            color: #111827;
+            font-weight: bold;
+        }
+
+        /* Page 2: Projects Showcase */
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .project-item {
+            position: relative;
+            padding-left: 14px;
+            font-size: 8.5pt;
+            line-height: 1.38;
+            color: #1f2937;
+            text-align: justify;
+        }
+
+        .project-item::before {
+            content: "•";
+            position: absolute;
+            left: 2px;
+            top: 0;
+            color: #111827;
+            font-weight: bold;
+        }
+
+        .project-item strong {
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .project-links {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: 4px;
+        }
+
+        .store-link {
+            color: #0284c7;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .store-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Education & Languages */
+        .edu-item {
+            font-size: 8.6pt;
+            line-height: 1.4;
+            color: #1f2937;
+            margin-bottom: 3px;
+        }
+
+        .edu-item strong {
+            color: #111827;
+            font-weight: 700;
+        }
+
+        .lang-text {
+            font-size: 8.6pt;
+            color: #1f2937;
+        }
+
+        /* Footer info */
+        .resume-page-footer {
+            margin-top: auto;
+            padding-top: 8px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 7.8pt;
+            color: #6b7280;
+        }
+
+        .resume-page-footer a {
+            color: #0284c7;
+            text-decoration: none;
+        }
+
+        /* Exact Print Rules */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+
+            body {
+                background: #ffffff !important;
+                color: #111827 !important;
+            }
+
+            .top-action-bar {
+                display: none !important;
+            }
+
+            .resume-container {
+                padding: 0 !important;
+                gap: 0 !important;
+            }
+
+            .resume-page {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                width: 210mm !important;
+                height: 297mm !important;
+                min-height: 297mm !important;
+                max-height: 297mm !important;
+                page-break-after: always !important;
+                break-after: page !important;
+                margin: 0 !important;
+                padding: 13mm 16mm 12mm !important;
+            }
+
+            .resume-page.page-2 {
+                page-break-after: auto !important;
+                break-after: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Action Bar for Web Visitors -->
+    <header class="top-action-bar">
+        <div class="bar-brand">
+            <span>📄 Krishan Lal — ATS 2-Page Resume</span>
+            <span class="badge">AUTO-SYNCED WITH PORTFOLIO</span>
+        </div>
+        <div class="bar-actions">
+            <a href="index.html" class="btn-action back-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <span>Back to Portfolio</span>
+            </a>
+            <button type="button" class="btn-action print-btn" onclick="window.print()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                <span>Save as 2-Page PDF (Print)</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="resume-container">
+
+        <!-- ==================== PAGE 1 ==================== -->
+        <article class="resume-page page-1" id="resume-page-1">
+            
+            <header class="resume-header">
+                <h1 class="resume-name" id="cv-name">KRISHAN LAL</h1>
+                <p class="resume-title" id="cv-title">Senior React Native Developer | 4.8+ Years Experience</p>
+                <div class="resume-contacts" id="cv-contacts">
+                    <span id="cv-location">Panchkula / Chandigarh, India</span>
+                    <span class="contact-sep">|</span>
+                    <a href="tel:+919992724729" id="cv-phone">9992724729</a>
+                    <span class="contact-sep">|</span>
+                    <a href="mailto:kl268369@gmail.com" id="cv-email">kl268369@gmail.com</a>
+                    <span class="contact-sep">|</span>
+                    <a href="https://www.linkedin.com/in/krishan-lal-a599901aa" target="_blank" id="cv-linkedin">LinkedIn: krishan-lal</a>
+                    <span class="contact-sep">|</span>
+                    <a href="https://krishanS28.github.io" target="_blank" id="cv-web">krishanS28.github.io</a>
+                </div>
+            </header>
+
+            <section>
+                <h2 class="section-title">PROFESSIONAL SUMMARY</h2>
+                <p class="summary-text" id="cv-summary">
+                    Senior React Native Developer with 4.8+ years of experience architecting and shipping production-grade Android and iOS applications end-to-end. Specialized in real-time systems — WebRTC, LiveKit and Telnyx-powered audio/video calling, live streaming, and WebSocket chat — plus native iOS/Android bridge development for AR and 3D features. Delivered high-performance social platforms, on-device AI chat, and secure multi-gateway payments (Stripe, PayPal, Apple Pay, Paydunya) across 20+ production apps.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="section-title">TECHNICAL SKILLS</h2>
+                <div class="skills-grid" id="cv-skills">
+                    <div class="skill-row"><strong>Mobile:</strong> <span>React Native, JavaScript, TypeScript, Android, iOS, React Native CLI</span></div>
+                    <div class="skill-row"><strong>State & Architecture:</strong> <span>Redux Toolkit, Redux, Context API, reusable components</span></div>
+                    <div class="skill-row"><strong>Real-Time & Media:</strong> <span>WebRTC, LiveKit, Telnyx, WebSocket, Socket.IO, Live Streaming, Audio/Video Calling</span></div>
+                    <div class="skill-row"><strong>AI / AR / 3D:</strong> <span>SLM-based offline AI chat, 3D View, AR Try-On, native bridge integration</span></div>
+                    <div class="skill-row"><strong>Payments:</strong> <span>Stripe, PayPal, Apple Pay, Paydunya, Pay Stack</span></div>
+                    <div class="skill-row"><strong>APIs & Services:</strong> <span>REST APIs, Firebase, Push Notifications, Auth, Google Maps, third-party SDKs</span></div>
+                    <div class="skill-row"><strong>Tools & Release:</strong> <span>Git, GitHub, GitLab, Postman, Android Studio, Xcode, Flipper, App Store, Play Store</span></div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">PROFESSIONAL EXPERIENCE</h2>
+                <div id="cv-experience">
+                    <div class="exp-header">
+                        <div>
+                            <span class="exp-company">Software Engineer (Mobile Lead)</span> — <span class="exp-role">ToXSL Technologies</span>
+                        </div>
+                        <span class="exp-date">Jan 2022 – Present</span>
+                    </div>
+                    <ul class="bullet-list" id="cv-exp-bullets">
+                        <li>Built and shipped production Android/iOS apps in React Native, JavaScript and TypeScript from first commit through store release.</li>
+                        <li>Added live streaming, audio/video calling and WebSocket chat to multiple products, including a WhatsApp-style messaging flow with delivery states and typing/online indicators.</li>
+                        <li>Wired up WebRTC, LiveKit and Telnyx for real-time media — publishing, subscribing and call signaling.</li>
+                        <li>Bridged native iOS/Android modules to bring 3D View, AR Try-On and camera-based features into React Native.</li>
+                        <li>Built an SLM-based offline AI chat feature that works without a live connection.</li>
+                        <li>Handled REST API, Firebase, push notification, maps and auth integrations, plus production debugging, working closely with backend, QA, design and product.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <footer class="resume-page-footer">
+                <span>Krishan Lal — Senior React Native Developer</span>
+                <span>Page 1 of 2</span>
+            </footer>
+
+        </article>
+
+
+        <!-- ==================== PAGE 2 ==================== -->
+        <article class="resume-page page-2" id="resume-page-2">
+
+            <section>
+                <h2 class="section-title">SELECTED PRODUCTION STORE APPS & PRODUCTS</h2>
+                <div class="projects-list" id="cv-projects">
+                    <!-- Hydrated dynamically from portfolio-data.json -->
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">EDUCATION</h2>
+                <div id="cv-education">
+                    <div class="edu-item">
+                        <strong>Bachelor of Computer Applications (BCA)</strong> — Kurukshetra University, 2021
+                    </div>
+                    <div class="edu-item">
+                        <strong>Diploma in Computer Application</strong> — Sewak Computer Training Institute, 2018
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">LANGUAGES</h2>
+                <div class="lang-text" id="cv-languages">
+                    English, Hindi
+                </div>
+            </section>
+
+            <footer class="resume-page-footer">
+                <span>Krishan Lal — Senior React Native Developer</span>
+                <span>Page 2 of 2 • Online Portfolio: <a href="https://krishanS28.github.io" target="_blank">krishanS28.github.io</a></span>
+            </footer>
+
+        </article>
+
+    </main>
+
+    <script>
+        async function hydrateResume() {
+            try {
+                const res = await fetch('portfolio-data.json?v=' + Date.now());
+                if (!res.ok) return;
+                const data = await res.json();
+
+                // 1. Personal & Header
+                if (data.personal) {
+                    const p = data.personal;
+                    if (p.name) document.getElementById('cv-name').textContent = p.name.toUpperCase();
+                    if (p.role) document.getElementById('cv-title').textContent = `${p.role} | ${p.experienceYears || '4.8+'} Years Experience`;
+                    if (p.location) document.getElementById('cv-location').textContent = p.location;
+                    if (p.phone) {
+                        const el = document.getElementById('cv-phone');
+                        el.textContent = p.phone.replace('+91', '').trim();
+                        el.href = 'tel:' + p.phone.replace(/\s+/g, '');
+                    }
+                    if (p.email) {
+                        const el = document.getElementById('cv-email');
+                        el.textContent = p.email;
+                        el.href = 'mailto:' + p.email;
+                    }
+                    if (p.linkedin) {
+                        const el = document.getElementById('cv-linkedin');
+                        el.href = p.linkedin;
+                    }
+                    if (p.bio) {
+                        document.getElementById('cv-summary').textContent = p.bio;
+                    }
+                }
+
+                // 2. Technical Skills Matrix
+                if (data.skills && Array.isArray(data.skills) && data.skills.length > 0) {
+                    const skillsContainer = document.getElementById('cv-skills');
+                    skillsContainer.innerHTML = data.skills.map(grp => `
+                        <div class="skill-row">
+                            <strong>${escapeHtml(grp.category)}:</strong>
+                            <span>${(grp.items || []).map(escapeHtml).join(', ')}</span>
+                        </div>
+                    `).join('');
+                }
+
+                // 3. Experience
+                if (data.experience && data.experience.length > 0) {
+                    const exp = data.experience[0];
+                    const expContainer = document.getElementById('cv-experience');
+                    expContainer.innerHTML = `
+                        <div class="exp-header">
+                            <div>
+                                <span class="exp-company">${escapeHtml(exp.role || 'Software Engineer')}</span> — <span class="exp-role">${escapeHtml(exp.company || 'ToXSL Technologies')}</span>
+                            </div>
+                            <span class="exp-date">${escapeHtml(exp.period || 'Jan 2022 – Present')}</span>
+                        </div>
+                        <ul class="bullet-list">
+                            ${(exp.points || []).map(pt => `<li>${escapeHtml(pt)}</li>`).join('')}
+                        </ul>
+                    `;
+                }
+
+                // 4. Selected Projects (Live Store Apps)
+                if (data.liveApps && Array.isArray(data.liveApps)) {
+                    const projContainer = document.getElementById('cv-projects');
+                    projContainer.innerHTML = data.liveApps.map(app => {
+                        const links = [];
+                        if (app.appStoreUrl && app.appStoreUrl.trim()) {
+                            links.push(`<a class="store-link" href="${escapeHtml(app.appStoreUrl)}" target="_blank">| App Store</a>`);
+                        }
+                        if (app.customerAppStoreUrl && app.customerAppStoreUrl.trim()) {
+                            links.push(`<a class="store-link" href="${escapeHtml(app.customerAppStoreUrl)}" target="_blank">| Customer App</a>`);
+                        }
+                        if (app.playStoreUrl && app.playStoreUrl.trim()) {
+                            links.push(`<a class="store-link" href="${escapeHtml(app.playStoreUrl)}" target="_blank">| Play Store</a>`);
+                        }
+
+                        return `
+                            <div class="project-item">
+                                <strong>${escapeHtml(app.name || 'App')}</strong> — ${escapeHtml(app.desc || app.category || '')}
+                                ${links.length ? `<span class="project-links">${links.join(' ')}</span>` : ''}
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                // 5. Education
+                if (data.education && Array.isArray(data.education)) {
+                    const eduContainer = document.getElementById('cv-education');
+                    eduContainer.innerHTML = data.education.map(ed => `
+                        <div class="edu-item">
+                            <strong>${escapeHtml(ed.degree)}</strong> — ${escapeHtml(ed.institution)}, ${escapeHtml(ed.year)}
+                        </div>
+                    `).join('');
+                }
+
+                // 6. Languages
+                if (data.languages && Array.isArray(data.languages)) {
+                    document.getElementById('cv-languages').textContent = data.languages.join(', ');
+                }
+
+            } catch (e) {
+                console.warn('Resume hydration fallback to static values', e);
+            }
+
+            // Auto-trigger print if requested via query param
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('print') === 'true') {
+                setTimeout(() => {
+                    window.print();
+                }, 600);
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"']/g, s => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[s]));
+        }
+
+        document.addEventListener('DOMContentLoaded', hydrateResume);
+    </script>
+</body>
+</html>

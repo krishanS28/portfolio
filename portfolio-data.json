@@ -20,7 +20,7 @@
     "whatsapp": "919992724729",
     "linkedin": "https://www.linkedin.com/in/krishan-lal-a599901aa",
     "github": "https://github.com/krishanS28",
-    "bio": "4.8+ Years Experience architecting & shipping 20+ production-grade Android and iOS applications end-to-end."
+    "bio": "Senior React Native Developer with 4.8+ years of experience architecting and shipping production-grade Android and iOS apps end-to-end. Specialized in real-time systems — WebRTC, LiveKit and Telnyx-powered audio/video calling, live streaming, and WebSocket chat — plus native iOS/Android bridge development for AR and 3D features. Delivered high-performance social platforms, on-device AI chat, and secure multi-gateway payments (Stripe, PayPal, Apple Pay, Paydunya) across 20+ production apps."
   },
   "liveApps": [
     {
@@ -189,6 +189,22 @@
         "Postman"
       ]
     }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor of Computer Applications (BCA)",
+      "institution": "Kurukshetra University",
+      "year": "2021"
+    },
+    {
+      "degree": "Diploma in Computer Application",
+      "institution": "Sewak Computer Training Institute",
+      "year": "2018"
+    }
+  ],
+  "languages": [
+    "English",
+    "Hindi"
   ],
   "inquiries": [],
   "analytics": {

@@ -98,10 +98,22 @@ const server = http.createServer((req, res) => {
                 const dataPath = path.join(__dirname, 'portfolio-data.json');
                 fs.writeFileSync(dataPath, JSON.stringify(data, null, 2), 'utf8');
 
-                // 2. Save Resume if provided
+                // 2. Save Resume if provided, otherwise auto-compile dynamic 2-page PDF
                 if (resumeBase64) {
                     const resumePath = path.join(__dirname, 'resume.pdf');
                     fs.writeFileSync(resumePath, Buffer.from(resumeBase64, 'base64'));
+                } else {
+                    try {
+                        const chromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+                        const edgePath = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
+                        const bin = fs.existsSync(chromePath) ? chromePath : (fs.existsSync(edgePath) ? edgePath : null);
+                        if (bin) {
+                            execSync(`"${bin}" --headless --disable-gpu --print-to-pdf="${path.join(__dirname, 'resume.pdf')}" http://localhost:5050/resume.html`, { timeout: 15000 });
+                            console.log('✓ Auto-compiled dynamic 2-page resume.pdf');
+                        }
+                    } catch (pdfErr) {
+                        console.warn('PDF auto-compile notice:', pdfErr.message);
+                    }
                 }
 
                 // 3. Save Photo if provided
