@@ -951,6 +951,123 @@
             border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
 
+        /* Add App Modal Styles */
+        .admin-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 8, 16, 0.85);
+            backdrop-filter: blur(16px);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .admin-modal-card {
+            background: #0d1424;
+            border: 1px solid rgba(0, 240, 255, 0.35);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px var(--primary-glow);
+            border-radius: 22px;
+            padding: 28px 30px;
+            max-width: 660px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalScaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalScaleUp {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-close-modal {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #94a3b8;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-close-modal:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #f87171;
+        }
+
+        .required-star {
+            color: #ef4444;
+            font-weight: 700;
+            margin-left: 3px;
+        }
+
+        .optional-tag {
+            color: #64748b;
+            font-size: 0.8em;
+            font-weight: 400;
+            margin-left: 4px;
+        }
+
+        .field-hint {
+            display: block;
+            font-size: 0.76em;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .modal-select {
+            width: 100%;
+            background: rgba(18, 28, 48, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 0.9em;
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .modal-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 14px var(--primary-glow);
+            background: rgba(22, 34, 58, 0.95);
+        }
+
+        .modal-error-alert {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #fca5a5;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            margin-top: 15px;
+            animation: fadeIn 0.2s ease;
+        }
+
         .project-tag-id {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.82em;
@@ -2160,7 +2277,7 @@
                         </div>
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <span class="project-tag-id" id="apps-count-badge" style="font-size: 0.82em;">Live Apps</span>
-                            <button type="button" class="btn-primary" onclick="addNewApp()" style="padding: 9px 18px; font-size: 0.85em; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border-radius: 10px;">
+                            <button type="button" class="btn-primary" onclick="openAddAppModal()" style="padding: 9px 18px; font-size: 0.85em; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border-radius: 10px;">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                                 <span>+ Add New App</span>
                             </button>
@@ -2169,7 +2286,7 @@
 
                     <div id="apps-container"></div>
 
-                    <button type="button" class="btn-add-item" onclick="addNewApp()" style="margin-top: 15px;">
+                    <button type="button" class="btn-add-item" onclick="openAddAppModal()" style="margin-top: 15px;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                         <span>+ Add New Production App</span>
                     </button>
@@ -2407,6 +2524,83 @@
 
         </div>
     </main>
+
+    <!-- Add New Production App Modal -->
+    <div id="modal-add-app" class="admin-modal-overlay" onclick="closeAddAppModal(event)">
+        <div class="admin-modal-card" onclick="event.stopPropagation()">
+            <div class="modal-header-row">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(0, 240, 255, 0.15); border: 1px solid rgba(0, 240, 255, 0.35); display: flex; align-items: center; justify-content: center; font-size: 1.35em;">🚀</div>
+                    <div>
+                        <h3 style="color: #ffffff; font-size: 1.25em; font-weight: 700; margin: 0;">Add Production Store App</h3>
+                        <p style="color: var(--text-muted); font-size: 0.83em; margin: 3px 0 0;">Fill in mandatory app details to showcase on your portfolio.</p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close-modal" onclick="closeAddAppModal()" title="Close">✕</button>
+            </div>
+
+            <div id="add-app-error-box" class="modal-error-alert" style="display: none;"></div>
+
+            <form id="form-add-app" onsubmit="handleCreateAppSubmit(event)" novalidate style="margin-top: 18px;">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>App Name <span class="required-star">* (Compulsory)</span></label>
+                        <input type="text" id="new-app-name" placeholder="e.g. Alpha Padel" required minlength="2">
+                        <span class="field-hint">Brand or application title</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Category / Subtitle <span class="required-star">* (Compulsory)</span></label>
+                        <input type="text" id="new-app-category" placeholder="e.g. Sports & Facility Booking Platform" required minlength="3">
+                        <span class="field-hint">Business niche or app purpose</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Platform / Availability <span class="required-star">* (Compulsory)</span></label>
+                        <select id="new-app-badge" class="modal-select">
+                            <option value="DUAL STORES">DUAL STORES (iOS & Android)</option>
+                            <option value="APPLE APP STORE">APPLE APP STORE ONLY</option>
+                            <option value="GOOGLE PLAY">GOOGLE PLAY STORE ONLY</option>
+                            <option value="ENTERPRISE / TESTFLIGHT">ENTERPRISE / TESTFLIGHT</option>
+                        </select>
+                        <span class="field-hint">Target platform or store badge</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tech Stack <span class="required-star">* (Compulsory)</span></label>
+                        <input type="text" id="new-app-tech" placeholder="e.g. React Native • TypeScript • REST APIs" required minlength="3">
+                        <span class="field-hint">Technologies used</span>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>App Description & Features <span class="required-star">* (Compulsory)</span></label>
+                        <textarea id="new-app-desc" rows="3" placeholder="Describe the application features, architecture, and user experience..." required minlength="10"></textarea>
+                        <span class="field-hint">Brief description of the application</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🍏 Apple App Store URL <span class="optional-tag">(Optional)</span></label>
+                        <input type="text" id="new-app-ios" placeholder="https://apps.apple.com/... (optional)">
+                        <span class="field-hint">Leave blank if iOS link is not yet available</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🤖 Google Play Store URL <span class="optional-tag">(Optional)</span></label>
+                        <input type="text" id="new-app-android" placeholder="https://play.google.com/... (optional)">
+                        <span class="field-hint">Leave blank if Android link is not yet available</span>
+                    </div>
+                </div>
+
+                <div class="drawer-footer" style="margin-top: 22px;">
+                    <button type="button" class="btn-ghost" onclick="closeAddAppModal()">Cancel</button>
+                    <button type="submit" class="btn-primary" style="padding: 10px 22px; font-weight: 700; gap: 8px; cursor: pointer; border-radius: 10px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>✓ Add App to Portfolio</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
         const REPO_OWNER = 'krishanS28';
@@ -3220,24 +3414,112 @@
             `;
         }
 
-        function addNewApp() {
+        function openAddAppModal() {
+            const modal = document.getElementById('modal-add-app');
+            const form = document.getElementById('form-add-app');
+            const errBox = document.getElementById('add-app-error-box');
+            if (form) form.reset();
+            if (errBox) {
+                errBox.style.display = 'none';
+                errBox.textContent = '';
+            }
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => {
+                    const input = document.getElementById('new-app-name');
+                    if (input) input.focus();
+                }, 100);
+            }
+        }
+
+        function closeAddAppModal(e) {
+            if (e && e.target && e.target.id !== 'modal-add-app' && !e.target.classList.contains('btn-close-modal') && !e.target.classList.contains('btn-ghost')) {
+                return;
+            }
+            const modal = document.getElementById('modal-add-app');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+
+        function handleCreateAppSubmit(e) {
+            e.preventDefault();
+            const name = (document.getElementById('new-app-name').value || '').trim();
+            const category = (document.getElementById('new-app-category').value || '').trim();
+            const badge = (document.getElementById('new-app-badge').value || 'DUAL STORES').trim();
+            const tech = (document.getElementById('new-app-tech').value || '').trim();
+            const desc = (document.getElementById('new-app-desc').value || '').trim();
+            const iosUrl = (document.getElementById('new-app-ios').value || '').trim();
+            const androidUrl = (document.getElementById('new-app-android').value || '').trim();
+
+            // Compulsory text validations
+            if (!name || name.length < 2) {
+                showModalError('App Name is compulsory (minimum 2 characters).');
+                document.getElementById('new-app-name').focus();
+                return;
+            }
+
+            if (!category || category.length < 3) {
+                showModalError('Category / Subtitle is compulsory (minimum 3 characters).');
+                document.getElementById('new-app-category').focus();
+                return;
+            }
+
+            if (!badge) {
+                showModalError('Please select a platform/availability badge.');
+                document.getElementById('new-app-badge').focus();
+                return;
+            }
+
+            if (!tech || tech.length < 3) {
+                showModalError('Tech Stack is compulsory (e.g. React Native, TypeScript).');
+                document.getElementById('new-app-tech').focus();
+                return;
+            }
+
+            if (!desc || desc.length < 10) {
+                showModalError('App Description is compulsory (minimum 10 characters).');
+                document.getElementById('new-app-desc').focus();
+                return;
+            }
+
+            // Note: Store links are completely optional! (No error if empty)
+
             if (!db.liveApps) db.liveApps = [];
-            const newIndex = 0;
-            db.liveApps.unshift({
+            const newApp = {
                 id: 'app_' + Date.now(),
-                name: 'New Mobile App',
-                category: 'Mobile Platform',
-                badge: 'DUAL STORES',
-                tech: 'React Native • TypeScript • REST APIs',
-                desc: 'Features and architecture of the newly developed mobile application.',
-                appStoreUrl: '',
-                playStoreUrl: ''
-            });
+                name: name,
+                category: category,
+                badge: badge,
+                tech: tech,
+                desc: desc,
+                appStoreUrl: iosUrl,
+                playStoreUrl: androidUrl
+            };
+
+            db.liveApps.unshift(newApp);
             expandedAppsSet.clear();
-            expandedAppsSet.add(newIndex);
+            expandedAppsSet.add(0);
+
             renderAppsList(db.liveApps);
-            document.getElementById('kpi-apps-count').textContent = db.liveApps.length;
-            notify('New app added! Fill in the details below.');
+            if (document.getElementById('kpi-apps-count')) {
+                document.getElementById('kpi-apps-count').textContent = db.liveApps.length;
+            }
+
+            closeAddAppModal();
+            notify(`✓ New App "${name}" added to list! Click "Publish Worldwide" to save.`);
+        }
+
+        function showModalError(msg) {
+            const errBox = document.getElementById('add-app-error-box');
+            if (errBox) {
+                errBox.textContent = '⚠️ ' + msg;
+                errBox.style.display = 'block';
+            } else {
+                alert(msg);
+            }
         }
 
         function removeApp(idx) {
