@@ -515,5 +515,61 @@ document.addEventListener('keydown', (e) => {
     } catch (e) {}
 })();
 
+// ==========================================
+// INTELLECTUAL PROPERTY & COPYRIGHT GUARD
+// ==========================================
+(function initCopyrightProtection() {
+    // 1. DevTools Console Warning Banner
+    console.log(
+        '%c⚠️ COPYRIGHT & INTELLECTUAL PROPERTY NOTICE',
+        'color: #00f0ff; background: #0b111e; font-size: 15px; font-weight: 800; padding: 8px 14px; border-radius: 6px; border: 1px solid #00f0ff;'
+    );
+    console.log(
+        '%cAll source code, UI architectures, and designs in this portfolio are the exclusive proprietary property of Krishan Lal (© 2026). Unauthorized cloning, scraping, reproduction, or redistribution is strictly prohibited under international copyright law.',
+        'color: #94a3b8; font-size: 12px; line-height: 1.5;'
+    );
+
+    // 2. Disable Right-Click Context Menu with subtle Toast Notification
+    document.addEventListener('contextmenu', (e) => {
+        if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+        e.preventDefault();
+        showCopyrightToast('🛡️ Copyright Protected © 2026 Krishan Lal. Content & code copying is disabled.');
+    });
+
+    // 3. Disable Keyboard Shortcuts for View Source / Devtools / Save
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'F12') {
+            e.preventDefault();
+            showCopyrightToast('🛡️ Developer inspection is restricted. Proprietary work of Krishan Lal.');
+            return;
+        }
+        if (e.ctrlKey || e.metaKey) {
+            const key = (e.key || '').toLowerCase();
+            if (key === 'u' || key === 's' || (e.shiftKey && (key === 'i' || key === 'j' || key === 'c'))) {
+                e.preventDefault();
+                showCopyrightToast('🛡️ Source code copying is prohibited by Copyright Law (© 2026 Krishan Lal).');
+            }
+        }
+    });
+
+    function showCopyrightToast(msg) {
+        let toast = document.getElementById('copyright-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'copyright-toast';
+            toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(11,17,30,0.95);border:1px solid #00f0ff;box-shadow:0 10px 30px rgba(0,0,0,0.8),0 0 20px rgba(0,240,255,0.35);color:#ffffff;font-family:\'Poppins\',sans-serif;font-size:0.85em;font-weight:600;padding:12px 22px;border-radius:30px;z-index:999999;pointer-events:none;transition:transform 0.3s cubic-bezier(0.16,1,0.3,1),opacity 0.3s ease;opacity:0;display:flex;align-items:center;gap:10px;white-space:nowrap;';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = msg;
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(-50%) translateY(0)';
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(-50%) translateY(100px)';
+        }, 2600);
+    }
+})();
+
 
 
