@@ -920,6 +920,99 @@
             color: #ffffff;
         }
 
+        /* Three-Dots (Kebab) Dropdown Menu */
+        .kebab-menu-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-kebab {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .btn-kebab:hover, .btn-kebab.active {
+            background: rgba(0, 240, 255, 0.15);
+            border-color: rgba(0, 240, 255, 0.4);
+            color: var(--primary);
+            box-shadow: 0 0 14px var(--primary-glow);
+        }
+
+        .kebab-dropdown {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 6px);
+            background: #0d1526;
+            border: 1px solid rgba(0, 240, 255, 0.28);
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 14px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 20px rgba(0, 240, 255, 0.15);
+            padding: 6px;
+            min-width: 175px;
+            z-index: 1000;
+            display: none;
+            backdrop-filter: blur(20px);
+            animation: dropdownFade 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes dropdownFade {
+            from {
+                opacity: 0;
+                transform: translateY(-6px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .kebab-dropdown.show {
+            display: block;
+        }
+
+        .kebab-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            background: transparent;
+            border: none;
+            color: #cbd5e1;
+            font-size: 0.84em;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .kebab-item:hover {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .kebab-item.delete {
+            color: #fca5a5;
+        }
+
+        .kebab-item.delete:hover {
+            background: rgba(239, 68, 68, 0.18);
+            color: #ef4444;
+        }
+
         .app-editor-drawer {
             display: none;
             padding: 24px 22px 18px;
@@ -3407,14 +3500,24 @@
                             </div>
                         </div>
 
-                        <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
-                            <button type="button" class="btn-toggle-edit" onclick="event.stopPropagation(); toggleAppEditor(${idx})">
-                                <span id="btn-toggle-text-${idx}">${isExpanded ? '✕ Close ▲' : '✏️ Edit Details ▾'}</span>
+                        <div class="kebab-menu-wrapper" onclick="event.stopPropagation();" style="margin-left: auto;">
+                            <button type="button" class="btn-kebab" id="btn-kebab-app-${idx}" onclick="toggleKebabMenu(event, 'app-${idx}')" title="Actions menu">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <circle cx="12" cy="5" r="2.2"></circle>
+                                    <circle cx="12" cy="12" r="2.2"></circle>
+                                    <circle cx="12" cy="19" r="2.2"></circle>
+                                </svg>
                             </button>
-                            <button type="button" class="btn-delete" onclick="event.stopPropagation(); removeApp(${idx})" title="Delete this application">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                <span>Delete</span>
-                            </button>
+                            <div class="kebab-dropdown" id="kebab-dropdown-app-${idx}">
+                                <button type="button" class="kebab-item" onclick="toggleAppEditor(${idx}); closeAllKebabMenus();">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                    <span>${isExpanded ? 'Collapse Drawer' : 'Edit App Details'}</span>
+                                </button>
+                                <button type="button" class="kebab-item delete" onclick="removeApp(${idx}); closeAllKebabMenus();">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    <span>Delete App</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -3470,17 +3573,14 @@
 
         function toggleAppEditor(idx) {
             const card = document.getElementById(`app-card-${idx}`);
-            const btnText = document.getElementById(`btn-toggle-text-${idx}`);
             if (!card) return;
 
             const isExpanded = card.classList.contains('is-expanded');
             if (isExpanded) {
                 card.classList.remove('is-expanded');
-                if (btnText) btnText.textContent = '✏️ Edit Details ▾';
                 expandedAppsSet.delete(idx);
             } else {
                 card.classList.add('is-expanded');
-                if (btnText) btnText.textContent = '✕ Close ▲';
                 expandedAppsSet.add(idx);
             }
         }
@@ -3496,6 +3596,34 @@
                 ${hasAndroid ? '<span class="store-pill active-android">🤖 Google Play</span>' : ''}
             `;
         }
+
+        // Global Kebab (Three-dots) Dropdown Handler
+        function toggleKebabMenu(e, id) {
+            if (e) e.stopPropagation();
+            const targetMenu = document.getElementById(`kebab-dropdown-${id}`);
+            const targetBtn = document.getElementById(`btn-kebab-${id}`);
+            const wasOpen = targetMenu && targetMenu.classList.contains('show');
+
+            closeAllKebabMenus();
+
+            if (targetMenu && !wasOpen) {
+                targetMenu.classList.add('show');
+                if (targetBtn) targetBtn.classList.add('active');
+            }
+        }
+
+        function closeAllKebabMenus() {
+            document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
+                menu.classList.remove('show');
+            });
+            document.querySelectorAll('.btn-kebab.active').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+
+        document.addEventListener('click', () => {
+            closeAllKebabMenus();
+        });
 
         function openAddAppModal() {
             const modal = document.getElementById('modal-add-app');
@@ -3745,15 +3873,27 @@
                             </div>
                         </div>
 
-                        <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-left: auto;">
                             <span class="skill-count-badge" id="skill-badge-count-${gIdx}">${(group.items || []).length} SKILLS</span>
-                            <button type="button" class="btn-toggle-edit" onclick="event.stopPropagation(); toggleSkillCategory(${gIdx})">
-                                <span id="btn-skill-toggle-text-${gIdx}">${isExpanded ? '✕ Close ▲' : '✏️ Edit Skills ▾'}</span>
-                            </button>
-                            <button type="button" class="btn-delete" onclick="event.stopPropagation(); removeSkillCategory(${gIdx})" title="Delete entire category">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                <span>Delete</span>
-                            </button>
+                            <div class="kebab-menu-wrapper" onclick="event.stopPropagation();">
+                                <button type="button" class="btn-kebab" id="btn-kebab-skill-${gIdx}" onclick="toggleKebabMenu(event, 'skill-${gIdx}')" title="Actions menu">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                        <circle cx="12" cy="5" r="2.2"></circle>
+                                        <circle cx="12" cy="12" r="2.2"></circle>
+                                        <circle cx="12" cy="19" r="2.2"></circle>
+                                    </svg>
+                                </button>
+                                <div class="kebab-dropdown" id="kebab-dropdown-skill-${gIdx}">
+                                    <button type="button" class="kebab-item" onclick="toggleSkillCategory(${gIdx}); closeAllKebabMenus();">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                        <span>${isExpanded ? 'Collapse Drawer' : 'Edit Category & Skills'}</span>
+                                    </button>
+                                    <button type="button" class="kebab-item delete" onclick="removeSkillCategory(${gIdx}); closeAllKebabMenus();">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                        <span>Delete Category</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -3800,17 +3940,14 @@
 
         function toggleSkillCategory(gIdx) {
             const card = document.getElementById(`skill-group-card-${gIdx}`);
-            const btnText = document.getElementById(`btn-skill-toggle-text-${gIdx}`);
             if (!card) return;
 
             const isExpanded = card.classList.contains('is-expanded');
             if (isExpanded) {
                 card.classList.remove('is-expanded');
-                if (btnText) btnText.textContent = '✏️ Edit Skills ▾';
                 expandedSkillGroupsSet.delete(gIdx);
             } else {
                 card.classList.add('is-expanded');
-                if (btnText) btnText.textContent = '✕ Close ▲';
                 expandedSkillGroupsSet.add(gIdx);
             }
         }
