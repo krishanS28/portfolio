@@ -771,22 +771,28 @@
             line-height: 1.5;
         }
 
-        /* App Project Cards */
+        /* App Project Cards & Accordion List */
         .project-editor-card {
             background: rgba(13, 20, 36, 0.75);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-top: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 18px;
-            padding: 26px;
-            margin-bottom: 24px;
+            border-radius: 16px;
+            margin-bottom: 14px;
             backdrop-filter: blur(20px);
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
         }
 
         .project-editor-card:hover {
             border-color: rgba(0, 240, 255, 0.35);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-glow);
+            box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45), 0 0 16px rgba(0, 240, 255, 0.12);
+        }
+
+        .project-editor-card.is-expanded {
+            border-color: rgba(0, 240, 255, 0.5);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 24px var(--primary-glow);
+            background: rgba(15, 24, 44, 0.95);
         }
 
         .project-editor-header {
@@ -794,10 +800,155 @@
             justify-content: space-between;
             align-items: center;
             gap: 16px;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 16px 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s ease;
             flex-wrap: wrap;
+        }
+
+        .project-editor-header:hover {
+            background: rgba(0, 240, 255, 0.035);
+        }
+
+        .project-editor-card.is-expanded .project-editor-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 16px;
+        }
+
+        .app-item-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .app-item-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(168, 85, 247, 0.15));
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25em;
+            flex-shrink: 0;
+        }
+
+        .app-item-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .app-item-meta strong {
+            font-size: 1.05em;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .app-item-meta span {
+            font-size: 0.82em;
+            color: var(--text-muted);
+        }
+
+        .app-store-pills {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .store-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.72em;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+        }
+
+        .store-pill.active-ios {
+            color: var(--primary);
+            background: rgba(0, 240, 255, 0.08);
+            border-color: rgba(0, 240, 255, 0.25);
+        }
+
+        .store-pill.active-android {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.08);
+            border-color: rgba(74, 222, 128, 0.25);
+        }
+
+        .btn-toggle-edit {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.35);
+            color: var(--primary);
+            padding: 7px 15px;
+            border-radius: 9px;
+            font-size: 0.82em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-toggle-edit:hover {
+            background: var(--primary);
+            color: #06090f;
+            box-shadow: 0 0 16px var(--primary-glow);
+        }
+
+        .project-editor-card.is-expanded .btn-toggle-edit {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #cbd5e1;
+        }
+
+        .project-editor-card.is-expanded .btn-toggle-edit:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        .app-editor-drawer {
+            display: none;
+            padding: 24px 22px 18px;
+            animation: drawerSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .project-editor-card.is-expanded .app-editor-drawer {
+            display: block;
+        }
+
+        @keyframes drawerSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .drawer-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .project-tag-id {
@@ -2002,16 +2153,23 @@
             <!-- SECTION 3: LIVE APPS -->
             <div class="section-view" id="view-apps">
                 <div class="glass-panel">
-                    <div class="panel-heading">
+                    <div class="panel-heading" style="margin-bottom: 20px; flex-wrap: wrap; gap: 14px;">
                         <div>
                             <h2>🚀 Production Store Applications</h2>
-                            <p>Update names, descriptions, tech stacks, and Apple App Store / Google Play links.</p>
+                            <p>Click on any application from the list below to expand and edit its details & store links.</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span class="project-tag-id" id="apps-count-badge" style="font-size: 0.82em;">Live Apps</span>
+                            <button type="button" class="btn-primary" onclick="addNewApp()" style="padding: 9px 18px; font-size: 0.85em; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border-radius: 10px;">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                <span>+ Add New App</span>
+                            </button>
                         </div>
                     </div>
 
                     <div id="apps-container"></div>
 
-                    <button type="button" class="btn-add-item" onclick="addNewApp()">
+                    <button type="button" class="btn-add-item" onclick="addNewApp()" style="margin-top: 15px;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                         <span>+ Add New Production App</span>
                     </button>
@@ -2921,60 +3079,111 @@
             notify('All analytics counters and graph reset to 0.');
         }
 
+        const expandedAppsSet = new Set();
+
         function renderAppsList(apps) {
             const container = document.getElementById('apps-container');
+            if (!container) return;
             container.innerHTML = '';
 
-            apps.forEach((app, idx) => {
+            const list = apps || [];
+            if (document.getElementById('apps-count-badge')) {
+                document.getElementById('apps-count-badge').textContent = `${list.length} Live Apps`;
+            }
+
+            if (!list.length) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 45px 20px; background: rgba(13, 20, 36, 0.5); border: 1px dashed rgba(255, 255, 255, 0.12); border-radius: 16px;">
+                        <div style="font-size: 2.2em; margin-bottom: 10px;">📱</div>
+                        <h3 style="color: #fff; font-size: 1.15em; font-weight: 700; margin-bottom: 6px;">No Applications Added Yet</h3>
+                        <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 16px;">Click the button below to add your first live production mobile application.</p>
+                        <button type="button" class="btn-primary" onclick="addNewApp()" style="margin: 0 auto;">+ Add First App</button>
+                    </div>
+                `;
+                return;
+            }
+
+            list.forEach((app, idx) => {
                 const card = document.createElement('div');
-                card.className = 'project-editor-card';
+                const isExpanded = expandedAppsSet.has(idx);
+                card.id = `app-card-${idx}`;
+                card.className = `project-editor-card ${isExpanded ? 'is-expanded' : ''}`;
+
+                const hasIos = Boolean(app.appStoreUrl && app.appStoreUrl.trim());
+                const hasAndroid = Boolean(app.playStoreUrl && app.playStoreUrl.trim());
+
                 card.innerHTML = `
-                    <div class="project-editor-header">
-                        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex: 1;">
+                    <div class="project-editor-header" onclick="toggleAppEditor(${idx})">
+                        <div class="app-item-info">
                             <span class="project-tag-id">#${idx + 1}</span>
-                            <strong style="font-size: 1.05em; color: #fff;">${escapeHtml(app.name || 'App Title')}</strong>
-                            <span style="font-size: 0.82em; color: var(--text-muted);">${escapeHtml(app.category || '')}</span>
+                            <div class="app-item-icon">📱</div>
+                            <div class="app-item-meta">
+                                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                    <strong id="app-name-display-${idx}">${escapeHtml(app.name || 'App Title')}</strong>
+                                    <span class="tag" id="app-badge-display-${idx}">${escapeHtml(app.badge || 'STORE APP')}</span>
+                                </div>
+                                <span id="app-cat-display-${idx}">${escapeHtml(app.category || 'Mobile Platform')}</span>
+                                <div class="app-store-pills" id="app-store-pills-${idx}">
+                                    ${hasIos ? '<span class="store-pill active-ios">🍏 App Store</span>' : ''}
+                                    ${hasAndroid ? '<span class="store-pill active-android">🤖 Google Play</span>' : ''}
+                                </div>
+                            </div>
                         </div>
-                        <button type="button" class="btn-delete" onclick="removeApp(${idx})" title="Delete this application">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            <span>Delete App</span>
-                        </button>
+
+                        <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
+                            <button type="button" class="btn-toggle-edit" onclick="event.stopPropagation(); toggleAppEditor(${idx})">
+                                <span id="btn-toggle-text-${idx}">${isExpanded ? '✕ Close ▲' : '✏️ Edit Details ▾'}</span>
+                            </button>
+                            <button type="button" class="btn-delete" onclick="event.stopPropagation(); removeApp(${idx})" title="Delete this application">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                <span>Delete</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>App Name</label>
-                            <input type="text" value="${escapeHtml(app.name || '')}" oninput="db.liveApps[${idx}].name = this.value">
+                    <div class="app-editor-drawer" id="app-drawer-${idx}">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>App Name</label>
+                                <input type="text" value="${escapeHtml(app.name || '')}" oninput="db.liveApps[${idx}].name = this.value; document.getElementById('app-name-display-${idx}').textContent = this.value || 'App Title';">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Category / Subtitle</label>
+                                <input type="text" value="${escapeHtml(app.category || '')}" oninput="db.liveApps[${idx}].category = this.value; document.getElementById('app-cat-display-${idx}').textContent = this.value || '';">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Store Badge <span class="tag">DUAL STORES / APP STORE / GOOGLE PLAY</span></label>
+                                <input type="text" value="${escapeHtml(app.badge || '')}" oninput="db.liveApps[${idx}].badge = this.value; document.getElementById('app-badge-display-${idx}').textContent = this.value || '';">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tech Stack</label>
+                                <input type="text" value="${escapeHtml(app.tech || '')}" oninput="db.liveApps[${idx}].tech = this.value">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>Description</label>
+                                <textarea rows="2" oninput="db.liveApps[${idx}].desc = this.value">${escapeHtml(app.desc || '')}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>🍏 Apple App Store URL</label>
+                                <input type="text" placeholder="https://apps.apple.com/..." value="${escapeHtml(app.appStoreUrl || '')}" oninput="db.liveApps[${idx}].appStoreUrl = this.value; updateStorePills(${idx});">
+                            </div>
+
+                            <div class="form-group">
+                                <label>🤖 Google Play Store URL</label>
+                                <input type="text" placeholder="https://play.google.com/..." value="${escapeHtml(app.playStoreUrl || '')}" oninput="db.liveApps[${idx}].playStoreUrl = this.value; updateStorePills(${idx});">
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Category / Subtitle</label>
-                            <input type="text" value="${escapeHtml(app.category || '')}" oninput="db.liveApps[${idx}].category = this.value">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Store Badge <span class="tag">DUAL STORES / APP STORE / GOOGLE PLAY</span></label>
-                            <input type="text" value="${escapeHtml(app.badge || '')}" oninput="db.liveApps[${idx}].badge = this.value">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Tech Stack</label>
-                            <input type="text" value="${escapeHtml(app.tech || '')}" oninput="db.liveApps[${idx}].tech = this.value">
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label>Description</label>
-                            <textarea rows="2" oninput="db.liveApps[${idx}].desc = this.value">${escapeHtml(app.desc || '')}</textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>🍏 Apple App Store URL</label>
-                            <input type="text" placeholder="https://apps.apple.com/..." value="${escapeHtml(app.appStoreUrl || '')}" oninput="db.liveApps[${idx}].appStoreUrl = this.value">
-                        </div>
-
-                        <div class="form-group">
-                            <label>🤖 Google Play Store URL</label>
-                            <input type="text" placeholder="https://play.google.com/..." value="${escapeHtml(app.playStoreUrl || '')}" oninput="db.liveApps[${idx}].playStoreUrl = this.value">
+                        <div class="drawer-footer">
+                            <button type="button" class="btn-ghost" onclick="toggleAppEditor(${idx})" style="gap: 6px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Done Editing (Collapse)</span>
+                            </button>
                         </div>
                     </div>
                 `;
@@ -2982,9 +3191,39 @@
             });
         }
 
+        function toggleAppEditor(idx) {
+            const card = document.getElementById(`app-card-${idx}`);
+            const btnText = document.getElementById(`btn-toggle-text-${idx}`);
+            if (!card) return;
+
+            const isExpanded = card.classList.contains('is-expanded');
+            if (isExpanded) {
+                card.classList.remove('is-expanded');
+                if (btnText) btnText.textContent = '✏️ Edit Details ▾';
+                expandedAppsSet.delete(idx);
+            } else {
+                card.classList.add('is-expanded');
+                if (btnText) btnText.textContent = '✕ Close ▲';
+                expandedAppsSet.add(idx);
+            }
+        }
+
+        function updateStorePills(idx) {
+            const container = document.getElementById(`app-store-pills-${idx}`);
+            if (!container || !db.liveApps || !db.liveApps[idx]) return;
+            const app = db.liveApps[idx];
+            const hasIos = Boolean(app.appStoreUrl && app.appStoreUrl.trim());
+            const hasAndroid = Boolean(app.playStoreUrl && app.playStoreUrl.trim());
+            container.innerHTML = `
+                ${hasIos ? '<span class="store-pill active-ios">🍏 App Store</span>' : ''}
+                ${hasAndroid ? '<span class="store-pill active-android">🤖 Google Play</span>' : ''}
+            `;
+        }
+
         function addNewApp() {
             if (!db.liveApps) db.liveApps = [];
-            db.liveApps.push({
+            const newIndex = 0;
+            db.liveApps.unshift({
                 id: 'app_' + Date.now(),
                 name: 'New Mobile App',
                 category: 'Mobile Platform',
@@ -2994,16 +3233,20 @@
                 appStoreUrl: '',
                 playStoreUrl: ''
             });
+            expandedAppsSet.clear();
+            expandedAppsSet.add(newIndex);
             renderAppsList(db.liveApps);
             document.getElementById('kpi-apps-count').textContent = db.liveApps.length;
-            notify('New app added!');
+            notify('New app added! Fill in the details below.');
         }
 
         function removeApp(idx) {
             if (confirm('Are you sure you want to remove this project?')) {
                 db.liveApps.splice(idx, 1);
+                expandedAppsSet.delete(idx);
                 renderAppsList(db.liveApps);
                 document.getElementById('kpi-apps-count').textContent = db.liveApps.length;
+                notify('App removed.');
             }
         }
 
