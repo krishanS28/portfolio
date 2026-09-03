@@ -379,13 +379,64 @@
         }
 
         .sidebar-footer {
-            padding: 16px 20px;
+            padding: 14px 18px;
             border-top: 1px solid var(--border);
-            font-size: 0.8em;
-            color: var(--text-muted);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
+            background: rgba(6, 9, 15, 0.7);
+            margin-top: auto;
+        }
+
+        .sidebar-user-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(0, 240, 255, 0.08);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.78em;
+            font-weight: 700;
+            color: var(--primary);
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .user-avatar-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 6px #10b981;
+            flex-shrink: 0;
+        }
+
+        .btn-logout {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            font-size: 0.78em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-logout:hover {
+            background: #ef4444;
+            border-color: #ef4444;
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
         }
 
         /* Main Workspace */
@@ -601,14 +652,14 @@
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 22px 24px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            margin-bottom: 18px;
+            margin-bottom: 2px;
         }
 
         .form-group.full-width {
@@ -616,11 +667,13 @@
         }
 
         label {
-            font-size: 0.85em;
+            font-size: 0.86em;
             font-weight: 600;
             color: #cbd5e1;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2px;
         }
 
         label span.tag {
@@ -719,25 +772,31 @@
 
         /* App Project Cards */
         .project-editor-card {
-            background: rgba(22, 33, 58, 0.45);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-            transition: all 0.25s ease;
+            background: rgba(13, 20, 36, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 18px;
+            padding: 26px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
 
         .project-editor-card:hover {
-            border-color: var(--border-highlight);
+            border-color: rgba(0, 240, 255, 0.35);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-glow);
         }
 
         .project-editor-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 18px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            flex-wrap: wrap;
         }
 
         .project-tag-id {
@@ -746,25 +805,36 @@
             font-weight: 700;
             color: var(--primary);
             background: rgba(0, 240, 255, 0.1);
-            padding: 4px 10px;
-            border-radius: 6px;
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            padding: 4px 12px;
+            border-radius: 8px;
+            letter-spacing: 0.5px;
         }
 
         .btn-delete {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             background: rgba(239, 68, 68, 0.12);
             border: 1px solid rgba(239, 68, 68, 0.35);
-            color: #f87171;
-            padding: 5px 12px;
-            border-radius: 8px;
+            color: #fca5a5;
+            padding: 7px 15px;
+            border-radius: 9px;
             font-size: 0.82em;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            margin-left: auto;
         }
 
         .btn-delete:hover {
-            background: var(--danger);
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #ef4444;
             color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
         }
 
         .btn-add-item {
@@ -772,7 +842,7 @@
             background: rgba(0, 240, 255, 0.05);
             border: 2px dashed rgba(0, 240, 255, 0.3);
             color: var(--primary);
-            padding: 16px;
+            padding: 16px 20px;
             border-radius: 14px;
             font-size: 0.95em;
             font-weight: 700;
@@ -782,18 +852,34 @@
             justify-content: center;
             gap: 10px;
             transition: all 0.25s ease;
+            margin-top: 24px;
+        }
+
+        .quick-action-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 16px;
+        }
+
+        .quick-action-grid .btn-add-item {
+            margin-top: 0 !important;
         }
 
         .btn-add-item:hover {
             background: rgba(0, 240, 255, 0.12);
             border-color: var(--primary);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 18px var(--primary-glow);
+        }
+
         /* Skills Manager Styles */
         .skill-group-box {
             background: rgba(22, 33, 58, 0.45);
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 24px;
-            margin-bottom: 22px;
+            margin-bottom: 24px;
         }
 
         /* Cleaned legacy tags block */
@@ -1204,8 +1290,8 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-top: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 18px;
-            padding: 24px;
-            margin-bottom: 22px;
+            padding: 26px;
+            margin-bottom: 24px;
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
@@ -1213,28 +1299,50 @@
 
         .experience-editor-card:hover {
             border-color: rgba(0, 240, 255, 0.35);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-dim);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-glow);
         }
 
         .experience-card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 18px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            flex-wrap: wrap;
+        }
+
+        .exp-header-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            flex: 1;
+            min-width: 250px;
         }
 
         .company-badge {
-            font-size: 0.75em;
+            font-size: 0.78em;
             font-weight: 800;
             color: var(--primary);
             background: rgba(0, 240, 255, 0.1);
             border: 1px solid rgba(0, 240, 255, 0.25);
-            padding: 4px 12px;
+            padding: 5px 13px;
             border-radius: 20px;
             letter-spacing: 0.8px;
             text-transform: uppercase;
+        }
+
+        .testimonial-editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 22px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            flex-wrap: wrap;
         }
 
     
@@ -1503,8 +1611,14 @@
         </nav>
 
         <div class="sidebar-footer">
-            <button type="button" onclick="logout()" class="btn-ghost" style="padding: 5px 10px; font-size: 0.78em;">Log Out</button>
-            <span style="color: var(--primary);">kl268369</span>
+            <div class="sidebar-user-pill">
+                <span class="user-avatar-dot"></span>
+                <span class="user-email-text">kl268369</span>
+            </div>
+            <button type="button" onclick="logout()" class="btn-logout" title="Sign out from dashboard">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span>Log Out</span>
+            </button>
         </div>
     </aside>
 
@@ -1520,7 +1634,7 @@
                     <span>Cloud: <strong style="color: #fff;">kl268369</strong></span>
                 </div>
 
-                <div class="theme-accent-picker" title="Switch Theme Glow" style="margin-right: 10px;">
+                <div class="theme-accent-picker" title="Switch Theme Glow">
                     <button type="button" class="theme-dot cyan active" onclick="switchTheme('cyan')" title="Neon Cyan"></button>
                     <button type="button" class="theme-dot emerald" onclick="switchTheme('emerald')" title="Emerald Matrix"></button>
                     <button type="button" class="theme-dot violet" onclick="switchTheme('violet')" title="Royal Violet"></button>
@@ -1626,7 +1740,7 @@
                             <p>Manage your developer portfolio securely from any device.</p>
                         </div>
                     </div>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                    <div class="quick-action-grid">
                         <button class="btn-add-item" onclick="showSection('view-apps')">
                             <span>📱 Manage Live App Links</span>
                         </button>
@@ -2436,11 +2550,15 @@
                 card.className = 'project-editor-card';
                 card.innerHTML = `
                     <div class="project-editor-header">
-                        <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex: 1;">
                             <span class="project-tag-id">#${idx + 1}</span>
                             <strong style="font-size: 1.05em; color: #fff;">${escapeHtml(app.name || 'App Title')}</strong>
+                            <span style="font-size: 0.82em; color: var(--text-muted);">${escapeHtml(app.category || '')}</span>
                         </div>
-                        <button type="button" class="btn-delete" onclick="removeApp(${idx})">✕ Delete</button>
+                        <button type="button" class="btn-delete" onclick="removeApp(${idx})" title="Delete this application">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            <span>Delete App</span>
+                        </button>
                     </div>
 
                     <div class="form-grid">
@@ -2519,13 +2637,14 @@
                 card.className = 'experience-editor-card';
                 card.innerHTML = `
                     <div class="experience-card-header">
-                        <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="exp-header-info">
                             <span class="company-badge">🏢 COMPANY #${idx + 1}</span>
                             <strong style="color: #ffffff; font-size: 1.05em;">${escapeHtml(exp.company || 'New Company')}</strong>
                             <span style="color: var(--text-muted); font-size: 0.85em;">• ${escapeHtml(exp.period || '')}</span>
                         </div>
                         <button type="button" class="btn-delete" onclick="removeExperience(${idx})" title="Remove this company from timeline">
-                            ✕ Remove Company
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            <span>Remove Company</span>
                         </button>
                     </div>
 
@@ -2665,9 +2784,15 @@
                 const card = document.createElement('div');
                 card.className = 'testimonial-editor-card';
                 card.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 10px;">
-                        <span style="font-weight: 700; color: var(--primary);">Review #${idx + 1}</span>
-                        <button type="button" class="btn-delete" onclick="removeTestimonial(${idx})">✕ Delete</button>
+                    <div class="testimonial-editor-header">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="project-tag-id">⭐ REVIEW #${idx + 1}</span>
+                            <strong style="color: #ffffff; font-size: 1.02em;">${escapeHtml(item.clientName || 'Client')}</strong>
+                        </div>
+                        <button type="button" class="btn-delete" onclick="removeTestimonial(${idx})" title="Delete testimonial review">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            <span>Delete Review</span>
+                        </button>
                     </div>
 
                     <div class="form-grid">
