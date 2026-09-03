@@ -5,7 +5,8 @@ A high-performance, ultra-responsive developer portfolio showcasing 4.8+ years o
 ---
 
 ## 🌐 Live Website
-👉 **[https://krishanS28.github.io/portfolio/](https://krishanS28.github.io/portfolio/)**
+👉 **[https://krishanlal.is-a.dev/](https://krishanlal.is-a.dev/)**  
+*(Backup: [https://krishanS28.github.io/portfolio/](https://krishanS28.github.io/portfolio/))*
 
 ---
 
