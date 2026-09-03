@@ -781,7 +781,7 @@
             backdrop-filter: blur(20px);
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
-            overflow: hidden;
+            position: relative;
         }
 
         .project-editor-card:hover {
@@ -952,17 +952,17 @@
         .kebab-dropdown {
             position: absolute;
             right: 0;
-            top: calc(100% + 6px);
-            background: #0d1526;
-            border: 1px solid rgba(0, 240, 255, 0.28);
-            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            top: calc(100% + 8px);
+            background: #0b1222;
+            border: 1px solid rgba(0, 240, 255, 0.45);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 14px;
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 20px rgba(0, 240, 255, 0.15);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85), 0 0 24px rgba(0, 240, 255, 0.2);
             padding: 6px;
-            min-width: 175px;
-            z-index: 1000;
+            min-width: 190px;
+            z-index: 99999;
             display: none;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             animation: dropdownFade 0.18s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -1589,8 +1589,8 @@
             backdrop-filter: blur(20px);
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
-            overflow: hidden;
             padding: 0;
+            position: relative;
         }
 
         .skill-group-box:hover {
@@ -3599,7 +3599,10 @@
 
         // Global Kebab (Three-dots) Dropdown Handler
         function toggleKebabMenu(e, id) {
-            if (e) e.stopPropagation();
+            if (e) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
             const targetMenu = document.getElementById(`kebab-dropdown-${id}`);
             const targetBtn = document.getElementById(`btn-kebab-${id}`);
             const wasOpen = targetMenu && targetMenu.classList.contains('show');
@@ -3608,7 +3611,13 @@
 
             if (targetMenu && !wasOpen) {
                 targetMenu.classList.add('show');
-                if (targetBtn) targetBtn.classList.add('active');
+                if (targetBtn) {
+                    targetBtn.classList.add('active');
+                    const parentCard = targetBtn.closest('.project-editor-card, .skill-group-box');
+                    if (parentCard) {
+                        parentCard.style.zIndex = '500';
+                    }
+                }
             }
         }
 
@@ -3618,6 +3627,9 @@
             });
             document.querySelectorAll('.btn-kebab.active').forEach(btn => {
                 btn.classList.remove('active');
+            });
+            document.querySelectorAll('.project-editor-card, .skill-group-box').forEach(card => {
+                card.style.zIndex = '';
             });
         }
 
