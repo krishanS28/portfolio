@@ -113,15 +113,25 @@
   ],
   "skills": [
     {
-      "category": "Mobile Core",
+      "category": "Mobile Development",
       "items": [
         "React Native",
+        "React Native CLI",
         "TypeScript",
         "JavaScript (ES6+)",
+        "Android Native",
+        "iOS Native"
+      ]
+    },
+    {
+      "category": "State & Architecture",
+      "items": [
         "Redux Toolkit",
+        "Redux",
         "Context API",
-        "Native Bridges (Swift/Kotlin)",
-        "Jest"
+        "Reusable Components",
+        "API-driven Architecture",
+        "Clean Architecture"
       ]
     },
     {
@@ -129,33 +139,54 @@
       "items": [
         "WebRTC",
         "LiveKit",
-        "Socket.IO",
+        "Telnyx",
         "WebSocket",
-        "Push Notifications (FCM/APNs)",
-        "Agora",
-        "AV Foundation"
+        "Socket.IO",
+        "Live Streaming",
+        "Audio/Video Calling"
       ]
     },
     {
-      "category": "AI & Future Tech",
+      "category": "AI / AR / 3D & Bridging",
       "items": [
-        "Small Language Models (SLM)",
-        "Offline AI Chat Engine",
+        "SLM Offline AI Chat",
         "AR Try-On",
-        "3D Model Rendering",
-        "MediaPipe",
-        "BLE Bluetooth"
+        "3D View Models",
+        "Native iOS/Android Bridge",
+        "Camera-based Features"
       ]
     },
     {
-      "category": "Architecture & Cloud",
+      "category": "Payments & Gateways",
       "items": [
-        "Clean Architecture",
-        "Offline-First",
+        "Stripe 3D Secure",
+        "PayPal",
+        "Apple Pay",
+        "Paydunya",
+        "Pay Stack",
+        "In-App Purchases"
+      ]
+    },
+    {
+      "category": "APIs, Services & Cloud",
+      "items": [
         "REST APIs",
-        "SQLite / MMKV",
-        "Stripe / Apple Pay",
-        "CI/CD"
+        "Firebase & Firestore",
+        "Push Notifications (FCM)",
+        "Authentication & JWT",
+        "Google Maps SDK",
+        "Third-party SDKs"
+      ]
+    },
+    {
+      "category": "Tools & Store Release",
+      "items": [
+        "Git & GitHub",
+        "Xcode & Android Studio",
+        "Flipper Debugger",
+        "Fastlane",
+        "TestFlight & Google Play Console",
+        "Postman"
       ]
     }
   ],

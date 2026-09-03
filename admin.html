@@ -2316,6 +2316,11 @@
                     </div>
 
                     <div id="skills-admin-container"></div>
+
+                    <button type="button" class="btn-add-item" onclick="addNewSkillCategory()" style="margin-top: 20px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>+ Add New Skill Category</span>
+                    </button>
                 </div>
             </div>
 
@@ -3608,10 +3613,13 @@
             if (!cat) return '⚡';
             const c = cat.toLowerCase();
             if (c.includes('mobile')) return '📱';
-            if (c.includes('real-time') || c.includes('media')) return '📡';
-            if (c.includes('ai') || c.includes('future')) return '🧠';
-            if (c.includes('architecture') || c.includes('cloud')) return '☁️';
-            return '📁';
+            if (c.includes('state') || c.includes('arch')) return '🏛️';
+            if (c.includes('real-time') || c.includes('media') || c.includes('stream')) return '📡';
+            if (c.includes('ai') || c.includes('ar') || c.includes('3d')) return '🧠';
+            if (c.includes('pay') || c.includes('gateway')) return '💳';
+            if (c.includes('api') || c.includes('cloud') || c.includes('service')) return '🌐';
+            if (c.includes('tool') || c.includes('release') || c.includes('store') || c.includes('git')) return '🛠️';
+            return '⚡';
         }
 
         // Skills Manager Logic
@@ -3620,16 +3628,33 @@
             if (!container) return;
             container.innerHTML = '';
 
-            skills.forEach((group, gIdx) => {
+            const list = skills || [];
+            if (!list.length) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-muted); background: rgba(13, 20, 36, 0.5); border-radius: 14px; border: 1px dashed rgba(255,255,255,0.1);">
+                        <p style="margin-bottom: 12px;">No skill categories found.</p>
+                        <button type="button" class="btn-ghost" onclick="addNewSkillCategory()">+ Create First Category</button>
+                    </div>
+                `;
+                return;
+            }
+
+            list.forEach((group, gIdx) => {
                 const box = document.createElement('div');
                 box.className = 'skill-group-box';
                 box.innerHTML = `
                     <div class="skill-group-header">
-                        <div class="skill-group-title">
-                            <span>${getCategoryIcon(group.category)}</span>
-                            <span>${escapeHtml(group.category || 'Skill Category')}</span>
+                        <div class="skill-group-title" style="flex: 1; display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.25em;">${getCategoryIcon(group.category)}</span>
+                            <strong style="color: #fff; font-size: 1.05em; cursor: pointer;" title="Click to rename category" onclick="renameSkillCategory(${gIdx})">${escapeHtml(group.category || 'Skill Category')} ✏️</strong>
                         </div>
-                        <span class="skill-count-badge">${(group.items || []).length} SKILLS</span>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="skill-count-badge">${(group.items || []).length} SKILLS</span>
+                            <button type="button" class="btn-delete" onclick="removeSkillCategory(${gIdx})" title="Delete entire category" style="padding: 4px 10px; font-size: 0.78em;">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                <span>Delete Category</span>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="skill-tags-wrapper" id="skill-tags-${gIdx}">
@@ -3670,6 +3695,39 @@
             const removed = db.skills[gIdx].items.splice(sIdx, 1);
             renderSkillsList(db.skills);
             notify(`Removed "${removed}"`);
+        }
+
+        function addNewSkillCategory() {
+            const catName = prompt('Enter New Skill Category Name (e.g. Cloud & DevOps, Database Systems):');
+            if (!catName || !catName.trim()) return;
+            if (!db.skills) db.skills = [];
+            db.skills.push({
+                category: catName.trim(),
+                items: []
+            });
+            renderSkillsList(db.skills);
+            notify(`Category "${catName.trim()}" created! Add skills into it below.`);
+        }
+
+        function removeSkillCategory(gIdx) {
+            const cat = db.skills[gIdx];
+            if (!cat) return;
+            if (confirm(`Are you sure you want to delete the "${cat.category}" category and all its skills?`)) {
+                db.skills.splice(gIdx, 1);
+                renderSkillsList(db.skills);
+                notify(`Category "${cat.category}" deleted.`);
+            }
+        }
+
+        function renameSkillCategory(gIdx) {
+            const cat = db.skills[gIdx];
+            if (!cat) return;
+            const newName = prompt('Edit Category Name:', cat.category);
+            if (newName && newName.trim() && newName.trim() !== cat.category) {
+                cat.category = newName.trim();
+                renderSkillsList(db.skills);
+                notify(`Renamed to "${cat.category}"`);
+            }
         }
 
 

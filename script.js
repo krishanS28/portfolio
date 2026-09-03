@@ -177,20 +177,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // D. Sync Testimonials / Recommendations
-            if (data.testimonials && Array.isArray(data.testimonials)) {
-                const testContainer = document.getElementById('testimonials-grid-container');
-                if (testContainer) {
-                    testContainer.innerHTML = data.testimonials.map(item => `
-                        <div class="testimonial-card">
-                            <div class="stars">★★★★★</div>
-                            <p class="testimonial-quote">"${escapeHtml(item.text || '')}"</p>
-                            <div class="client-info">
-                                <strong>${escapeHtml(item.clientName || '')}</strong>
-                                <span>${escapeHtml(item.clientRole || '')} • ${escapeHtml(item.project || '')}</span>
+            // D. Sync Technical Skills Matrix from CMS
+            if (data.skills && Array.isArray(data.skills) && data.skills.length > 0) {
+                const skillsContainer = document.querySelector('.skills-matrix-container');
+                if (skillsContainer) {
+                    skillsContainer.innerHTML = data.skills.map(group => {
+                        const iconSvg = getSkillCategorySvg(group.category);
+                        const pills = (group.items || []).map(skill => {
+                            return `<span class="skill-tag">${escapeHtml(skill)}</span>`;
+                        }).join('');
+
+                        return `
+                            <div class="skill-category-card">
+                                <h3>
+                                    ${iconSvg}
+                                    ${escapeHtml(group.category || 'Specialization')}
+                                </h3>
+                                <div class="skill-pills">
+                                    ${pills}
+                                </div>
                             </div>
-                        </div>
-                    `).join('');
+                        `;
+                    }).join('');
                 }
             }
         } catch (err) {
@@ -226,6 +234,32 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!str) return '';
         const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
         return String(str).replace(/[&<>"']/g, m => map[m]);
+    }
+
+    function getSkillCategorySvg(cat) {
+        const c = (cat || '').toLowerCase();
+        if (c.includes('mobile')) {
+            return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>`;
+        }
+        if (c.includes('state') || c.includes('arch')) {
+            return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>`;
+        }
+        if (c.includes('real-time') || c.includes('media') || c.includes('stream')) {
+            return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`;
+        }
+        if (c.includes('ai') || c.includes('ar') || c.includes('3d')) {
+            return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>`;
+        }
+        if (c.includes('pay') || c.includes('gate') || c.includes('stripe')) {
+            return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>`;
+        }
+        if (c.includes('api') || c.includes('cloud') || c.includes('service')) {
+            return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line></svg>`;
+        }
+        if (c.includes('tool') || c.includes('store') || c.includes('release') || c.includes('git')) {
+            return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>`;
+        }
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
     }
 
     syncDynamicPortfolioData();
