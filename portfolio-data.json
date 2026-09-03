@@ -108,7 +108,9 @@
         "Developed native iOS (Swift) and Android (Kotlin) bridge modules for real-time 3D rendering and camera-based AR Try-On experiences.",
         "Integrated on-device Small Language Model (SLM) offline AI chat engine that functions 100% without internet connectivity.",
         "Implemented multi-gateway secure payment systems including Stripe, PayPal, Apple Pay, Paydunya, and Pay Stack."
-      ]
+      ],
+      "startDate": "Jan 2022",
+      "endDate": "Present"
     }
   ],
   "skills": [

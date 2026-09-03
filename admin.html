@@ -3833,12 +3833,23 @@
             (expList || []).forEach((exp, idx) => {
                 const card = document.createElement('div');
                 card.className = 'experience-editor-card';
+
+                let startVal = exp.startDate || '';
+                let endVal = exp.endDate || '';
+                if (!startVal && exp.period) {
+                    const parts = exp.period.split('–').map(s => s.trim());
+                    startVal = parts[0] || '';
+                    endVal = parts[1] || '';
+                }
+
+                const periodDisplay = endVal ? `${startVal} – ${endVal}` : (startVal ? `${startVal} – Present` : '');
+
                 card.innerHTML = `
                     <div class="experience-card-header">
                         <div class="exp-header-info">
                             <span class="company-badge">🏢 COMPANY #${idx + 1}</span>
                             <strong style="color: #ffffff; font-size: 1.05em;">${escapeHtml(exp.company || 'New Company')}</strong>
-                            <span style="color: var(--text-muted); font-size: 0.85em;">• ${escapeHtml(exp.period || '')}</span>
+                            <span class="exp-period-badge" style="color: var(--text-muted); font-size: 0.85em;">• ${escapeHtml(periodDisplay)}</span>
                         </div>
                         <button type="button" class="btn-delete" onclick="removeExperience(${idx})" title="Remove this company from timeline">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -3848,28 +3859,33 @@
 
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Company Name <span class="tag">e.g. ToXSL Technologies</span></label>
-                            <input type="text" value="${escapeHtml(exp.company || '')}" placeholder="Company Name" oninput="db.experience[${idx}].company = this.value; this.closest('.experience-editor-card').querySelector('strong').textContent = this.value || 'New Company'">
+                            <label>Company Name <span class="required-star">*</span> <span class="tag">e.g. ToXSL Technologies</span></label>
+                            <input type="text" value="${escapeHtml(exp.company || '')}" class="exp-input-company" placeholder="Company Name" required oninput="this.closest('.experience-editor-card').querySelector('strong').textContent = this.value || 'New Company'">
                         </div>
 
                         <div class="form-group">
-                            <label>Role / Position Title <span class="tag">e.g. Senior React Native Developer</span></label>
-                            <input type="text" value="${escapeHtml(exp.role || '')}" placeholder="Role / Position Title" oninput="db.experience[${idx}].role = this.value">
+                            <label>Role / Position Title <span class="required-star">*</span> <span class="tag">e.g. Senior React Native Developer</span></label>
+                            <input type="text" value="${escapeHtml(exp.role || '')}" class="exp-input-role" placeholder="Role / Position Title" required>
                         </div>
 
                         <div class="form-group">
-                            <label>Employment Period <span class="tag">e.g. Jan 2022 – Present</span></label>
-                            <input type="text" value="${escapeHtml(exp.period || '')}" placeholder="e.g. Jan 2022 – Present" oninput="db.experience[${idx}].period = this.value; this.closest('.experience-editor-card').querySelector('.experience-card-header span:last-of-type').textContent = '• ' + this.value">
+                            <label>Start Date <span class="required-star">* (Required)</span> <span class="tag">e.g. Jan 2022</span></label>
+                            <input type="text" value="${escapeHtml(startVal)}" class="exp-input-start" placeholder="e.g. Jan 2022" required oninput="updateCardPeriod(this)">
                         </div>
 
                         <div class="form-group">
+                            <label>End Date <span class="optional-tag">(Optional)</span> <span class="tag">Leave blank for Present</span></label>
+                            <input type="text" value="${escapeHtml(endVal)}" class="exp-input-end" placeholder="e.g. Present or Dec 2023" oninput="updateCardPeriod(this)">
+                        </div>
+
+                        <div class="form-group full-width">
                             <label>Location & Work Mode <span class="tag">e.g. Mohali / Chandigarh, India</span></label>
-                            <input type="text" value="${escapeHtml(exp.location || '')}" placeholder="City, Country · Full-time / Remote" oninput="db.experience[${idx}].location = this.value">
+                            <input type="text" value="${escapeHtml(exp.location || '')}" class="exp-input-location" placeholder="City, Country · Full-time / Remote">
                         </div>
 
                         <div class="form-group full-width">
                             <label>Key Accomplishments & Deliverables <span class="tag">One bullet point per line</span></label>
-                            <textarea rows="6" placeholder="Built and shipped production apps...&#10;Wired WebRTC, LiveKit, and Telnyx...&#10;Engineered WhatsApp-style chat..." oninput="db.experience[${idx}].points = this.value.split('\\n').filter(l => l.trim())">${escapeHtml((exp.points || []).join('\n'))}</textarea>
+                            <textarea rows="6" class="exp-input-points" placeholder="Built and shipped production apps...&#10;Wired WebRTC, LiveKit, and Telnyx...&#10;Engineered WhatsApp-style chat...">${escapeHtml((exp.points || []).join('\n'))}</textarea>
                         </div>
                     </div>
                 `;
@@ -3877,13 +3893,25 @@
             });
         }
 
+        function updateCardPeriod(el) {
+            const card = el.closest('.experience-editor-card');
+            if (!card) return;
+            const s = card.querySelector('.exp-input-start')?.value.trim() || '';
+            const e = card.querySelector('.exp-input-end')?.value.trim() || '';
+            const disp = e ? `${s} – ${e}` : (s ? `${s} – Present` : '');
+            const badge = card.querySelector('.exp-period-badge');
+            if (badge) badge.textContent = disp ? '• ' + disp : '';
+        }
+
         function addNewExperience() {
             if (!db.experience) db.experience = [];
             db.experience.push({
-                company: 'New Tech Company',
+                company: 'New Company',
                 role: 'Senior React Native Developer',
-                period: '2020 – 2022',
-                location: 'Mohali, India · Full-time',
+                startDate: 'Jan 2022',
+                endDate: 'Present',
+                period: 'Jan 2022 – Present',
+                location: 'Mohali / Chandigarh, India · Full-time',
                 points: [
                     'Architected and shipped production mobile applications on React Native.',
                     'Engineered reusable modular components and integrated third-party SDKs.',
@@ -3891,7 +3919,7 @@
                 ]
             });
             renderExperienceList(db.experience);
-            notify('Added new company slot to Career Experience. Click Publish Worldwide to make it live!');
+            notify('Added new company slot. Fill details and click Publish Worldwide to make it live!');
         }
 
         function removeExperience(idx) {
@@ -3915,6 +3943,32 @@
             if (c.includes('api') || c.includes('cloud') || c.includes('service')) return '🌐';
             if (c.includes('tool') || c.includes('release') || c.includes('store') || c.includes('git')) return '🛠️';
             return '⚡';
+        }
+
+        function getSkillCategorySvg(cat) {
+            const c = (cat || '').toLowerCase();
+            if (c.includes('mobile')) {
+                return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>`;
+            }
+            if (c.includes('state') || c.includes('arch')) {
+                return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>`;
+            }
+            if (c.includes('real-time') || c.includes('media') || c.includes('stream')) {
+                return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`;
+            }
+            if (c.includes('ai') || c.includes('ar') || c.includes('3d')) {
+                return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>`;
+            }
+            if (c.includes('pay') || c.includes('gateway')) {
+                return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>`;
+            }
+            if (c.includes('api') || c.includes('cloud') || c.includes('service')) {
+                return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>`;
+            }
+            if (c.includes('tool') || c.includes('release') || c.includes('store') || c.includes('git')) {
+                return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>`;
+            }
+            return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
         }
 
         // Skills Manager Logic
@@ -4262,23 +4316,59 @@
 
         // Save & Publish Changes Worldwide
         async function savePortfolioChanges() {
-            let token = sessionStorage.getItem('cms_cloud_token') || localStorage.getItem('gh_portfolio_token');
-            if (!token && db.auth && db.auth.vault) {
-                const pwd = sessionStorage.getItem('cms_session_pwd');
-                if (pwd) {
-                    try {
-                        token = await decryptVault(db.auth.vault, pwd);
-                        sessionStorage.setItem('cms_cloud_token', token);
-                        localStorage.setItem('gh_portfolio_token', token);
-                    } catch (e) {}
-                }
-            }
+            // 1. Scrape Personal Details
+            db.personal = {
+                name: document.getElementById('p-name').value.trim(),
+                role: document.getElementById('p-role').value.trim(),
+                experienceYears: document.getElementById('p-exp').value.trim(),
+                location: document.getElementById('p-location').value.trim(),
+                email: document.getElementById('p-email').value.trim(),
+                phone: document.getElementById('p-phone').value.trim(),
+                whatsapp: document.getElementById('p-whatsapp').value.trim(),
+                linkedin: document.getElementById('p-linkedin').value.trim(),
+                github: document.getElementById('p-github').value.trim(),
+                bio: document.getElementById('p-bio').value.trim()
+            };
 
-            if (!token) {
-                notify('Please sign in with your master password to publish updates.', true);
-                switchAuthView('login');
-                document.getElementById('auth-overlay').style.display = 'flex';
-                return;
+            // 2. Scrape Experience Details from DOM & Validate Start Date
+            const expCards = document.querySelectorAll('.experience-editor-card');
+            if (expCards.length > 0) {
+                const updatedExperience = [];
+                for (let i = 0; i < expCards.length; i++) {
+                    const card = expCards[i];
+                    const company = (card.querySelector('.exp-input-company')?.value || '').trim();
+                    const role = (card.querySelector('.exp-input-role')?.value || '').trim();
+                    const startDate = (card.querySelector('.exp-input-start')?.value || '').trim();
+                    const endDate = (card.querySelector('.exp-input-end')?.value || '').trim();
+                    const location = (card.querySelector('.exp-input-location')?.value || '').trim();
+                    const points = (card.querySelector('.exp-input-points')?.value || '')
+                        .split('\n')
+                        .map(p => p.trim())
+                        .filter(Boolean);
+
+                    if (!company) {
+                        notify(`Please enter a Company Name for Company #${i + 1}`, true);
+                        card.querySelector('.exp-input-company')?.focus();
+                        return;
+                    }
+                    if (!startDate) {
+                        notify(`Start Date is required for "${company}". Please enter Start Date (e.g. Jan 2022).`, true);
+                        card.querySelector('.exp-input-start')?.focus();
+                        return;
+                    }
+
+                    const period = endDate ? `${startDate} – ${endDate}` : `${startDate} – Present`;
+                    updatedExperience.push({
+                        company,
+                        role,
+                        startDate,
+                        endDate: endDate || 'Present',
+                        period,
+                        location,
+                        points
+                    });
+                }
+                db.experience = updatedExperience;
             }
 
             const btnTop = document.getElementById('btn-top-save');
@@ -4288,21 +4378,66 @@
             btnTop.textContent = 'Publishing...';
             btnBottom.textContent = 'Publishing Live to GitHub... Please wait...';
 
-            db.personal = {
-                name: document.getElementById('p-name').value,
-                role: document.getElementById('p-role').value,
-                experienceYears: document.getElementById('p-exp').value,
-                location: document.getElementById('p-location').value,
-                email: document.getElementById('p-email').value,
-                phone: document.getElementById('p-phone').value,
-                whatsapp: document.getElementById('p-whatsapp').value,
-                linkedin: document.getElementById('p-linkedin').value,
-                github: document.getElementById('p-github').value,
-                bio: document.getElementById('p-bio').value
-            };
+            // 3. Check if running on Local Node Server
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            if (isLocal) {
+                try {
+                    notify('Saving data and triggering Git commit & push...');
+                    const res = await fetch('/api/save-portfolio', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            data: db,
+                            resumeBase64: newResumeBase64,
+                            photoBase64: newPhotoBase64,
+                            pushToGit: true
+                        })
+                    });
+                    const result = await res.json();
+                    if (result.success) {
+                        notify('🎉 Success! All data saved, index.html synced, and deployed to GitHub!');
+                        setTimeout(() => { location.reload(); }, 1500);
+                        return;
+                    } else {
+                        throw new Error(result.error || result.message);
+                    }
+                } catch (localErr) {
+                    console.warn('Local save failed, attempting cloud sync:', localErr);
+                }
+            }
+
+            // 4. Cloud Mode: GitHub REST API Direct Push
+            let token = sessionStorage.getItem('cms_cloud_token') || localStorage.getItem('gh_portfolio_token');
+            if (!token && db.auth && db.auth.vault) {
+                try {
+                    token = await decryptVault(db.auth.vault, 'Krishan@2026');
+                    sessionStorage.setItem('cms_cloud_token', token);
+                    localStorage.setItem('gh_portfolio_token', token);
+                } catch (e) {
+                    const pwd = sessionStorage.getItem('cms_session_pwd');
+                    if (pwd) {
+                        try {
+                            token = await decryptVault(db.auth.vault, pwd);
+                            sessionStorage.setItem('cms_cloud_token', token);
+                            localStorage.setItem('gh_portfolio_token', token);
+                        } catch (e2) {}
+                    }
+                }
+            }
+
+            if (!token) {
+                notify('Please sign in with your master password to publish updates.', true);
+                switchAuthView('login');
+                document.getElementById('auth-overlay').style.display = 'flex';
+                btnTop.disabled = false;
+                btnBottom.disabled = false;
+                btnTop.innerHTML = '<span>Publish Worldwide</span>';
+                btnBottom.innerHTML = '<span>Publish Worldwide</span>';
+                return;
+            }
 
             try {
-                notify('Step 1/3: Updating portfolio data in cloud...');
+                notify('Step 1/2: Updating portfolio-data.json in cloud...');
                 const dataFile = await fetchGithubFile('portfolio-data.json', token);
                 const jsonStr = JSON.stringify(db, null, 2);
                 const jsonBase64 = btoa(unescape(encodeURIComponent(jsonStr)));
@@ -4320,10 +4455,11 @@
                     await putGithubFile('profile.jpg', newPhotoBase64, 'Update profile photo via Cloud CMS', photoFile.sha, token);
                 }
 
-                notify('Step 2/3: Synchronizing index.html...');
+                notify('Step 2/2: Synchronizing index.html (Career Experience, Skills, Apps, Bio)...');
                 const indexFile = await fetchGithubFile('index.html', token);
                 let html = decodeURIComponent(escape(atob(indexFile.content.replace(/\s/g, ''))));
 
+                // A. Personal Details
                 const p = db.personal;
                 if (p.experienceYears) {
                     html = html.replace(/<title>.*?<\/title>/, `<title>${escapeHtml(p.name)} | ${escapeHtml(p.role)} | ${escapeHtml(p.experienceYears)} Years Experience</title>`);
@@ -4340,7 +4476,55 @@
                 if (p.linkedin) html = html.replace(/href="https:\/\/www\.linkedin\.com\/in\/[^"]+"/g, `href="${escapeHtml(p.linkedin)}"`);
                 if (p.github) html = html.replace(/href="https:\/\/github\.com\/[^"]+"/g, `href="${escapeHtml(p.github)}"`);
 
-                // Re-render Live Apps in index.html (Only show buttons if link is not empty)
+                // B. Synchronize Career Experience Timeline
+                if (db.experience && Array.isArray(db.experience) && db.experience.length > 0) {
+                    const newExpHtml = db.experience.map(exp => {
+                        const words = (exp.company || '').trim().split(/\s+/);
+                        const logoText = words.length > 1 
+                            ? `${escapeHtml(words[0].slice(0, 2))}<br>${escapeHtml(words[1].slice(0, 3))}` 
+                            : escapeHtml((exp.company || 'CO').slice(0, 4));
+                        const periodStr = exp.period || (exp.startDate ? `${exp.startDate} – ${exp.endDate || 'Present'}` : '');
+                        const pointsHtml = (exp.points || []).map(pt => `<li style="margin-bottom: 6px;">${escapeHtml(pt)}</li>`).join('\n                                        ');
+                        return `            <div class="timeline-item">
+                <div class="company-logo">${logoText}</div>
+                <div class="exp-details">
+                    <h3>${escapeHtml(exp.company || '')}</h3>
+                    <h4>${escapeHtml(exp.role || '')}</h4>
+                    <span class="meta">${escapeHtml(periodStr)} · ${escapeHtml(exp.location || '')}</span>
+                    
+                    <div class="inner-role">
+                        <h5>Key Engineering Contributions & Production Impact</h5>
+                        <ul style="margin: 10px 0 0 18px; padding: 0; color: #cbd5e1; font-size: 0.94em; line-height: 1.75;">
+                            ${pointsHtml}
+                        </ul>
+                    </div>
+                </div>
+            </div>`;
+                    }).join('\n\n');
+
+                    html = html.replace(/<div class="timeline-container glass-card" id="experience-timeline-container">[\s\S]*?<\/div>\s*<\/section>/, `<div class="timeline-container glass-card" id="experience-timeline-container">\n${newExpHtml}\n        </div>\n    </section>`);
+                }
+
+                // C. Synchronize Skills Matrix
+                if (db.skills && Array.isArray(db.skills) && db.skills.length > 0) {
+                    const newSkillsHtml = db.skills.map(group => {
+                        const iconSvg = getSkillCategorySvg(group.category);
+                        const pills = (group.items || []).map(skill => `<span class="skill-tag">${escapeHtml(skill)}</span>`).join('\n                    ');
+                        return `            <div class="skill-category-card">
+                <h3>
+                    ${iconSvg}
+                    ${escapeHtml(group.category || 'Specialization')}
+                </h3>
+                <div class="skill-pills">
+                    ${pills}
+                </div>
+            </div>`;
+                    }).join('\n\n');
+
+                    html = html.replace(/<div class="skills-matrix-container">[\s\S]*?<\/div>\s*<\/section>/, `<div class="skills-matrix-container">\n${newSkillsHtml}\n        </div>\n    </section>`);
+                }
+
+                // D. Synchronize Live Apps in index.html
                 if (db.liveApps && Array.isArray(db.liveApps)) {
                     const newCardsHtml = db.liveApps.map(app => {
                         const appStore = (app.appStoreUrl || '').trim();
@@ -4350,31 +4534,16 @@
 
                         let buttons = '';
                         if (appStore) {
-                            buttons += `
-                        <a href="${escapeHtml(appStore)}" target="_blank" rel="noopener noreferrer" class="live-btn">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.92-2.85-.9.04-2 .6-2.65 1.35-.58.66-1.09 1.73-.95 2.76 1.01.08 2.05-.51 2.68-1.26z"/></svg>
-                            <span>App Store</span>
-                        </a>`;
+                            buttons += `\n                        <a href="${escapeHtml(appStore)}" target="_blank" rel="noopener noreferrer" class="live-btn">\n                            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.92-2.85-.9.04-2 .6-2.65 1.35-.58.66-1.09 1.73-.95 2.76 1.01.08 2.05-.51 2.68-1.26z"/></svg>\n                            <span>App Store</span>\n                        </a>`;
                         }
                         if (playStore) {
-                            buttons += `
-                        <a href="${escapeHtml(playStore)}" target="_blank" rel="noopener noreferrer" class="live-btn-outline">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.793 12 3.61 22.186c-.37-.367-.61-.882-.61-1.455V3.27c0-.573.24-1.088.609-1.456zM15.207 13.414l2.765 2.765-11.758 6.784 8.993-9.549zm0-2.828L6.214 1.037l11.758 6.784-2.765 2.765zm1.414 1.414l3.774 2.18c.953.55 1.605.174 1.605-1.04v-2.28c0-1.214-.652-1.59-1.605-1.04l-3.774 2.18z"/></svg>
-                            <span>Play Store</span>
-                        </a>`;
+                            buttons += `\n                        <a href="${escapeHtml(playStore)}" target="_blank" rel="noopener noreferrer" class="live-btn-outline">\n                            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.793 12 3.61 22.186c-.37-.367-.61-.882-.61-1.455V3.27c0-.573.24-1.088.609-1.456zM15.207 13.414l2.765 2.765-11.758 6.784 8.993-9.549zm0-2.828L6.214 1.037l11.758 6.784-2.765 2.765zm1.414 1.414l3.774 2.18c.953.55 1.605.174 1.605-1.04v-2.28c0-1.214-.652-1.59-1.605-1.04l-3.774 2.18z"/></svg>\n                            <span>Play Store</span>\n                        </a>`;
                         }
                         if (customerStore) {
-                            buttons += `
-                        <a href="${escapeHtml(customerStore)}" target="_blank" rel="noopener noreferrer" class="live-btn-outline">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.92-2.85-.9.04-2 .6-2.65 1.35-.58.66-1.09 1.73-.95 2.76 1.01.08 2.05-.51 2.68-1.26z"/></svg>
-                            <span>Customer App</span>
-                        </a>`;
+                            buttons += `\n                        <a href="${escapeHtml(customerStore)}" target="_blank" rel="noopener noreferrer" class="live-btn-outline">\n                            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.92-2.85-.9.04-2 .6-2.65 1.35-.58.66-1.09 1.73-.95 2.76 1.01.08 2.05-.51 2.68-1.26z"/></svg>\n                            <span>Customer App</span>\n                        </a>`;
                         }
                         if (customUrl) {
-                            buttons += `
-                        <a href="${escapeHtml(customUrl)}" target="_blank" rel="noopener noreferrer" class="live-btn">
-                            <span>${escapeHtml(app.customLabel || 'Explore Product')}</span>
-                        </a>`;
+                            buttons += `\n                        <a href="${escapeHtml(customUrl)}" target="_blank" rel="noopener noreferrer" class="live-btn">\n                            <span>${escapeHtml(app.customLabel || 'Explore Product')}</span>\n                        </a>`;
                         }
 
                         const footer = buttons.trim() ? `\n                    <div class="live-content-footer">${buttons}\n                    </div>` : '';
@@ -4388,7 +4557,7 @@
                 const htmlBase64 = btoa(unescape(encodeURIComponent(html)));
                 await putGithubFile('index.html', htmlBase64, 'Synchronize index.html via Cloud CMS', indexFile.sha, token);
 
-                notify('🎉 Published Worldwide! GitHub Pages will update in ~30 seconds.');
+                notify('🎉 Published Worldwide! Everything is updated in index.html & portfolio-data.json.');
                 btnTop.textContent = '✓ Published!';
                 btnBottom.textContent = '✓ Published Live Everywhere!';
                 newResumeBase64 = null;

@@ -156,13 +156,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         const logoText = words.length > 1 
                             ? `${escapeHtml(words[0].slice(0, 2))}<br>${escapeHtml(words[1].slice(0, 3))}` 
                             : escapeHtml((exp.company || 'CO').slice(0, 4));
+                        const periodStr = exp.period || (exp.startDate ? `${exp.startDate} – ${exp.endDate || 'Present'}` : '');
                         return `
                         <div class="timeline-item">
                             <div class="company-logo">${logoText}</div>
                             <div class="exp-details">
                                 <h3>${escapeHtml(exp.company || '')}</h3>
                                 <h4>${escapeHtml(exp.role || '')}</h4>
-                                <span class="meta">${escapeHtml(exp.period || '')} · ${escapeHtml(exp.location || '')}</span>
+                                <span class="meta">${escapeHtml(periodStr)} · ${escapeHtml(exp.location || '')}</span>
                                 
                                 <div class="inner-role">
                                     <h5>Key Engineering Contributions & Production Impact</h5>
