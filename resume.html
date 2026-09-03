@@ -442,13 +442,11 @@
                 <div class="resume-contacts" id="cv-contacts">
                     <span id="cv-location">Panchkula / Chandigarh, India</span>
                     <span class="contact-sep">|</span>
-                    <a href="tel:+919992724729" id="cv-phone">9992724729</a>
+                    <a href="tel:+919992724729" id="cv-phone">+91 9992724729</a>
                     <span class="contact-sep">|</span>
                     <a href="mailto:kl268369@gmail.com" id="cv-email">kl268369@gmail.com</a>
                     <span class="contact-sep">|</span>
-                    <a href="https://www.linkedin.com/in/krishan-lal-a599901aa" target="_blank" id="cv-linkedin">LinkedIn: krishan-lal</a>
-                    <span class="contact-sep">|</span>
-                    <a href="https://krishanS28.github.io" target="_blank" id="cv-web">krishanS28.github.io</a>
+                    <a href="https://krishanS28.github.io" target="_blank" id="cv-web" style="color: #0284c7; font-weight: 600;">Website: krishanS28.github.io</a>
                 </div>
             </header>
 
@@ -553,7 +551,7 @@
                     if (p.location) document.getElementById('cv-location').textContent = p.location;
                     if (p.phone) {
                         const el = document.getElementById('cv-phone');
-                        el.textContent = p.phone.replace('+91', '').trim();
+                        el.textContent = p.phone.trim();
                         el.href = 'tel:' + p.phone.replace(/\s+/g, '');
                     }
                     if (p.email) {
@@ -561,9 +559,10 @@
                         el.textContent = p.email;
                         el.href = 'mailto:' + p.email;
                     }
-                    if (p.linkedin) {
-                        const el = document.getElementById('cv-linkedin');
-                        el.href = p.linkedin;
+                    const webEl = document.getElementById('cv-web');
+                    if (webEl) {
+                        webEl.textContent = 'Website: krishanS28.github.io';
+                        webEl.href = 'https://krishanS28.github.io';
                     }
                     if (p.bio) {
                         document.getElementById('cv-summary').textContent = p.bio;
