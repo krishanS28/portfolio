@@ -15,6 +15,12 @@
             document.documentElement.setAttribute('data-theme-mode', savedMode);
             const savedAccent = urlParams.get('accent') || localStorage.getItem('portfolio_theme_accent') || 'cyan';
             if (savedAccent !== 'cyan') document.documentElement.setAttribute('data-theme', savedAccent);
+
+            // Fast session check before DOM renders to prevent login popup flash on reload
+            const isAuth = sessionStorage.getItem('cms_authenticated') === 'true' || localStorage.getItem('cms_authenticated') === 'true';
+            if (isAuth) {
+                document.documentElement.classList.add('is-authenticated');
+            }
         })();
     </script>
     <title>Krishan Lal | Secure Cloud Portfolio CMS</title>
@@ -349,6 +355,10 @@
         }
 
         /* Security Authentication Overlay */
+        html.is-authenticated #auth-overlay {
+            display: none !important;
+        }
+
         #auth-overlay {
             position: fixed;
             inset: 0;
@@ -3677,7 +3687,7 @@
         // Security & Session State
         localStorage.removeItem('cms_failed_attempts');
         localStorage.removeItem('cms_lockout_until');
-        let isAuthenticated = sessionStorage.getItem('cms_authenticated') === 'true';
+        let isAuthenticated = sessionStorage.getItem('cms_authenticated') === 'true' || localStorage.getItem('cms_authenticated') === 'true';
         let generatedOtp = null;
         let otpExpiry = 0;
 
@@ -3848,30 +3858,48 @@
                 const res = await fetch('portfolio-data.json?v=' + Date.now());
                 db = await res.json();
 
+                const hasSession = sessionStorage.getItem('cms_authenticated') === 'true' || localStorage.getItem('cms_authenticated') === 'true';
+                if (hasSession) {
+                    isAuthenticated = true;
+                    document.documentElement.classList.add('is-authenticated');
+                }
+
                 if (!db.auth || !db.auth.isSetup || !db.auth.passwordHash) {
+                    document.documentElement.classList.remove('is-authenticated');
                     document.body.classList.remove('authenticated');
                     switchAuthView('setup');
                     document.getElementById('auth-overlay').style.display = 'flex';
-                } else if (!isAuthenticated || (!sessionStorage.getItem('cms_cloud_token') && !localStorage.getItem('gh_portfolio_token'))) {
+                } else if (!isAuthenticated) {
+                    document.documentElement.classList.remove('is-authenticated');
                     document.body.classList.remove('authenticated');
                     switchAuthView('login');
                     document.getElementById('auth-overlay').style.display = 'flex';
                 } else {
+                    document.documentElement.classList.add('is-authenticated');
                     document.body.classList.add('authenticated');
                     document.getElementById('auth-overlay').style.display = 'none';
                     renderAllData();
                 }
             } catch (err) {
                 console.error('Error loading config:', err);
-                document.body.classList.remove('authenticated');
-                switchAuthView('login');
-                document.getElementById('auth-overlay').style.display = 'flex';
+                const hasSession = sessionStorage.getItem('cms_authenticated') === 'true' || localStorage.getItem('cms_authenticated') === 'true';
+                if (!hasSession) {
+                    document.documentElement.classList.remove('is-authenticated');
+                    document.body.classList.remove('authenticated');
+                    switchAuthView('login');
+                    document.getElementById('auth-overlay').style.display = 'flex';
+                } else {
+                    document.documentElement.classList.add('is-authenticated');
+                    document.body.classList.add('authenticated');
+                    document.getElementById('auth-overlay').style.display = 'none';
+                }
             }
 
-            const savedToken = localStorage.getItem('gh_portfolio_token');
+            const savedToken = localStorage.getItem('gh_portfolio_token') || sessionStorage.getItem('cms_cloud_token');
             if (savedToken) {
                 const tokenInput = document.getElementById('cloud-gh-token');
                 if (tokenInput) tokenInput.value = savedToken;
+                sessionStorage.setItem('cms_cloud_token', savedToken);
             }
         }
 
@@ -3948,9 +3976,12 @@
                     }
                     sessionStorage.setItem('cms_session_pwd', password);
                     sessionStorage.setItem('cms_authenticated', 'true');
+                    localStorage.setItem('cms_authenticated', 'true');
+                    localStorage.setItem('cms_auth_email', email);
                     isAuthenticated = true;
 
                     // Instantly reveal dashboard and hide overlay
+                    document.documentElement.classList.add('is-authenticated');
                     document.body.classList.add('authenticated');
                     document.getElementById('auth-overlay').style.display = 'none';
                     notify('Welcome back, Krishan!');
@@ -3990,7 +4021,10 @@
             db.auth.passwordHash = hash;
 
             sessionStorage.setItem('cms_authenticated', 'true');
+            localStorage.setItem('cms_authenticated', 'true');
             isAuthenticated = true;
+            document.documentElement.classList.add('is-authenticated');
+            document.body.classList.add('authenticated');
             document.getElementById('auth-overlay').style.display = 'none';
             notify('🎉 Master Password Created Successfully!');
             renderAllData();
@@ -4077,7 +4111,9 @@
             db.auth.passwordHash = hash;
 
             sessionStorage.setItem('cms_authenticated', 'true');
+            localStorage.setItem('cms_authenticated', 'true');
             isAuthenticated = true;
+            document.documentElement.classList.add('is-authenticated');
             document.body.classList.add('authenticated');
             document.getElementById('auth-overlay').style.display = 'none';
             notify('🎉 Password Reset Successfully! Welcome back.');
@@ -4086,6 +4122,12 @@
 
         function logout() {
             sessionStorage.removeItem('cms_authenticated');
+            sessionStorage.removeItem('cms_session_pwd');
+            sessionStorage.removeItem('cms_cloud_token');
+            localStorage.removeItem('cms_authenticated');
+            localStorage.removeItem('cms_auth_email');
+            localStorage.removeItem('cms_session_time');
+            document.documentElement.classList.remove('is-authenticated');
             document.body.classList.remove('authenticated');
             isAuthenticated = false;
             location.reload();
