@@ -16,9 +16,11 @@
     <meta http-equiv="Expires" content="0">
     <script>
         (function() {
-            const savedMode = localStorage.getItem('krishan_theme_mode') || 'dark';
+            const urlParams = new URLSearchParams(window.location.search);
+            const paramMode = urlParams.get('theme');
+            const savedMode = paramMode || localStorage.getItem('krishan_theme_mode') || 'dark';
             document.documentElement.setAttribute('data-theme-mode', savedMode);
-            const savedAccent = localStorage.getItem('portfolio_theme_accent') || 'cyan';
+            const savedAccent = urlParams.get('accent') || localStorage.getItem('portfolio_theme_accent') || 'cyan';
             if (savedAccent !== 'cyan') document.documentElement.setAttribute('data-theme', savedAccent);
         })();
     </script>
@@ -826,7 +828,7 @@
             <div class="arch-modal-header">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span class="pulse-dot"></span>
-                    <h3 id="arch-modal-title" style="color: #fff; font-size: 1.2em; font-weight: 700; margin: 0;">System Architecture</h3>
+                    <h3 id="arch-modal-title" style="color: var(--text-main); font-size: 1.2em; font-weight: 700; margin: 0;">System Architecture</h3>
                 </div>
                 <button type="button" class="btn-close-arch" onclick="closeArchModal()" title="Close">✕</button>
             </div>
@@ -848,7 +850,7 @@
             <div class="quick-connect-header">
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <span class="pulse-dot"></span>
-                    <strong style="font-size: 0.95em; color: #fff;">Direct Recruiter Connect</strong>
+                    <strong style="font-size: 0.95em; color: var(--text-main);">Direct Recruiter Connect</strong>
                 </div>
                 <button type="button" class="btn-close-quick" onclick="toggleQuickConnect()" title="Close">✕</button>
             </div>
