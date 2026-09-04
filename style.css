@@ -1181,12 +1181,12 @@ footer .footer-socials a:hover {
 /* ==========================================
    RESPONSIVE DESIGN
    ========================================== */
-@media (max-width: 1080px) {
+@media (max-width: 1180px) {
     #home {
         flex-direction: column-reverse;
         text-align: center;
-        padding-top: 140px;
-        gap: 40px;
+        padding-top: 130px;
+        gap: 35px;
     }
 
     .hero-content {
@@ -1230,10 +1230,13 @@ footer .footer-socials a:hover {
         top: 100%;
         left: 0;
         width: 100%;
-        background: rgba(8, 12, 19, 0.96);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background: var(--nav-bg);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-bottom: 1px solid var(--border-glass);
         padding: 20px;
         gap: 12px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
     }
 
     .mobile-toggle {
@@ -1515,6 +1518,14 @@ footer .footer-socials a:hover {
     }
     .brand-pill {
         display: none;
+    }
+    .theme-settings-card {
+        padding: 20px 16px;
+        max-width: 95vw;
+        border-radius: 18px;
+    }
+    .theme-accent-options {
+        grid-template-columns: repeat(2, 1fr) !important;
     }
     .brand-logo {
         font-size: 0.9em;
