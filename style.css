@@ -470,6 +470,22 @@ nav ul li a:hover, nav ul li a.active {
     color: #ffffff;
 }
 
+.btn-github {
+    background: rgba(10, 15, 25, 0.6);
+    backdrop-filter: blur(15px);
+    border: 2px solid #334155;
+    color: #e2e8f0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-github:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #94a3b8;
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
 /* ==========================================
    FUTURISTIC TECH AVATAR FRAME
    ========================================== */
@@ -1668,9 +1684,23 @@ html[data-theme-mode="light"] .live-card::before {
     opacity: 0.35;
 }
 
+html[data-theme-mode="light"] .btn-outline {
+    background: #ffffff !important;
+    border-color: var(--primary) !important;
+    color: var(--primary) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
 html[data-theme-mode="light"] .btn-outline:hover {
     background: var(--primary) !important;
     color: #ffffff !important;
+}
+
+html[data-theme-mode="light"] .btn-linkedin {
+    background: #ffffff !important;
+    border-color: #0a66c2 !important;
+    color: #0a66c2 !important;
+    box-shadow: 0 4px 15px rgba(10, 102, 194, 0.12) !important;
 }
 
 html[data-theme-mode="light"] .btn-linkedin:hover {
@@ -1679,9 +1709,17 @@ html[data-theme-mode="light"] .btn-linkedin:hover {
     border-color: #0a66c2 !important;
 }
 
+html[data-theme-mode="light"] .btn-github {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06) !important;
+}
+
 html[data-theme-mode="light"] .btn-github:hover {
     background: #0f172a !important;
     color: #ffffff !important;
+    border-color: #0f172a !important;
 }
 
 html[data-theme-mode="light"] nav ul.show {

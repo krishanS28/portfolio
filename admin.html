@@ -10,7 +10,7 @@
     <script>
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const paramMode = urlParams.get('theme');
+            const paramMode = urlParams.get('theme') || urlParams.get('mode');
             const savedMode = paramMode || localStorage.getItem('krishan_theme_mode') || 'dark';
             document.documentElement.setAttribute('data-theme-mode', savedMode);
             const savedAccent = urlParams.get('accent') || localStorage.getItem('portfolio_theme_accent') || 'cyan';
@@ -210,10 +210,15 @@
             background: #f1f5f9 !important;
         }
 
+        html[data-theme-mode="light"] .auth-card h2,
         html[data-theme-mode="light"] .auth-title {
+            background: linear-gradient(135deg, #0f172a 40%, var(--primary) 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
             color: #0f172a !important;
         }
 
+        html[data-theme-mode="light"] .auth-card p.auth-sub,
         html[data-theme-mode="light"] .auth-subtitle {
             color: #64748b !important;
         }
@@ -428,7 +433,7 @@
             font-size: 1.7em;
             font-weight: 800;
             margin-bottom: 6px;
-            background: linear-gradient(135deg, #ffffff 40%, var(--primary) 100%);
+            background: linear-gradient(135deg, var(--text-main) 40%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -3965,7 +3970,7 @@
             document.querySelectorAll('.theme-dot').forEach(dot => {
                 dot.classList.toggle('active', dot.classList.contains(saved));
             });
-            const currentMode = localStorage.getItem('krishan_theme_mode') || 'dark';
+            const currentMode = document.documentElement.getAttribute('data-theme-mode') || localStorage.getItem('krishan_theme_mode') || 'dark';
             updateThemeToggleUI(currentMode);
 
             // Pass theme to iframe on initial load

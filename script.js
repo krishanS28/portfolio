@@ -372,11 +372,12 @@ window.closeThemeSettingsModal = closeThemeSettingsModal;
 window.setThemeModeFromModal = setThemeModeFromModal;
 window.setAccentFromModal = setAccentFromModal;
 
-// Auto-restore saved color mode (or from URL query param ?mode=light)
+// Auto-restore saved color mode (or from URL query param ?theme=light or ?mode=light)
 const urlParams = new URLSearchParams(window.location.search);
-const paramMode = urlParams.get('mode');
+const paramMode = urlParams.get('theme') || urlParams.get('mode');
 const initialColorMode = (paramMode === 'light' || paramMode === 'dark') ? paramMode : (localStorage.getItem('krishan_theme_mode') || 'dark');
 setColorMode(initialColorMode);
+
 
 // Auto-restore saved theme
 const savedTheme = localStorage.getItem('portfolio_theme_accent') || 'cyan';
