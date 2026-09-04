@@ -12,6 +12,16 @@
             if (window.self !== window.top || window.location.search.includes('embed=')) {
                 document.documentElement.classList.add('is-embedded');
             }
+            const params = new URLSearchParams(window.location.search);
+            const pTheme = params.get('theme');
+            if (pTheme) {
+                document.documentElement.setAttribute('data-theme-mode', pTheme);
+            } else if (window.parent && window.parent !== window) {
+                try {
+                    const parentTheme = window.parent.document.documentElement.getAttribute('data-theme-mode');
+                    if (parentTheme) document.documentElement.setAttribute('data-theme-mode', parentTheme);
+                } catch (e) {}
+            }
         } catch (e) {
             document.documentElement.classList.add('is-embedded');
         }
@@ -46,11 +56,26 @@
             display: none !important;
         }
         .is-embedded body {
-            background: transparent !important;
+            background: #0b0f19 !important;
         }
-        .is-embedded .resume-paper {
-            margin: 15px auto !important;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35) !important;
+        html[data-theme-mode="light"].is-embedded body,
+        .is-embedded[data-theme-mode="light"] body {
+            background: #f1f5f9 !important;
+        }
+        .is-embedded .resume-container {
+            padding: 28px 24px 60px !important;
+            align-items: center !important;
+            gap: 26px !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+        .is-embedded .resume-page {
+            margin: 0 auto !important;
+            box-shadow: 0 12px 38px rgba(0, 0, 0, 0.45) !important;
+            width: 100% !important;
+            max-width: min(210mm, calc(100% - 32px)) !important;
+            box-sizing: border-box !important;
+            border-radius: 8px !important;
         }
 
         /* Top Action Bar (Screen Only) */
@@ -444,8 +469,10 @@
             }
 
             .resume-container {
-                padding: 12px 8px;
-                gap: 16px;
+                padding: 20px 16px 40px;
+                gap: 20px;
+                box-sizing: border-box;
+                width: 100%;
             }
 
             .resume-page {
@@ -453,8 +480,9 @@
                 max-width: 100% !important;
                 height: auto !important;
                 min-height: auto !important;
-                padding: 18px 14px !important;
+                padding: 20px 18px !important;
                 border-radius: 12px;
+                box-sizing: border-box !important;
                 overflow-x: hidden;
             }
 

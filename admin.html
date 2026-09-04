@@ -195,7 +195,7 @@
             color: #334155 !important;
         }
 
-        html[data-theme-mode="light"] .tag,
+        html[data-theme-mode="light"] label span.tag,
         html[data-theme-mode="light"] .optional-tag {
             color: #64748b !important;
         }
@@ -979,10 +979,74 @@
             margin-bottom: 2px;
         }
 
+        /* Unified Modern Badge & Tag System */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.74em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            line-height: 1.25;
+            vertical-align: middle;
+            text-transform: uppercase;
+            box-sizing: border-box;
+            white-space: nowrap;
+        }
+
+        .tag-sync-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 4px 11px;
+            border-radius: 6px;
+            font-size: 0.74em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        html[data-theme-mode="light"] .tag-sync-badge {
+            background: rgba(16, 185, 129, 0.12) !important;
+            border-color: rgba(16, 185, 129, 0.35) !important;
+            color: #059669 !important;
+        }
+
+        .app-item-meta .tag,
+        .experience-card-header .tag {
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            color: var(--primary);
+            padding: 3px 9px;
+            border-radius: 6px;
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+        html[data-theme-mode="light"] .app-item-meta .tag,
+        html[data-theme-mode="light"] .experience-card-header .tag {
+            background: rgba(0, 160, 255, 0.08) !important;
+            border-color: rgba(0, 160, 255, 0.28) !important;
+            color: #0284c7 !important;
+        }
+
+        /* Label helper hints (inside form labels) */
         label span.tag {
+            display: inline !important;
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0;
             font-size: 0.8em;
             color: var(--text-muted);
             font-weight: 400;
+            text-transform: none;
+            letter-spacing: normal;
         }
 
         input[type="text"],
@@ -1637,36 +1701,55 @@
         /* Dynamic ATS Resume Status Card */
         .resume-sync-status-card {
             background: rgba(0, 240, 255, 0.05);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            border-radius: 16px;
-            padding: 20px 24px;
+            border: 1px solid rgba(0, 240, 255, 0.28);
+            border-radius: 18px;
+            padding: 22px 28px;
             margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 16px;
+            gap: 20px;
             transition: all 0.25s ease;
         }
 
         .resume-sync-status-card:hover {
             border-color: rgba(0, 240, 255, 0.45);
-            box-shadow: 0 8px 24px rgba(0, 240, 255, 0.1);
+            box-shadow: 0 8px 24px rgba(0, 240, 255, 0.12);
+        }
+
+        .resume-sync-info {
+            flex: 1 1 auto;
+            min-width: 260px;
         }
 
         .resume-sync-header-row {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             flex-wrap: wrap;
         }
 
         .resume-sync-actions {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
             flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+
+        .resume-sync-actions a {
+            padding: 9px 18px !important;
+            font-size: 0.88em !important;
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            white-space: nowrap !important;
+            box-sizing: border-box !important;
+            transition: all 0.2s ease !important;
         }
 
         /* Upload Area */
@@ -1877,6 +1960,32 @@
         }
 
         /* Responsive Layout */
+        @media (max-width: 1120px) {
+            .resume-sync-status-card {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+                padding: 20px 22px;
+            }
+            .resume-sync-info {
+                flex: none;
+                width: 100%;
+            }
+            .resume-sync-actions {
+                width: 100%;
+                display: flex;
+                gap: 12px;
+                padding-top: 14px;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                box-sizing: border-box;
+            }
+            .resume-sync-actions a {
+                flex: 1;
+                min-width: 160px;
+                justify-content: center;
+            }
+        }
+
         @media (max-width: 900px) {
             aside.sidebar { width: 72px; }
             aside.sidebar .brand-text, 
@@ -1952,8 +2061,6 @@
                 border-radius: 18px !important;
             }
             .resume-sync-status-card {
-                flex-direction: column;
-                align-items: stretch;
                 padding: 16px 14px;
                 gap: 14px;
             }
@@ -1966,7 +2073,9 @@
             .resume-sync-actions {
                 width: 100%;
                 flex-direction: column;
-                gap: 8px;
+                gap: 10px;
+                padding-top: 12px;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
             }
             .resume-sync-actions a {
                 width: 100%;
@@ -2710,6 +2819,30 @@
             box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04) !important;
         }
 
+        html[data-theme-mode="light"] .resume-sync-actions {
+            border-top-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html[data-theme-mode="light"] .resume-sync-actions .btn-ghost {
+            background: #f8fafc !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #1e293b !important;
+        }
+
+        html[data-theme-mode="light"] .resume-sync-actions .btn-ghost:hover {
+            background: #e2e8f0 !important;
+            color: #0f172a !important;
+        }
+
+        html[data-theme-mode="light"] .resume-frame-wrapper {
+            background: #f1f5f9 !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        html[data-theme-mode="light"] .resume-frame-wrapper iframe {
+            background: #f1f5f9 !important;
+        }
+
         /* Complete Light Theme Overrides for Admin Components */
         html[data-theme-mode="light"] .experience-editor-card,
         html[data-theme-mode="light"] .skill-group-box {
@@ -3383,21 +3516,21 @@
 
                     <!-- Dynamic 2-Page Resume Status Card -->
                     <div class="resume-sync-status-card">
-                        <div>
+                        <div class="resume-sync-info">
                             <div class="resume-sync-header-row">
                                 <span style="font-size: 1.3em;">⚡</span>
                                 <h3 style="color: var(--text-main); font-size: 1.05em; font-weight: 700; margin: 0;">Dynamic 2-Page ATS Resume: ACTIVE</h3>
-                                <span class="tag" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">AUTO-SYNCED</span>
+                                <span class="tag tag-sync-badge">AUTO-SYNCED</span>
                             </div>
-                            <p style="color: var(--text-muted); font-size: 0.86em; margin: 0; max-width: 600px;">Updates to Profile, Skills, Experience, or Live Apps automatically reflect in your 2-page downloadable resume.</p>
+                            <p style="color: var(--text-muted); font-size: 0.88em; line-height: 1.55; margin: 4px 0 0; max-width: 640px;">Updates to Profile, Skills, Experience, or Live Apps automatically reflect in your 2-page downloadable resume.</p>
                         </div>
                         <div class="resume-sync-actions">
-                            <a href="resume.html" target="_blank" class="btn-ghost" style="text-decoration: none; padding: 8px 16px; font-size: 0.85em; gap: 6px;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            <a href="resume.html" target="_blank" class="btn-ghost" style="text-decoration: none; padding: 9px 18px; font-size: 0.88em; gap: 7px;">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                                 <span>Preview 2-Page Resume</span>
                             </a>
-                            <a href="resume.pdf" target="_blank" download="Krishan_Lal_Resume.pdf" class="btn-gradient" style="text-decoration: none; padding: 8px 16px; font-size: 0.85em; gap: 6px;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            <a href="resume.pdf" target="_blank" download="Krishan_Lal_Resume.pdf" class="btn-gradient" style="text-decoration: none; padding: 9px 18px; font-size: 0.88em; gap: 7px;">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                                 <span>Download PDF</span>
                             </a>
                         </div>
@@ -3443,7 +3576,7 @@
                         </div>
                     </div>
                     <div class="resume-frame-wrapper" style="position: relative; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.25);">
-                        <iframe id="iframe-resume-preview" src="resume.html?embed=admin" style="width: 100%; height: clamp(550px, 75vh, 850px); border: none; background: #0b0f19; display: block;"></iframe>
+                        <iframe id="iframe-resume-preview" src="resume.html?embed=admin" style="width: 100%; height: clamp(550px, 75vh, 850px); border: none; background: transparent; display: block;"></iframe>
                     </div>
                 </div>
             </div>
@@ -3796,6 +3929,14 @@
             }
             localStorage.setItem('krishan_theme_mode', mode);
             updateThemeToggleUI(mode);
+
+            // Sync theme mode to embedded resume preview iframe if loaded
+            const resumeIframe = document.getElementById('iframe-resume-preview');
+            if (resumeIframe && resumeIframe.contentWindow) {
+                try {
+                    resumeIframe.contentWindow.document.documentElement.setAttribute('data-theme-mode', mode);
+                } catch (e) {}
+            }
         }
 
         function updateThemeToggleUI(mode) {
@@ -3824,7 +3965,22 @@
             document.querySelectorAll('.theme-dot').forEach(dot => {
                 dot.classList.toggle('active', dot.classList.contains(saved));
             });
-            updateThemeToggleUI(localStorage.getItem('krishan_theme_mode') || 'dark');
+            const currentMode = localStorage.getItem('krishan_theme_mode') || 'dark';
+            updateThemeToggleUI(currentMode);
+
+            // Pass theme to iframe on initial load
+            const resumeIframe = document.getElementById('iframe-resume-preview');
+            if (resumeIframe) {
+                resumeIframe.src = `resume.html?embed=admin&theme=${currentMode}`;
+            }
+
+            // Restore section from URL hash if provided (e.g. admin.html#view-resume)
+            if (window.location.hash) {
+                const targetHash = window.location.hash.replace('#', '');
+                if (document.getElementById(targetHash)) {
+                    showSection(targetHash);
+                }
+            }
         });
         const sectionTitles = {
             'view-dashboard': 'Dashboard Overview',
