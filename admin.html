@@ -1893,7 +1893,8 @@
                 grid-template-columns: 1fr;
             }
             .project-editor-header,
-            .skill-group-header {
+            .skill-group-header,
+            .experience-card-header {
                 padding: 12px 10px;
             }
             .app-item-info {
@@ -2201,22 +2202,29 @@
         }
 
     
-        /* Work Experience Editor Cards */
+        /* Work Experience Cards & Accordion List */
         .experience-editor-card {
             background: rgba(13, 20, 36, 0.75);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-top: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 18px;
-            padding: 26px;
-            margin-bottom: 24px;
+            border-radius: 16px;
+            margin-bottom: 14px;
             backdrop-filter: blur(20px);
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+            position: relative;
+            padding: 0;
         }
 
         .experience-editor-card:hover {
             border-color: rgba(0, 240, 255, 0.35);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-glow);
+            box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45), 0 0 16px rgba(0, 240, 255, 0.12);
+        }
+
+        .experience-editor-card.is-expanded {
+            border-color: rgba(0, 240, 255, 0.5);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 24px var(--primary-glow);
+            background: rgba(15, 24, 44, 0.95);
         }
 
         .experience-card-header {
@@ -2224,17 +2232,31 @@
             justify-content: space-between;
             align-items: center;
             gap: 16px;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 16px 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s ease;
             flex-wrap: wrap;
+            margin-bottom: 0;
+            border-bottom: none;
+            border-radius: 16px;
+        }
+
+        .experience-card-header:hover {
+            background: rgba(0, 240, 255, 0.035);
+        }
+
+        .experience-editor-card.is-expanded .experience-card-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            padding-bottom: 16px;
         }
 
         .exp-header-info {
             display: flex;
             align-items: center;
             gap: 12px;
-            flex-wrap: wrap;
             flex: 1;
             min-width: 250px;
         }
@@ -2249,6 +2271,16 @@
             border-radius: 20px;
             letter-spacing: 0.8px;
             text-transform: uppercase;
+        }
+
+        .experience-drawer {
+            display: none;
+            padding: 24px 22px 18px;
+            animation: drawerSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .experience-editor-card.is-expanded .experience-drawer {
+            display: block;
         }
 
 
@@ -2606,26 +2638,38 @@
         }
 
         /* Complete Light Theme Overrides for Admin Components */
+        html[data-theme-mode="light"] .experience-editor-card,
         html[data-theme-mode="light"] .skill-group-box {
             background: #ffffff !important;
             border: 1px solid #e2e8f0 !important;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
         }
 
+        html[data-theme-mode="light"] .experience-editor-card:hover,
         html[data-theme-mode="light"] .skill-group-box:hover {
             border-color: var(--primary) !important;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06) !important;
         }
 
+        html[data-theme-mode="light"] .experience-editor-card.is-expanded,
         html[data-theme-mode="light"] .skill-group-box.is-expanded {
             background: #ffffff !important;
             border-color: var(--primary) !important;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
         }
 
+        html[data-theme-mode="light"] .experience-card-header,
         html[data-theme-mode="light"] .skill-group-header {
             background: #f8fafc !important;
             border-bottom: 1px solid #e2e8f0 !important;
+        }
+
+        html[data-theme-mode="light"] .experience-card-header:hover {
+            background: #f1f5f9 !important;
+        }
+
+        html[data-theme-mode="light"] .experience-drawer {
+            background: #ffffff !important;
         }
 
         html[data-theme-mode="light"] .skill-group-title,
@@ -3216,8 +3260,11 @@
                 <div class="glass-panel">
                     <div class="panel-heading">
                         <div>
-                            <h2>💼 Career & Work Experience</h2>
-                            <p>Edit company details, role title, duration, and key accomplishment bullet points.</p>
+                            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                <h2>💼 Career & Work Experience</h2>
+                                <span class="tag" id="exp-count-badge" style="background: rgba(0, 240, 255, 0.1); color: var(--primary); border: 1px solid rgba(0, 240, 255, 0.25);">0 Roles</span>
+                            </div>
+                            <p>Click any company role below to view full details and edit. Use the three-dots (···) menu to edit or delete.</p>
                         </div>
                     </div>
 
@@ -4491,7 +4538,7 @@
                 targetMenu.classList.add('show');
                 if (targetBtn) {
                     targetBtn.classList.add('active');
-                    const parentCard = targetBtn.closest('.project-editor-card, .skill-group-box');
+                    const parentCard = targetBtn.closest('.project-editor-card, .skill-group-box, .experience-editor-card');
                     if (parentCard) {
                         parentCard.style.zIndex = '500';
                     }
@@ -4506,7 +4553,7 @@
             document.querySelectorAll('.btn-kebab.active').forEach(btn => {
                 btn.classList.remove('active');
             });
-            document.querySelectorAll('.project-editor-card, .skill-group-box').forEach(card => {
+            document.querySelectorAll('.project-editor-card, .skill-group-box, .experience-editor-card').forEach(card => {
                 card.style.zIndex = '';
             });
         }
@@ -4633,14 +4680,36 @@
             }
         }
 
+        const expandedExpSet = new Set();
+
         function renderExperienceList(expList) {
             const container = document.getElementById('experience-container');
             if (!container) return;
             container.innerHTML = '';
 
-            (expList || []).forEach((exp, idx) => {
+            const list = expList || [];
+            const badgeEl = document.getElementById('exp-count-badge');
+            if (badgeEl) {
+                badgeEl.textContent = `${list.length} ${list.length === 1 ? 'Role' : 'Roles'}`;
+            }
+
+            if (!list.length) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 45px 20px; background: rgba(13, 20, 36, 0.5); border: 1px dashed rgba(255, 255, 255, 0.12); border-radius: 16px;">
+                        <div style="font-size: 2.2em; margin-bottom: 10px;">💼</div>
+                        <h3 style="color: var(--text-main); font-size: 1.15em; font-weight: 700; margin-bottom: 6px;">No Experience Added Yet</h3>
+                        <p style="color: var(--text-muted); font-size: 0.88em; margin-bottom: 16px;">Click the button below to add your first company role to your career timeline.</p>
+                        <button type="button" class="btn-primary" onclick="addNewExperience()" style="margin: 0 auto;">+ Add First Experience</button>
+                    </div>
+                `;
+                return;
+            }
+
+            list.forEach((exp, idx) => {
                 const card = document.createElement('div');
-                card.className = 'experience-editor-card';
+                const isExpanded = expandedExpSet.has(idx);
+                card.id = `experience-card-${idx}`;
+                card.className = `experience-editor-card ${isExpanded ? 'is-expanded' : ''}`;
 
                 let startVal = exp.startDate || '';
                 let endVal = exp.endDate || '';
@@ -4649,51 +4718,96 @@
                     startVal = parts[0] || '';
                     endVal = parts[1] || '';
                 }
-
-                const periodDisplay = endVal ? `${startVal} – ${endVal}` : (startVal ? `${startVal} – Present` : '');
+                const periodDisplay = endVal ? `${startVal} – ${endVal}` : (startVal ? `${startVal} – Present` : (exp.period || 'Current'));
 
                 card.innerHTML = `
-                    <div class="experience-card-header">
-                        <div class="exp-header-info">
-                            <span class="company-badge">🏢 COMPANY #${idx + 1}</span>
-                            <strong style="color: var(--text-main); font-size: 1.05em;">${escapeHtml(exp.company || 'New Company')}</strong>
-                            <span class="exp-period-badge" style="color: var(--text-muted); font-size: 0.85em;">• ${escapeHtml(periodDisplay)}</span>
+                    <div class="experience-card-header" onclick="toggleExperienceDrawer(${idx})">
+                        <div class="app-item-info">
+                            <span class="project-tag-id">#${idx + 1}</span>
+                            <div class="app-item-icon" style="background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.25); font-size: 1.25em;">💼</div>
+                            <div class="app-item-meta">
+                                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                    <strong id="exp-company-display-${idx}" style="font-size: 1.05em; color: var(--text-main);">${escapeHtml(exp.company || 'New Company')}</strong>
+                                    <span class="tag" id="exp-period-display-${idx}">${escapeHtml(periodDisplay)}</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 3px;">
+                                    <span id="exp-role-display-${idx}" style="font-size: 0.88em; color: var(--primary); font-weight: 600;">${escapeHtml(exp.role || 'Software Engineer')}</span>
+                                    <span id="exp-loc-display-${idx}" style="font-size: 0.82em; color: var(--text-muted);">${exp.location ? `• 📍 ${escapeHtml(exp.location)}` : ''}</span>
+                                    <span style="font-size: 0.80em; color: var(--text-muted);">• ${(exp.points || []).length} highlights</span>
+                                </div>
+                            </div>
                         </div>
-                        <button type="button" class="btn-delete" onclick="removeExperience(${idx})" title="Remove this company from timeline">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            <span>Remove Company</span>
-                        </button>
+
+                        <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
+                            <button type="button" class="btn-toggle-edit" onclick="event.stopPropagation(); toggleExperienceDrawer(${idx});" title="Click to view or hide details">
+                                <span>${isExpanded ? 'Hide Details' : 'View Details'}</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transform: ${isExpanded ? 'rotate(180deg)' : 'rotate(0)'}; transition: transform 0.2s;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </button>
+
+                            <div class="kebab-menu-wrapper" onclick="event.stopPropagation();">
+                                <button type="button" class="btn-kebab" id="btn-kebab-exp-${idx}" onclick="toggleKebabMenu(event, 'exp-${idx}')" title="Actions menu">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                        <circle cx="12" cy="5" r="2.2"></circle>
+                                        <circle cx="12" cy="12" r="2.2"></circle>
+                                        <circle cx="12" cy="19" r="2.2"></circle>
+                                    </svg>
+                                </button>
+                                <div class="kebab-dropdown" id="kebab-dropdown-exp-${idx}">
+                                    <button type="button" class="kebab-item" onclick="toggleExperienceDrawer(${idx}, true); closeAllKebabMenus();">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                        <span>Edit Experience</span>
+                                    </button>
+                                    <button type="button" class="kebab-item delete" onclick="removeExperience(${idx}); closeAllKebabMenus();">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                        <span>Delete Experience</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Company Name <span class="required-star">*</span> <span class="tag">e.g. ToXSL Technologies</span></label>
-                            <input type="text" value="${escapeHtml(exp.company || '')}" class="exp-input-company" placeholder="Company Name" required oninput="this.closest('.experience-editor-card').querySelector('strong').textContent = this.value || 'New Company'">
+                    <div class="experience-drawer" id="experience-drawer-${idx}">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Company Name <span class="required-star">*</span> <span class="tag">e.g. ToXSL Technologies</span></label>
+                                <input type="text" value="${escapeHtml(exp.company || '')}" class="exp-input-company" placeholder="Company Name" required oninput="onExpCompanyInput(${idx}, this.value)">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Role / Position Title <span class="required-star">*</span> <span class="tag">e.g. Senior React Native Developer</span></label>
+                                <input type="text" value="${escapeHtml(exp.role || '')}" class="exp-input-role" placeholder="Role / Position Title" required oninput="onExpRoleInput(${idx}, this.value)">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Start Date <span class="required-star">* (Required)</span> <span class="tag">e.g. Jan 2022</span></label>
+                                <input type="text" value="${escapeHtml(startVal)}" class="exp-input-start" placeholder="e.g. Jan 2022" required oninput="updateCardPeriodInline(${idx})">
+                            </div>
+
+                            <div class="form-group">
+                                <label>End Date <span class="optional-tag">(Optional)</span> <span class="tag">Leave blank for Present</span></label>
+                                <input type="text" value="${escapeHtml(endVal)}" class="exp-input-end" placeholder="e.g. Present or Dec 2023" oninput="updateCardPeriodInline(${idx})">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>Location & Work Mode <span class="tag">e.g. Mohali / Chandigarh, India · Full-time</span></label>
+                                <input type="text" value="${escapeHtml(exp.location || '')}" class="exp-input-location" placeholder="City, Country · Full-time / Remote" oninput="onExpLocationInput(${idx}, this.value)">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>Key Accomplishments & Deliverables <span class="tag">One bullet point per line</span></label>
+                                <textarea rows="6" class="exp-input-points" placeholder="Built and shipped production apps...&#10;Wired WebRTC, LiveKit, and Telnyx...&#10;Engineered WhatsApp-style chat...">${escapeHtml((exp.points || []).join('\n'))}</textarea>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Role / Position Title <span class="required-star">*</span> <span class="tag">e.g. Senior React Native Developer</span></label>
-                            <input type="text" value="${escapeHtml(exp.role || '')}" class="exp-input-role" placeholder="Role / Position Title" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Start Date <span class="required-star">* (Required)</span> <span class="tag">e.g. Jan 2022</span></label>
-                            <input type="text" value="${escapeHtml(startVal)}" class="exp-input-start" placeholder="e.g. Jan 2022" required oninput="updateCardPeriod(this)">
-                        </div>
-
-                        <div class="form-group">
-                            <label>End Date <span class="optional-tag">(Optional)</span> <span class="tag">Leave blank for Present</span></label>
-                            <input type="text" value="${escapeHtml(endVal)}" class="exp-input-end" placeholder="e.g. Present or Dec 2023" oninput="updateCardPeriod(this)">
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label>Location & Work Mode <span class="tag">e.g. Mohali / Chandigarh, India</span></label>
-                            <input type="text" value="${escapeHtml(exp.location || '')}" class="exp-input-location" placeholder="City, Country · Full-time / Remote">
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label>Key Accomplishments & Deliverables <span class="tag">One bullet point per line</span></label>
-                            <textarea rows="6" class="exp-input-points" placeholder="Built and shipped production apps...&#10;Wired WebRTC, LiveKit, and Telnyx...&#10;Engineered WhatsApp-style chat...">${escapeHtml((exp.points || []).join('\n'))}</textarea>
+                        <div class="drawer-footer">
+                            <button type="button" class="btn-delete" onclick="removeExperience(${idx})" style="padding: 8px 16px;">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                <span>Delete Company</span>
+                            </button>
+                            <button type="button" class="btn-ghost" onclick="toggleExperienceDrawer(${idx})" style="padding: 8px 16px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Done / Collapse</span>
+                            </button>
                         </div>
                     </div>
                 `;
@@ -4701,14 +4815,75 @@
             });
         }
 
-        function updateCardPeriod(el) {
-            const card = el.closest('.experience-editor-card');
+        function toggleExperienceDrawer(idx, forceOpen = false) {
+            const card = document.getElementById(`experience-card-${idx}`);
+            if (!card) return;
+
+            const isCurrentlyExpanded = card.classList.contains('is-expanded');
+            const shouldOpen = forceOpen ? true : !isCurrentlyExpanded;
+
+            if (shouldOpen) {
+                card.classList.add('is-expanded');
+                expandedExpSet.add(idx);
+                const toggleBtn = card.querySelector('.btn-toggle-edit span');
+                if (toggleBtn) toggleBtn.textContent = 'Hide Details';
+                const svg = card.querySelector('.btn-toggle-edit svg');
+                if (svg) svg.style.transform = 'rotate(180deg)';
+
+                if (forceOpen) {
+                    setTimeout(() => {
+                        card.querySelector('.exp-input-company')?.focus();
+                    }, 60);
+                }
+            } else {
+                card.classList.remove('is-expanded');
+                expandedExpSet.delete(idx);
+                const toggleBtn = card.querySelector('.btn-toggle-edit span');
+                if (toggleBtn) toggleBtn.textContent = 'View Details';
+                const svg = card.querySelector('.btn-toggle-edit svg');
+                if (svg) svg.style.transform = 'rotate(0)';
+            }
+        }
+
+        function onExpCompanyInput(idx, val) {
+            const titleEl = document.getElementById(`exp-company-display-${idx}`);
+            if (titleEl) titleEl.textContent = val.trim() || 'New Company';
+            if (db.experience && db.experience[idx]) {
+                db.experience[idx].company = val;
+            }
+        }
+
+        function onExpRoleInput(idx, val) {
+            const roleEl = document.getElementById(`exp-role-display-${idx}`);
+            if (roleEl) roleEl.textContent = val.trim() || 'Role Title';
+            if (db.experience && db.experience[idx]) {
+                db.experience[idx].role = val;
+            }
+        }
+
+        function onExpLocationInput(idx, val) {
+            const locEl = document.getElementById(`exp-loc-display-${idx}`);
+            if (locEl) {
+                locEl.textContent = val.trim() ? `• 📍 ${val.trim()}` : '';
+            }
+            if (db.experience && db.experience[idx]) {
+                db.experience[idx].location = val;
+            }
+        }
+
+        function updateCardPeriodInline(idx) {
+            const card = document.getElementById(`experience-card-${idx}`);
             if (!card) return;
             const s = card.querySelector('.exp-input-start')?.value.trim() || '';
             const e = card.querySelector('.exp-input-end')?.value.trim() || '';
-            const disp = e ? `${s} – ${e}` : (s ? `${s} – Present` : '');
-            const badge = card.querySelector('.exp-period-badge');
-            if (badge) badge.textContent = disp ? '• ' + disp : '';
+            const disp = e ? `${s} – ${e}` : (s ? `${s} – Present` : 'Current');
+            const badge = document.getElementById(`exp-period-display-${idx}`);
+            if (badge) badge.textContent = disp;
+            if (db.experience && db.experience[idx]) {
+                db.experience[idx].startDate = s;
+                db.experience[idx].endDate = e || 'Present';
+                db.experience[idx].period = disp;
+            }
         }
 
         function addNewExperience() {
@@ -4716,9 +4891,9 @@
             db.experience.push({
                 company: 'New Company',
                 role: 'Senior React Native Developer',
-                startDate: 'Jan 2022',
+                startDate: 'Jan 2024',
                 endDate: 'Present',
-                period: 'Jan 2022 – Present',
+                period: 'Jan 2024 – Present',
                 location: 'Mohali / Chandigarh, India · Full-time',
                 points: [
                     'Architected and shipped production mobile applications on React Native.',
@@ -4726,13 +4901,23 @@
                     'Collaborated closely with cross-functional product, QA, and backend engineering teams.'
                 ]
             });
+            const newIdx = db.experience.length - 1;
+            expandedExpSet.add(newIdx);
             renderExperienceList(db.experience);
+            setTimeout(() => {
+                const newCard = document.getElementById(`experience-card-${newIdx}`);
+                if (newCard) {
+                    newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    newCard.querySelector('.exp-input-company')?.focus();
+                }
+            }, 100);
             notify('Added new company slot. Fill details and click Publish Worldwide to make it live!');
         }
 
         function removeExperience(idx) {
-            const companyName = db.experience[idx].company || 'this company';
+            const companyName = (db.experience && db.experience[idx] && db.experience[idx].company) ? db.experience[idx].company : 'this company';
             if (confirm(`Are you sure you want to remove "${companyName}" from your career timeline?`)) {
+                expandedExpSet.delete(idx);
                 db.experience.splice(idx, 1);
                 renderExperienceList(db.experience);
                 notify(`Removed ${companyName}`);
@@ -5155,11 +5340,13 @@
                         .filter(Boolean);
 
                     if (!company) {
+                        toggleExperienceDrawer(i, true);
                         notify(`Please enter a Company Name for Company #${i + 1}`, true);
                         card.querySelector('.exp-input-company')?.focus();
                         return;
                     }
                     if (!startDate) {
+                        toggleExperienceDrawer(i, true);
                         notify(`Start Date is required for "${company}". Please enter Start Date (e.g. Jan 2022).`, true);
                         card.querySelector('.exp-input-start')?.focus();
                         return;
