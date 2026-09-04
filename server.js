@@ -295,7 +295,8 @@ function getSkillCategorySvg(cat) {
         return;
     }
 
-    let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url.split('?')[0]);
+    const cleanUrl = (req.url || '/').split('?')[0];
+    let filePath = path.join(__dirname, cleanUrl === '/' ? 'index.html' : cleanUrl);
     let ext = path.extname(filePath).toLowerCase();
     let contentType = MIME_TYPES[ext] || 'application/octet-stream';
 

@@ -211,10 +211,12 @@
   ],
   "inquiries": [],
   "analytics": {
-    "visits": 0,
+    "visits": 5,
     "resumeDownloads": 2,
     "whatsappClicks": 0,
     "storeClicks": 0,
-    "dailyVisits": {}
+    "dailyVisits": {
+      "2026-09-04": 5
+    }
   }
 }

@@ -372,8 +372,10 @@ window.closeThemeSettingsModal = closeThemeSettingsModal;
 window.setThemeModeFromModal = setThemeModeFromModal;
 window.setAccentFromModal = setAccentFromModal;
 
-// Auto-restore saved color mode
-const initialColorMode = localStorage.getItem('krishan_theme_mode') || 'dark';
+// Auto-restore saved color mode (or from URL query param ?mode=light)
+const urlParams = new URLSearchParams(window.location.search);
+const paramMode = urlParams.get('mode');
+const initialColorMode = (paramMode === 'light' || paramMode === 'dark') ? paramMode : (localStorage.getItem('krishan_theme_mode') || 'dark');
 setColorMode(initialColorMode);
 
 // Auto-restore saved theme

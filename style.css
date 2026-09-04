@@ -232,7 +232,7 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #e2e8f0;
+    color: var(--text-muted);
     text-decoration: none;
     font-weight: 500;
     font-size: 0.88em;
@@ -303,7 +303,7 @@ nav ul li a:hover, nav ul li a.active {
     font-size: 1.9em;
     font-weight: 600;
     margin-bottom: 22px;
-    color: #e2e8f0;
+    color: var(--text-main);
     text-shadow: var(--heading-shadow);
 }
 
@@ -697,10 +697,10 @@ section:not(#home) {
 }
 
 .skill-category-card {
-    background: rgba(10, 15, 25, 0.6);
+    background: var(--bg-card);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-glass);
     border-top: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 16px;
     padding: 24px;
@@ -1977,6 +1977,206 @@ html[data-theme-mode="light"] .live-btn-outline {
     background: #f8fafc !important;
     border: 1px solid #cbd5e1 !important;
     color: #0f172a !important;
+}
+
+/* ==========================================
+   CLEAN WHITE THEME OPTIMIZATIONS (NAV, CARDS, TEXT)
+   ========================================== */
+
+/* 1. High-Contrast Navigation Bar & Links */
+html[data-theme-mode="light"] nav {
+    background: rgba(255, 255, 255, 0.96) !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+html[data-theme-mode="light"] nav ul li a {
+    color: #334155 !important;
+    font-weight: 600 !important;
+}
+
+html[data-theme-mode="light"] nav ul li a:hover {
+    color: #0f172a !important;
+    background: #f1f5f9 !important;
+}
+
+html[data-theme-mode="light"] nav ul li a.active {
+    background: linear-gradient(90deg, var(--primary), var(--secondary)) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 15px var(--primary-glow) !important;
+}
+
+html[data-theme-mode="light"] nav ul.show {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+html[data-theme-mode="light"] .brand-pill {
+    background: rgba(124, 58, 237, 0.1) !important;
+    border-color: rgba(124, 58, 237, 0.3) !important;
+    color: #6d28d9 !important;
+}
+
+/* 2. Technical Skills Matrix - Pure White Cards & Tags */
+html[data-theme-mode="light"] .skill-category-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-top: 1px solid #e2e8f0 !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04) !important;
+}
+
+html[data-theme-mode="light"] .skill-category-card:hover {
+    background: #ffffff !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08), 0 0 15px var(--primary-glow) !important;
+}
+
+html[data-theme-mode="light"] .skill-category-card h3 {
+    border-bottom-color: #e2e8f0 !important;
+    color: var(--primary) !important;
+}
+
+html[data-theme-mode="light"] .skill-tag {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #1e293b !important;
+}
+
+html[data-theme-mode="light"] .skill-tag:hover {
+    background: #f1f5f9 !important;
+    border-color: var(--primary) !important;
+    color: var(--primary) !important;
+}
+
+/* 3. Experience, Education & Glass Cards */
+html[data-theme-mode="light"] .glass-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-top: 1px solid #e2e8f0 !important;
+    border-left: 1px solid #e2e8f0 !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04) !important;
+}
+
+html[data-theme-mode="light"] .timeline-item {
+    border-bottom-color: #e2e8f0 !important;
+}
+
+html[data-theme-mode="light"] .company-logo {
+    background: #ffffff !important;
+    border: 1px solid var(--border-highlight) !important;
+    color: var(--primary) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06) !important;
+}
+
+html[data-theme-mode="light"] .exp-details .meta {
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #475569 !important;
+}
+
+html[data-theme-mode="light"] .inner-role {
+    border-left-color: var(--primary) !important;
+}
+
+html[data-theme-mode="light"] .inner-role h5 {
+    color: #0f172a !important;
+}
+
+html[data-theme-mode="light"] .inner-role span {
+    color: #64748b !important;
+}
+
+html[data-theme-mode="light"] .inner-role p,
+html[data-theme-mode="light"] .inner-role ul,
+html[data-theme-mode="light"] .inner-role ul li {
+    color: #475569 !important;
+}
+
+/* 4. Architecture Project Cards */
+html[data-theme-mode="light"] .project-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-top: 1px solid #e2e8f0 !important;
+    border-left: 1px solid #e2e8f0 !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04) !important;
+}
+
+html[data-theme-mode="light"] .project-card:hover {
+    background: #ffffff !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.08), 0 0 15px var(--primary-glow) !important;
+}
+
+html[data-theme-mode="light"] .project-card h3 {
+    color: #0f172a !important;
+}
+
+html[data-theme-mode="light"] .btn-arch-view {
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+html[data-theme-mode="light"] .btn-arch-view:hover {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #ffffff !important;
+}
+
+/* 5. Testimonials, Widgets & Footer */
+html[data-theme-mode="light"] .testimonial-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04) !important;
+}
+
+html[data-theme-mode="light"] .testimonial-card::before {
+    color: rgba(0, 0, 0, 0.04) !important;
+}
+
+html[data-theme-mode="light"] .testimonial-quote {
+    color: #475569 !important;
+}
+
+html[data-theme-mode="light"] .client-info strong {
+    color: #0f172a !important;
+}
+
+html[data-theme-mode="light"] .quick-connect-pill {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08) !important;
+    color: #0f172a !important;
+}
+
+html[data-theme-mode="light"] .quick-connect-card {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12) !important;
+    color: #0f172a !important;
+}
+
+html[data-theme-mode="light"] footer {
+    background: #f8fafc !important;
+    border-top: 1px solid #e2e8f0 !important;
+    color: #64748b !important;
+}
+
+html[data-theme-mode="light"] footer p {
+    color: #64748b !important;
+}
+
+html[data-theme-mode="light"] footer .footer-socials a {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #475569 !important;
+}
+
+html[data-theme-mode="light"] footer .footer-socials a:hover {
+    border-color: var(--primary) !important;
+    color: var(--primary) !important;
 }
 
 /* ==========================================
