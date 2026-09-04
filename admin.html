@@ -1634,6 +1634,41 @@
             padding-bottom: 10px;
         }
 
+        /* Dynamic ATS Resume Status Card */
+        .resume-sync-status-card {
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            transition: all 0.25s ease;
+        }
+
+        .resume-sync-status-card:hover {
+            border-color: rgba(0, 240, 255, 0.45);
+            box-shadow: 0 8px 24px rgba(0, 240, 255, 0.1);
+        }
+
+        .resume-sync-header-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .resume-sync-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
         /* Upload Area */
         .resume-upload-zone {
             display: flex;
@@ -1915,6 +1950,28 @@
                 max-width: 95vw !important;
                 padding: 20px 14px !important;
                 border-radius: 18px !important;
+            }
+            .resume-sync-status-card {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 16px 14px;
+                gap: 14px;
+            }
+            .resume-sync-header-row {
+                gap: 8px;
+            }
+            .resume-sync-header-row h3 {
+                font-size: 0.95em !important;
+            }
+            .resume-sync-actions {
+                width: 100%;
+                flex-direction: column;
+                gap: 8px;
+            }
+            .resume-sync-actions a {
+                width: 100%;
+                justify-content: center;
+                box-sizing: border-box;
             }
             .resume-upload-zone {
                 flex-direction: column;
@@ -2647,6 +2704,12 @@
             color: #0f172a !important;
         }
 
+        html[data-theme-mode="light"] .resume-sync-status-card {
+            background: #ffffff !important;
+            border: 1px solid rgba(0, 160, 255, 0.35) !important;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04) !important;
+        }
+
         /* Complete Light Theme Overrides for Admin Components */
         html[data-theme-mode="light"] .experience-editor-card,
         html[data-theme-mode="light"] .skill-group-box {
@@ -3319,16 +3382,16 @@
                     </div>
 
                     <!-- Dynamic 2-Page Resume Status Card -->
-                    <div style="background: rgba(0, 240, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 16px; padding: 20px 24px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                    <div class="resume-sync-status-card">
                         <div>
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                            <div class="resume-sync-header-row">
                                 <span style="font-size: 1.3em;">⚡</span>
                                 <h3 style="color: var(--text-main); font-size: 1.05em; font-weight: 700; margin: 0;">Dynamic 2-Page ATS Resume: ACTIVE</h3>
                                 <span class="tag" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">AUTO-SYNCED</span>
                             </div>
                             <p style="color: var(--text-muted); font-size: 0.86em; margin: 0; max-width: 600px;">Updates to Profile, Skills, Experience, or Live Apps automatically reflect in your 2-page downloadable resume.</p>
                         </div>
-                        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <div class="resume-sync-actions">
                             <a href="resume.html" target="_blank" class="btn-ghost" style="text-decoration: none; padding: 8px 16px; font-size: 0.85em; gap: 6px;">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                                 <span>Preview 2-Page Resume</span>
