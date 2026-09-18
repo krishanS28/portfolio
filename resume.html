@@ -717,20 +717,19 @@
                 }
 
                 // 3. Experience
-                if (data.experience && data.experience.length > 0) {
-                    const exp = data.experience[0];
+                if (data.experience && Array.isArray(data.experience) && data.experience.length > 0) {
                     const expContainer = document.getElementById('cv-experience');
-                    expContainer.innerHTML = `
-                        <div class="exp-header">
+                    expContainer.innerHTML = data.experience.map((exp, idx) => `
+                        <div class="exp-header" style="${idx > 0 ? 'margin-top: 14px;' : ''}">
                             <div>
                                 <span class="exp-company">${escapeHtml(exp.role || 'Software Engineer')}</span> — <span class="exp-role">${escapeHtml(exp.company || 'ToXSL Technologies')}</span>
                             </div>
-                            <span class="exp-date">${escapeHtml(exp.period || 'Jan 2022 – Present')}</span>
+                            <span class="exp-date">${escapeHtml(exp.period || (exp.startDate ? `${exp.startDate} – ${exp.endDate || 'Present'}` : 'Jan 2022 – Present'))}</span>
                         </div>
                         <ul class="bullet-list">
                             ${(exp.points || []).map(pt => `<li>${escapeHtml(pt)}</li>`).join('')}
                         </ul>
-                    `;
+                    `).join('');
                 }
 
                 // 4. Selected Projects (Live Store Apps - Distributed across Page 1 & Page 2)

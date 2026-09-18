@@ -138,8 +138,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.personal) {
                 const p = data.personal;
                 if (p.experienceYears) {
-                    const expEl = document.querySelector('.hero-badge span:last-child');
-                    if (expEl) expEl.textContent = `Production Proven • ${p.experienceYears} Years`;
+                    const expEl = document.querySelector('.hero-badge span:last-child') || document.querySelector('.greeting');
+                    if (expEl) {
+                        if (expEl.classList.contains('greeting')) {
+                            const svg = expEl.querySelector('svg');
+                            const svgHtml = svg ? svg.outerHTML : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
+                            expEl.innerHTML = `${svgHtml}\n                Production Proven • ${escapeHtml(p.experienceYears)} Years`;
+                        } else {
+                            expEl.textContent = `Production Proven • ${p.experienceYears} Years`;
+                        }
+                    }
                 }
                 if (p.bio) {
                     const bioEl = document.querySelector('.hero-bio');
