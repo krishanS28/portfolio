@@ -271,9 +271,51 @@ function getSkillCategorySvg(cat) {
 
                 fs.writeFileSync(indexPath, html, 'utf8');
 
+                // Synchronize resume.html
+                try {
+                    const resumeHtmlPath = path.join(__dirname, 'resume.html');
+                    if (fs.existsSync(resumeHtmlPath)) {
+                        let rHtml = fs.readFileSync(resumeHtmlPath, 'utf8');
+                        const p = data.personal || {};
+                        if (p.name) rHtml = rHtml.replace(/<h1 class="resume-name" id="cv-name">.*?<\/h1>/, `<h1 class="resume-name" id="cv-name">${escapeHtml(p.name.toUpperCase())}</h1>`);
+                        if (p.role) rHtml = rHtml.replace(/<p class="resume-title" id="cv-title">.*?<\/p>/, `<p class="resume-title" id="cv-title">${escapeHtml(p.role)} | ${escapeHtml(p.experienceYears || '4.8+')} Years Experience</p>`);
+                        if (p.bio) rHtml = rHtml.replace(/<p class="summary-text" id="cv-summary">[\s\S]*?<\/p>/, `<p class="summary-text" id="cv-summary">\n                    ${escapeHtml(p.bio)}\n                </p>`);
+                        if (p.location) rHtml = rHtml.replace(/<span id="cv-location">.*?<\/span>/, `<span id="cv-location">${escapeHtml(p.location)}</span>`);
+                        if (p.phone) rHtml = rHtml.replace(/<a href="tel:[^"]*" id="cv-phone">.*?<\/a>/, `<a href="tel:${p.phone.replace(/\s+/g, '')}" id="cv-phone">${escapeHtml(p.phone)}</a>`);
+                        if (p.email) rHtml = rHtml.replace(/<a href="mailto:[^"]*" id="cv-email">.*?<\/a>/, `<a href="mailto:${escapeHtml(p.email)}" id="cv-email">${escapeHtml(p.email)}</a>`);
+
+                        if (data.experience && Array.isArray(data.experience) && data.experience.length > 0) {
+                            const rExpHtml = data.experience.map((exp, idx) => {
+                                const periodStr = exp.period || (exp.startDate ? `${exp.startDate} – ${exp.endDate || 'Present'}` : 'Jan 2022 – Present');
+                                const pointsHtml = (exp.points || []).map(pt => `<li>${escapeHtml(pt)}</li>`).join('\n                        ');
+                                return `                    <div class="exp-header"${idx > 0 ? ' style="margin-top: 14px;"' : ''}>
+                        <div>
+                            <span class="exp-company">${escapeHtml(exp.role || 'Software Engineer')}</span> — <span class="exp-role">${escapeHtml(exp.company || 'Company')}</span>
+                        </div>
+                        <span class="exp-date">${escapeHtml(periodStr)}</span>
+                    </div>
+                    <ul class="bullet-list">
+                        ${pointsHtml}
+                    </ul>`;
+                            }).join('\n');
+
+                            rHtml = rHtml.replace(/<div id="cv-experience">[\s\S]*?<\/div>\s*<\/section>/, `<div id="cv-experience">\n${rExpHtml}\n                </div>\n            </section>`);
+                        }
+
+                        if (data.skills && Array.isArray(data.skills) && data.skills.length > 0) {
+                            const rSkillsHtml = data.skills.map(grp => `                    <div class="skill-row"><strong>${escapeHtml(grp.category)}:</strong> <span>${(grp.items || []).map(escapeHtml).join(', ')}</span></div>`).join('\n');
+                            rHtml = rHtml.replace(/<div class="skills-grid" id="cv-skills">[\s\S]*?<\/div>/, `<div class="skills-grid" id="cv-skills">\n${rSkillsHtml}\n                </div>`);
+                        }
+
+                        fs.writeFileSync(resumeHtmlPath, rHtml, 'utf8');
+                    }
+                } catch (rErr) {
+                    console.warn('Resume html sync error:', rErr);
+                }
+
                 // 5. Git Commit & Push if requested
                 if (pushToGit) {
-                    exec('git add index.html profile.jpg resume.pdf portfolio-data.json .gitignore && git commit -m "Update portfolio data via Admin Panel" && git push origin main', (gitErr) => {
+                    exec('git add index.html resume.html profile.jpg resume.pdf portfolio-data.json .gitignore && git commit -m "Update portfolio data via Admin Panel" && git push origin main', (gitErr) => {
                         if (gitErr) {
                             console.error('Git push error:', gitErr);
                             res.writeHead(200, { 'Content-Type': 'application/json' });

@@ -4013,6 +4013,13 @@
             if (sectionId === 'view-dashboard' && typeof renderTrafficChart === 'function') {
                 setTimeout(() => renderTrafficChart(currentGraphDays), 60);
             }
+            if (sectionId === 'view-resume') {
+                const iframe = document.getElementById('iframe-resume-preview');
+                if (iframe) {
+                    const mode = document.documentElement.getAttribute('data-theme-mode') || 'dark';
+                    iframe.src = `resume.html?embed=admin&theme=${mode}&v=${Date.now()}`;
+                }
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -5820,7 +5827,56 @@
                 const htmlBase64 = btoa(unescape(encodeURIComponent(html)));
                 await putGithubFile('index.html', htmlBase64, 'Synchronize index.html via Cloud CMS', indexFile.sha, token);
 
-                notify('🎉 Published Worldwide! Everything is updated in index.html & portfolio-data.json.');
+                // E. Synchronize resume.html (ATS 2-Page Resume)
+                try {
+                    notify('Synchronizing 2-page resume...');
+                    const resumeHtmlFile = await fetchGithubFile('resume.html', token);
+                    let rHtml = decodeURIComponent(escape(atob(resumeHtmlFile.content.replace(/\s/g, ''))));
+
+                    if (p.name) rHtml = rHtml.replace(/<h1 class="resume-name" id="cv-name">.*?<\/h1>/, `<h1 class="resume-name" id="cv-name">${escapeHtml(p.name.toUpperCase())}</h1>`);
+                    if (p.role) rHtml = rHtml.replace(/<p class="resume-title" id="cv-title">.*?<\/p>/, `<p class="resume-title" id="cv-title">${escapeHtml(p.role)} | ${escapeHtml(p.experienceYears || '4.8+')} Years Experience</p>`);
+                    if (p.bio) rHtml = rHtml.replace(/<p class="summary-text" id="cv-summary">[\s\S]*?<\/p>/, `<p class="summary-text" id="cv-summary">\n                    ${escapeHtml(p.bio)}\n                </p>`);
+                    if (p.location) rHtml = rHtml.replace(/<span id="cv-location">.*?<\/span>/, `<span id="cv-location">${escapeHtml(p.location)}</span>`);
+                    if (p.phone) rHtml = rHtml.replace(/<a href="tel:[^"]*" id="cv-phone">.*?<\/a>/, `<a href="tel:${p.phone.replace(/\s+/g, '')}" id="cv-phone">${escapeHtml(p.phone)}</a>`);
+                    if (p.email) rHtml = rHtml.replace(/<a href="mailto:[^"]*" id="cv-email">.*?<\/a>/, `<a href="mailto:${escapeHtml(p.email)}" id="cv-email">${escapeHtml(p.email)}</a>`);
+
+                    if (db.experience && Array.isArray(db.experience) && db.experience.length > 0) {
+                        const rExpHtml = db.experience.map((exp, idx) => {
+                            const periodStr = exp.period || (exp.startDate ? `${exp.startDate} – ${exp.endDate || 'Present'}` : 'Jan 2022 – Present');
+                            const pointsHtml = (exp.points || []).map(pt => `<li>${escapeHtml(pt)}</li>`).join('\n                        ');
+                            return `                    <div class="exp-header"${idx > 0 ? ' style="margin-top: 14px;"' : ''}>
+                        <div>
+                            <span class="exp-company">${escapeHtml(exp.role || 'Software Engineer')}</span> — <span class="exp-role">${escapeHtml(exp.company || 'Company')}</span>
+                        </div>
+                        <span class="exp-date">${escapeHtml(periodStr)}</span>
+                    </div>
+                    <ul class="bullet-list">
+                        ${pointsHtml}
+                    </ul>`;
+                        }).join('\n');
+
+                        rHtml = rHtml.replace(/<div id="cv-experience">[\s\S]*?<\/div>\s*<\/section>/, `<div id="cv-experience">\n${rExpHtml}\n                </div>\n            </section>`);
+                    }
+
+                    if (db.skills && Array.isArray(db.skills) && db.skills.length > 0) {
+                        const rSkillsHtml = db.skills.map(grp => `                    <div class="skill-row"><strong>${escapeHtml(grp.category)}:</strong> <span>${(grp.items || []).map(escapeHtml).join(', ')}</span></div>`).join('\n');
+                        rHtml = rHtml.replace(/<div class="skills-grid" id="cv-skills">[\s\S]*?<\/div>/, `<div class="skills-grid" id="cv-skills">\n${rSkillsHtml}\n                </div>`);
+                    }
+
+                    const rHtmlBase64 = btoa(unescape(encodeURIComponent(rHtml)));
+                    await putGithubFile('resume.html', rHtmlBase64, 'Synchronize resume.html via Cloud CMS', resumeHtmlFile.sha, token);
+                } catch (rErr) {
+                    console.warn('Resume HTML sync notice:', rErr);
+                }
+
+                // Refresh Resume Preview iframe immediately
+                const rIframe = document.getElementById('iframe-resume-preview');
+                if (rIframe) {
+                    const currentMode = document.documentElement.getAttribute('data-theme-mode') || 'dark';
+                    rIframe.src = `resume.html?embed=admin&theme=${currentMode}&v=${Date.now()}`;
+                }
+
+                notify('🎉 Published Worldwide! Everything is updated in index.html, resume.html & portfolio-data.json.');
                 btnTop.textContent = '✓ Published!';
                 btnBottom.textContent = '✓ Published Live Everywhere!';
                 newResumeBase64 = null;
