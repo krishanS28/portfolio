@@ -649,7 +649,7 @@
                 <div id="cv-experience">
                     <div class="exp-header">
                         <div>
-                            <span class="exp-company">Software Engineer (Mobile Lead)</span> — <span class="exp-role">ToXSL Technologies</span>
+                            <span class="exp-company">Software Engineer (Mobile Lead)</span> — <span class="exp-role">ToXSL Technologies Pvt. Ltd.</span>
                         </div>
                         <span class="exp-date">Jan 2022 – August 2026</span>
                     </div>
@@ -843,7 +843,7 @@
                     expContainer.innerHTML = data.experience.map((exp, idx) => `
                         <div class="exp-header" style="${idx > 0 ? 'margin-top: 14px;' : ''}">
                             <div>
-                                <span class="exp-company">${escapeHtml(exp.role || 'Software Engineer')}</span> — <span class="exp-role">${escapeHtml(exp.company || 'ToXSL Technologies')}</span>
+                                <span class="exp-company">${escapeHtml(exp.role || 'Software Engineer')}</span> — <span class="exp-role">${escapeHtml(exp.company || 'ToXSL Technologies Pvt. Ltd.')}</span>
                             </div>
                             <span class="exp-date">${escapeHtml(exp.period || (exp.startDate ? `${exp.startDate} – ${exp.endDate || 'Present'}` : 'Jan 2022 – Present'))}</span>
                         </div>
