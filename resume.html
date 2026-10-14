@@ -330,19 +330,19 @@
             font-weight: bold;
         }
 
-        /* Page 2: Projects Showcase */
+        /* Projects Showcase (Page 1 & Page 2) */
         .projects-list {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            margin-bottom: 8px;
+            gap: 6.5px;
+            margin-bottom: 6px;
         }
 
         .project-item {
             position: relative;
             padding-left: 14px;
-            font-size: 8.5pt;
-            line-height: 1.38;
+            font-size: 8.3pt;
+            line-height: 1.34;
             color: #1f2937;
             text-align: justify;
         }
@@ -356,16 +356,66 @@
             font-weight: bold;
         }
 
-        .project-item strong {
+        .project-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 1.5px;
+        }
+
+        .project-item-title {
+            color: #111827;
+            font-size: 8.6pt;
+        }
+
+        .project-item-title strong {
             font-weight: 700;
             color: #111827;
+        }
+
+        .project-cat {
+            color: #4b5563;
+            font-size: 7.9pt;
+            font-weight: 500;
+        }
+
+        .project-badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0284c7;
+            font-size: 6.8pt;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 3px;
+            letter-spacing: 0.3px;
+            vertical-align: middle;
+        }
+
+        .project-tech {
+            font-size: 7.8pt;
+            color: #374151;
+            margin-bottom: 1.5px;
+            line-height: 1.3;
+        }
+
+        .project-tech strong {
+            color: #111827;
+            font-weight: 700;
+        }
+
+        .project-item-desc {
+            font-size: 8.1pt;
+            line-height: 1.34;
+            color: #374151;
         }
 
         .project-links {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            margin-left: 4px;
+            gap: 5px;
+            font-size: 7.8pt;
         }
 
         .store-link {
@@ -374,7 +424,7 @@
             font-weight: 600;
             display: inline-flex;
             align-items: center;
-            gap: 3px;
+            gap: 2px;
         }
 
         .store-link:hover {
@@ -401,24 +451,19 @@
 
         /* Page 2 Spacing Enhancements */
         .page-2 .projects-list {
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .page-2 .project-item {
-            font-size: 8.6pt;
-            line-height: 1.44;
+            gap: 6.5px;
+            margin-bottom: 8px;
         }
 
         .page-2 .edu-item {
-            font-size: 8.8pt;
-            line-height: 1.45;
-            margin-bottom: 5px;
+            font-size: 8.6pt;
+            line-height: 1.4;
+            margin-bottom: 4px;
         }
 
         .page-2 .lang-text {
-            font-size: 8.8pt;
-            line-height: 1.45;
+            font-size: 8.6pt;
+            line-height: 1.4;
         }
 
         /* Footer info */
@@ -622,7 +667,21 @@
             <section id="sec-p1-projects">
                 <h2 class="section-title">KEY PRODUCTION PLATFORMS</h2>
                 <div class="projects-list" id="cv-projects-p1">
-                    <!-- Hydrated with top flagship apps (ORB, Alpha Padel) -->
+                    <div class="project-item">
+                        <div class="project-item-header">
+                            <span class="project-item-title"><strong>ORB</strong> <span class="project-cat">— Real-Time Social + AI</span> <span class="project-badge">FLAGSHIP / CURRENT</span></span>
+                        </div>
+                        <div class="project-tech"><strong>Tech Stack:</strong> React Native • TypeScript • WebRTC • LiveKit • Telnyx • SLM AI • AR/3D Native Bridge</div>
+                        <div class="project-item-desc">Next-generation real-time mobile platform with low-latency WebRTC/LiveKit live streaming, audio/video conferencing, WebSocket messaging, offline on-device SLM AI chat, and native AR Try-On / 3D model visualization.</div>
+                    </div>
+                    <div class="project-item">
+                        <div class="project-item-header">
+                            <span class="project-item-title"><strong>Alpha Padel</strong> <span class="project-cat">— Padel Tournament & Live Streaming</span> <span class="project-badge">DUAL STORES</span></span>
+                            <span class="project-links"><a class="store-link" href="https://apps.apple.com/us/app/alpha-padel-compet/id6763044653" target="_blank">[App Store ↗]</a></span>
+                        </div>
+                        <div class="project-tech"><strong>Tech Stack:</strong> React Native • REST APIs • LiveKit • Redux Toolkit • Stripe Payments</div>
+                        <div class="project-item-desc">Comprehensive padel tournament ecosystem featuring live match video streaming, interactive bracket trees, referee scoring consoles, club court booking, and instant push notification alerts.</div>
+                    </div>
                 </div>
             </section>
 
@@ -640,7 +699,64 @@
             <section id="sec-p2-projects">
                 <h2 class="section-title">ADDITIONAL STORE APPS & DEPLOYMENTS</h2>
                 <div class="projects-list" id="cv-projects-p2">
-                    <!-- Hydrated with remaining store apps -->
+                    <div class="project-item">
+                        <div class="project-item-header">
+                            <span class="project-item-title"><strong>DubiSale</strong> <span class="project-cat">— Classified Marketplace</span> <span class="project-badge">APP STORE</span></span>
+                            <span class="project-links"><a class="store-link" href="https://apps.apple.com/us/app/dubisale/id6760179553" target="_blank">[App Store ↗]</a></span>
+                        </div>
+                        <div class="project-tech"><strong>Tech Stack:</strong> React Native • Socket.IO • Google Maps • Push Notifications • Image Pipeline</div>
+                        <div class="project-item-desc">High-volume UAE marketplace application featuring real-time buyer-seller chat, location-filtered classified listings, instant auction bidding, automated multi-currency conversion, and verified seller badges.</div>
+                    </div>
+                    <div class="project-item">
+                        <div class="project-item-header">
+                            <span class="project-item-title"><strong>ABG NextLevel</strong> <span class="project-cat">— Workforce Management Suite</span> <span class="project-badge">DUAL STORES</span></span>
+                            <span class="project-links">
+                                <a class="store-link" href="https://apps.apple.com/us/app/abg-nextlevel/id6739277161" target="_blank">[App Store ↗]</a>
+                                <a class="store-link" href="https://play.google.com/store/apps/details?id=com.NextlevelApp" target="_blank">[Play Store ↗]</a>
+                            </span>
+                        </div>
+                        <div class="project-tech"><strong>Tech Stack:</strong> React Native • REST APIs • High-Accuracy GPS Tracking • Google Calendar Sync • Payments</div>
+                        <div class="project-item-desc">Mobile platform for employees to manage jobs, schedules and communication in one place. Features real-time job assignment, status updates, time tracking, document handling, GPS tracking, and digital signature capture.</div>
+                    </div>
+                    <div class="project-item">
+                        <div class="project-item-header">
+                            <span class="project-item-title"><strong>Ship Swift</strong> <span class="project-cat">— On-Demand Logistics Platform</span> <span class="project-badge">APP STORE (DUAL APPS)</span></span>
+                            <span class="project-links">
+                                <a class="store-link" href="https://apps.apple.com/app/ship-swift-driver-llc/id6737396476" target="_blank">[Driver App ↗]</a>
+                                <a class="store-link" href="https://apps.apple.com/app/ship-swift-customer-llc/id6670492041" target="_blank">[Customer App ↗]</a>
+                            </span>
+                        </div>
+                        <div class="project-tech"><strong>Tech Stack:</strong> React Native • REST APIs • Google Maps • Socket.IO • Dispatch Algorithms</div>
+                        <div class="project-item-desc">End-to-end logistics platform consisting of two dedicated mobile apps: a high-efficiency Driver app with turn-by-turn routing and order lifecycle management, and a real-time Customer app with live vehicle telemetry and digital dispatch.</div>
+                    </div>
+                    <div class="project-item">
+                        <div class="project-item-header">
+                            <span class="project-item-title"><strong>Baligan</strong> <span class="project-cat">— Multi-Role Education & Kindergarten</span> <span class="project-badge">DUAL STORES</span></span>
+                            <span class="project-links">
+                                <a class="store-link" href="https://apps.apple.com/us/app/baligan/id6739424823" target="_blank">[App Store ↗]</a>
+                                <a class="store-link" href="https://play.google.com/store/apps/details?id=com.Baligan" target="_blank">[Play Store ↗]</a>
+                            </span>
+                        </div>
+                        <div class="project-tech"><strong>Tech Stack:</strong> React Native • Firebase • Media Pipeline • Push Notifications • Complete RTL Localization</div>
+                        <div class="project-item-desc">Multi-role education platform connecting teachers, students and parents. Built communication and media-sharing flows, daily teacher photo/update posts, image/video gallery with native download support, and complete RTL localization.</div>
+                    </div>
+                    <div class="project-item">
+                        <div class="project-item-header">
+                            <span class="project-item-title"><strong>مزادي | Mazady</strong> <span class="project-cat">— Live Auction & Marketplace</span> <span class="project-badge">APP STORE</span></span>
+                            <span class="project-links"><a class="store-link" href="https://apps.apple.com/lb/app/mazady-lb/id6765611356" target="_blank">[App Store ↗]</a></span>
+                        </div>
+                        <div class="project-tech"><strong>Tech Stack:</strong> React Native • Apple Pay Express • REST APIs • Push Notifications • Arabic RTL Layout</div>
+                        <div class="project-item-desc">Lebanese auction and marketplace platform featuring live item bidding, Apple Pay express checkout, location-based address selection, seller verification flows, and full Arabic RTL layout support.</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-p2-other">
+                <h2 class="section-title">OTHER PRODUCTION PLATFORMS & HIGHLIGHTS</h2>
+                <div class="project-item" style="padding-left: 14px; margin-bottom: 5px;">
+                    <div class="project-item-desc" style="font-size: 8pt; line-height: 1.34; color: #374151;">
+                        <strong>Enterprise & Consumer Deployments (15+ Apps):</strong> Architected and delivered <strong>IHub</strong> (Logistics & F&B with Pay Stack), <strong>Place Com</strong> (Campus Placement Portal), <strong>Lean Dispatch</strong> (Multi-Vendor SLA Logistics), <strong>Scope</strong> (Survey Analytics & WebSocket Chat), <strong>Smart-Work</strong> (Auto Mechanic Booking), <strong>Presstix</strong> (Ticketing with Paydunya), <strong>Doktu App</strong> (Serverless Firebase Telehealth), <strong>E-Sanchari</strong> (Rental & Yacht Booking), and <strong>Poised</strong> (AI-Assisted Smart Inventory).
+                    </div>
                 </div>
             </section>
 
@@ -703,6 +819,11 @@
                     if (p.bio) {
                         document.getElementById('cv-summary').textContent = p.bio;
                     }
+                    if (p.name) {
+                        document.querySelectorAll('.resume-page-footer span:first-child').forEach(s => {
+                            s.textContent = `${p.name} — ${p.role || 'Senior React Native Developer'}`;
+                        });
+                    }
                 }
 
                 // 2. Technical Skills Matrix
@@ -733,23 +854,30 @@
                 }
 
                 // 4. Selected Projects (Live Store Apps - Distributed across Page 1 & Page 2)
-                if (data.liveApps && Array.isArray(data.liveApps)) {
                     function renderAppItem(app) {
                         const links = [];
                         if (app.appStoreUrl && app.appStoreUrl.trim()) {
-                            links.push(`<a class="store-link" href="${escapeHtml(app.appStoreUrl)}" target="_blank">| App Store</a>`);
+                            links.push(`<a class="store-link" href="${escapeHtml(app.appStoreUrl)}" target="_blank">[App Store ↗]</a>`);
                         }
                         if (app.customerAppStoreUrl && app.customerAppStoreUrl.trim()) {
-                            links.push(`<a class="store-link" href="${escapeHtml(app.customerAppStoreUrl)}" target="_blank">| Customer App</a>`);
+                            links.push(`<a class="store-link" href="${escapeHtml(app.customerAppStoreUrl)}" target="_blank">[Customer App ↗]</a>`);
                         }
                         if (app.playStoreUrl && app.playStoreUrl.trim()) {
-                            links.push(`<a class="store-link" href="${escapeHtml(app.playStoreUrl)}" target="_blank">| Play Store</a>`);
+                            links.push(`<a class="store-link" href="${escapeHtml(app.playStoreUrl)}" target="_blank">[Play Store ↗]</a>`);
                         }
+
+                        const badgeHtml = app.badge ? ` <span class="project-badge">${escapeHtml(app.badge)}</span>` : '';
+                        const catHtml = app.category ? ` <span class="project-cat">— ${escapeHtml(app.category)}</span>` : '';
+                        const techHtml = app.tech ? `<div class="project-tech"><strong>Tech Stack:</strong> ${escapeHtml(app.tech)}</div>` : '';
 
                         return `
                             <div class="project-item">
-                                <strong>${escapeHtml(app.name || 'App')}</strong> — ${escapeHtml(app.desc || app.category || '')}
-                                ${links.length ? `<span class="project-links">${links.join(' ')}</span>` : ''}
+                                <div class="project-item-header">
+                                    <span class="project-item-title"><strong>${escapeHtml(app.name || 'App')}</strong>${catHtml}${badgeHtml}</span>
+                                    ${links.length ? `<span class="project-links">${links.join(' ')}</span>` : ''}
+                                </div>
+                                ${techHtml}
+                                <div class="project-item-desc">${escapeHtml(app.desc || '')}</div>
                             </div>
                         `;
                     }

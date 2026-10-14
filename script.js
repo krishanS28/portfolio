@@ -137,6 +137,23 @@ document.addEventListener('DOMContentLoaded', () => {
             // B. Sync Personal Details
             if (data.personal) {
                 const p = data.personal;
+                if (p.name) {
+                    const h1 = document.querySelector('section#home h1');
+                    if (h1) h1.textContent = p.name;
+                    const brand = document.querySelector('.brand-text');
+                    if (brand) {
+                        const firstName = (p.name || 'KRISHAN').split(' ')[0].toUpperCase();
+                        brand.innerHTML = `${escapeHtml(firstName)}<span class="brand-highlight">.DEV</span>`;
+                    }
+                    const footerCopy = document.querySelector('footer p');
+                    if (footerCopy) {
+                        footerCopy.innerHTML = `&copy; 2026 ${escapeHtml(p.name)} • ${escapeHtml(p.role || 'Senior React Native Developer')}. All Rights Reserved.`;
+                    }
+                }
+                if (p.role) {
+                    const roleSpan = document.querySelector('section#home h2 span');
+                    if (roleSpan) roleSpan.textContent = p.role;
+                }
                 if (p.experienceYears) {
                     const expEl = document.querySelector('.hero-badge span:last-child') || document.querySelector('.greeting');
                     if (expEl) {
@@ -152,6 +169,54 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (p.bio) {
                     const bioEl = document.querySelector('.hero-bio');
                     if (bioEl) bioEl.textContent = p.bio;
+                }
+                if (p.location) {
+                    document.querySelectorAll('#contact span').forEach(s => {
+                        if (s.textContent.includes('India') || s.textContent.includes('Panchkula') || s.textContent.includes('Chandigarh')) {
+                            s.textContent = p.location;
+                        }
+                    });
+                }
+                if (p.email) {
+                    document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+                        a.href = `mailto:${escapeHtml(p.email)}`;
+                        const span = a.querySelector('span');
+                        if (span && span.textContent.includes('@')) {
+                            span.textContent = p.email;
+                        }
+                    });
+                }
+                if (p.phone) {
+                    document.querySelectorAll('a[href^="tel:"]').forEach(a => {
+                        a.href = `tel:${p.phone.replace(/\s+/g, '')}`;
+                        if (a.textContent.trim().startsWith('+')) {
+                            a.textContent = p.phone;
+                        }
+                    });
+                    const waBtnSpan = document.querySelector('.header-buttons a[href*="wa.me"] span');
+                    if (waBtnSpan && waBtnSpan.textContent.startsWith('+91')) waBtnSpan.textContent = p.phone;
+                }
+                if (p.whatsapp) {
+                    const cleanWa = p.whatsapp.replace(/[^0-9]/g, '');
+                    document.querySelectorAll('a[href*="wa.me"]').forEach(a => {
+                        if (a.classList.contains('quick-btn')) {
+                            a.href = `https://wa.me/${cleanWa}?text=Hi%20${encodeURIComponent(p.name || 'Krishan')},%20I%20reviewed%20your%20portfolio%20and%20would%20like%20to%20discuss%20an%20opportunity.`;
+                            const span = a.querySelector('span');
+                            if (span) span.textContent = `💬 WhatsApp (+${cleanWa})`;
+                        } else {
+                            a.href = `https://wa.me/${cleanWa}`;
+                        }
+                    });
+                }
+                if (p.linkedin) {
+                    document.querySelectorAll('a[href*="linkedin.com"]').forEach(a => {
+                        a.href = p.linkedin;
+                    });
+                }
+                if (p.github) {
+                    document.querySelectorAll('a[href*="github.com"]').forEach(a => {
+                        a.href = p.github;
+                    });
                 }
             }
 
