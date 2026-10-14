@@ -86,13 +86,13 @@
     },
     {
       "id": "mazady",
-      "name": "مزادي | Mazady",
+      "name": "Mazady (مزادي)",
       "category": "Auction & Marketplace",
-      "badge": "APP STORE",
+      "badge": "DUAL STORES",
       "tech": "React Native • Apple Pay • REST APIs • Push Notifications • Arabic RTL",
       "desc": "Lebanese auction and marketplace platform featuring live item bidding, Apple Pay express checkout, location-based address selection, seller verification flows, and full Arabic RTL layout support.",
       "appStoreUrl": "https://apps.apple.com/lb/app/mazady-lb/id6765611356",
-      "playStoreUrl": ""
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=app.mazady.lb"
     }
   ],
   "experience": [
