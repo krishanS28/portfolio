@@ -682,23 +682,6 @@
                         <div class="project-tech"><strong>Tech Stack:</strong> React Native • REST APIs • LiveKit • Redux Toolkit • Stripe Payments</div>
                         <div class="project-item-desc">Comprehensive padel tournament ecosystem featuring live match video streaming, interactive bracket trees, referee scoring consoles, club court booking, and instant push notification alerts.</div>
                     </div>
-                </div>
-            </section>
-
-            <footer class="resume-page-footer">
-                <span>Krishan Lal — Senior React Native Developer</span>
-                <span>Page 1 of 2</span>
-            </footer>
-
-        </article>
-
-
-        <!-- ==================== PAGE 2 ==================== -->
-        <article class="resume-page page-2" id="resume-page-2">
-
-            <section id="sec-p2-projects">
-                <h2 class="section-title">ADDITIONAL STORE APPS & DEPLOYMENTS</h2>
-                <div class="projects-list" id="cv-projects-p2">
                     <div class="project-item">
                         <div class="project-item-header">
                             <span class="project-item-title"><strong>DubiSale</strong> <span class="project-cat">— Classified Marketplace</span> <span class="project-badge">APP STORE</span></span>
@@ -718,6 +701,23 @@
                         <div class="project-tech"><strong>Tech Stack:</strong> React Native • REST APIs • High-Accuracy GPS Tracking • Google Calendar Sync • Payments</div>
                         <div class="project-item-desc">Mobile platform for employees to manage jobs, schedules and communication in one place. Features real-time job assignment, status updates, time tracking, document handling, GPS tracking, and digital signature capture.</div>
                     </div>
+                </div>
+            </section>
+
+            <footer class="resume-page-footer">
+                <span>Krishan Lal — Senior React Native Developer</span>
+                <span>Page 1 of 2</span>
+            </footer>
+
+        </article>
+
+
+        <!-- ==================== PAGE 2 ==================== -->
+        <article class="resume-page page-2" id="resume-page-2">
+
+            <section id="sec-p2-projects">
+                <h2 class="section-title">ADDITIONAL STORE APPS & DEPLOYMENTS</h2>
+                <div class="projects-list" id="cv-projects-p2">
                     <div class="project-item">
                         <div class="project-item-header">
                             <span class="project-item-title"><strong>Ship Swift</strong> <span class="project-cat">— On-Demand Logistics Platform</span> <span class="project-badge">APP STORE (DUAL APPS)</span></span>
@@ -882,9 +882,9 @@
                         `;
                     }
 
-                    // Top 2 flagship apps on Page 1 to balance page height
-                    const p1Apps = data.liveApps.slice(0, 2);
-                    const p2Apps = data.liveApps.slice(2);
+                    // Top 4 production apps on Page 1 to balance page height
+                    const p1Apps = data.liveApps.slice(0, 4);
+                    const p2Apps = data.liveApps.slice(4);
 
                     const p1Container = document.getElementById('cv-projects-p1');
                     if (p1Container) p1Container.innerHTML = p1Apps.map(renderAppItem).join('');
